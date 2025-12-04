@@ -5,17 +5,17 @@ import { SocialLink } from '../types';
 const links: SocialLink[] = [
   { 
     label: 'email', 
-    url: 'mailto:marcel@example.com', // Placeholder
+    url: 'mailto:marcel@debruyker.de',
     icon: <Mail className="w-5 h-5" /> 
   },
   { 
     label: 'boardgamegeek', 
-    url: 'https://boardgamegeek.com/user/dbrykr', // Placeholder
+    url: 'https://boardgamegeek.com/user/dbrykr',
     icon: <Dice6 className="w-5 h-5" /> 
   },
   { 
     label: 'linkedin', 
-    url: 'https://linkedin.com/in/dbrykr', // Placeholder
+    url: 'https://www.linkedin.com/in/marcel-murschel-bb7b1b145/',
     icon: <Linkedin className="w-5 h-5" /> 
   },
 ];
