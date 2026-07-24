@@ -76,6 +76,8 @@ const App = () => {
   const posRef = useRef<Record<Mode, number>>({ ...START_POS });
   const playerRef = useRef<HTMLSpanElement>(null);
   const mondeRef = useRef<HTMLDivElement>(null);
+  const lointainRef = useRef<HTMLDivElement>(null);
+  const cielRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
   const rueRef = useRef<HTMLDivElement>(null);
   const modeRef = useRef<Mode>('street');
@@ -118,8 +120,16 @@ const App = () => {
 
   const applyCam = () => {
     if (modeRef.current === 'street') {
+      const c = camRef.current;
       if (mondeRef.current) {
-        mondeRef.current.style.transform = `translateX(${camRef.current}px)`;
+        mondeRef.current.style.transform = `translateX(${c}px)`;
+      }
+      /* Ferne zieht gedämpft mit, Himmel noch schwächer */
+      if (lointainRef.current) {
+        lointainRef.current.style.transform = `translateX(${c * 0.28}px)`;
+      }
+      if (cielRef.current) {
+        cielRef.current.style.transform = `translateX(${c * 0.08}px)`;
       }
     } else if (sceneRef.current) {
       sceneRef.current.style.transform = `translateX(${camRef.current}px) scale(${scaleRef.current})`;
@@ -319,33 +329,37 @@ const App = () => {
       </p>
 
       {/* Himmel */}
-      <div className="stars stars--a" aria-hidden="true" />
-      <div className="stars stars--b" aria-hidden="true" />
-      <span className="moon" aria-hidden="true" />
-      <span className="cloud cloud--a" aria-hidden="true" />
-      <span className="cloud cloud--b" aria-hidden="true" />
-      <span className="shoot" aria-hidden="true" />
+      <div className="ciel" ref={cielRef} aria-hidden="true">
+        <div className="stars stars--a" />
+        <div className="stars stars--b" />
+        <span className="moon" />
+        <span className="cloud cloud--a" />
+        <span className="cloud cloud--b" />
+        <span className="shoot" />
+      </div>
       <div className="halo" aria-hidden="true" />
 
-      {/* Ferne: Lille */}
-      <div className="faraway" aria-hidden="true" />
-      <div className="faraway2" aria-hidden="true">
-        <span className="fw-lights" />
-      </div>
+      {/* Ferne: Lille — bewegt sich beim Schwenken langsamer mit */}
+      <div className="lointain" ref={lointainRef} aria-hidden="true">
+        <div className="faraway" />
+        <div className="faraway2">
+          <span className="fw-lights" />
+        </div>
 
-      <div className="beffroi2" aria-hidden="true" />
+        <div className="beffroi2" />
 
-      <div className="beffroi" aria-hidden="true" title="Lille.">
-        <span className="bf-shaft" />
-        <span className="bf-clock" />
-        <span className="bf-ledge" />
-        <span className="bf-turret bf-turret--l" />
-        <span className="bf-turret bf-turret--r" />
-        <span className="bf-stage" />
-        <span className="bf-dome" />
-        <span className="bf-lantern" />
-        <span className="bf-onion" />
-        <span className="bf-spire" />
+        <div className="beffroi" title="Lille.">
+          <span className="bf-shaft" />
+          <span className="bf-clock" />
+          <span className="bf-ledge" />
+          <span className="bf-turret bf-turret--l" />
+          <span className="bf-turret bf-turret--r" />
+          <span className="bf-stage" />
+          <span className="bf-dome" />
+          <span className="bf-lantern" />
+          <span className="bf-onion" />
+          <span className="bf-spire" />
+        </div>
       </div>
 
       {/* Oberwelt + Untergrund fahren gemeinsam vertikal */}
@@ -395,77 +409,6 @@ const App = () => {
                 <i className="ferme">FERMÉ</i>
               </span>
             </div>
-          </div>
-
-          <div className="ruelle" aria-hidden="true" title="La ville continue…">
-            <div className="rl-scene">
-              {/* Himmel & Abschlussgebäude am Fluchtpunkt */}
-              <span className="rl-sky" />
-              <span className="rl-fond">
-                <i className="rl-fond__toit" />
-                <i className="rl-fond__w" />
-                <i className="rl-fond__w" />
-                <i className="rl-fond__w" />
-                <i className="rl-fond__w" />
-                <i className="rl-fond__porte" />
-              </span>
-
-              {/* Boden: liegt flach, läuft zum Fluchtpunkt */}
-              <span className="rl-sol" />
-
-              {/* Linke Fassadenwand, perspektivisch weggedreht */}
-              <span className="rl-mur rl-mur--l">
-                <i className="rl-w" style={{ left: 14, bottom: 96 }} />
-                <i className="rl-w rl-w--on" style={{ left: 52, bottom: 96 }} />
-                <i className="rl-w" style={{ left: 92, bottom: 96 }} />
-                <i className="rl-w rl-w--on" style={{ left: 132, bottom: 96 }} />
-                <i className="rl-w" style={{ left: 172, bottom: 96 }} />
-                <i className="rl-w rl-w--on" style={{ left: 14, bottom: 152 }} />
-                <i className="rl-w" style={{ left: 52, bottom: 152 }} />
-                <i className="rl-w rl-w--on" style={{ left: 92, bottom: 152 }} />
-                <i className="rl-w" style={{ left: 132, bottom: 152 }} />
-                <i className="rl-w rl-w--on" style={{ left: 172, bottom: 152 }} />
-                <i className="rl-porte" style={{ left: 44 }} />
-                <i className="rl-porte rl-porte--b" style={{ left: 148 }} />
-                <i className="rl-ens">ÉPICERIE</i>
-              </span>
-
-              {/* Rechte Fassadenwand */}
-              <span className="rl-mur rl-mur--r">
-                <i className="rl-w rl-w--on" style={{ left: 16, bottom: 96 }} />
-                <i className="rl-w" style={{ left: 56, bottom: 96 }} />
-                <i className="rl-w rl-w--on" style={{ left: 96, bottom: 96 }} />
-                <i className="rl-w" style={{ left: 136, bottom: 96 }} />
-                <i className="rl-w rl-w--on" style={{ left: 176, bottom: 96 }} />
-                <i className="rl-w" style={{ left: 16, bottom: 152 }} />
-                <i className="rl-w rl-w--on" style={{ left: 56, bottom: 152 }} />
-                <i className="rl-w" style={{ left: 96, bottom: 152 }} />
-                <i className="rl-w rl-w--on" style={{ left: 136, bottom: 152 }} />
-                <i className="rl-w" style={{ left: 176, bottom: 152 }} />
-                <i className="rl-porte" style={{ left: 60 }} />
-                <i className="rl-porte rl-porte--c" style={{ left: 164 }} />
-                <i className="rl-ens rl-ens--r">FRITERIE</i>
-              </span>
-
-              {/* Lichterketten quer über die Gasse */}
-              <span className="rl-fils rl-fils--near" />
-              <span className="rl-fils rl-fils--far" />
-
-              {/* Laternen in der Tiefe */}
-              <span className="rl-lamp rl-lamp--near" />
-              <span className="rl-lamp rl-lamp--mid" />
-              <span className="rl-lamp rl-lamp--far" />
-
-              {/* Passanten, kleiner werdend */}
-              <span className="rl-pass rl-pass--mid" />
-              <span className="rl-pass rl-pass--far" />
-
-              <span className="rl-velo" />
-              <span className="rl-caisses" />
-            </div>
-
-            <span className="rl-cafeside">CAFÉ</span>
-            <span className="rl-haze" />
           </div>
 
           <div className="bat bat--d">

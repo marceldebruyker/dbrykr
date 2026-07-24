@@ -37,6 +37,20 @@ body {
   );
 }
 
+/* Parallax-Ebenen: Himmel und Ferne ziehen gedämpft mit */
+
+.ciel,
+.lointain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.lointain > * {
+  pointer-events: none;
+}
+
 /* Sterne, Mond, Wolken */
 
 .stars {
@@ -196,8 +210,8 @@ body {
 
 .halo {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: -460px;
+  right: -460px;
   bottom: 290px;
   height: 180px;
   background: linear-gradient(
@@ -212,8 +226,8 @@ body {
 
 .faraway {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: -460px;
+  right: -460px;
   bottom: 300px;
   height: 78px;
   pointer-events: none;
@@ -249,8 +263,8 @@ body {
 
 .faraway2 {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: -460px;
+  right: -460px;
   bottom: 262px;
   height: 62px;
   pointer-events: none;
@@ -1332,478 +1346,6 @@ body {
   border: 3px solid #0d0b20;
   border-bottom: 0;
   box-shadow: inset 0 6px 0 -3px rgba(90, 80, 140, 0.4);
-}
-
-/* ============ Seitengasse: echte Straßenflucht ============ */
-
-.ruelle {
-  position: relative;
-  flex: 0 0 auto;
-  width: 216px;
-  height: 336px;
-  overflow: hidden;
-  background: #08081a;
-}
-
-/* 3D-Bühne: alles darin steht im perspektivischen Raum */
-
-.rl-scene {
-  position: absolute;
-  inset: 0;
-  perspective: 260px;
-  perspective-origin: 50% 46%;
-  transform-style: preserve-3d;
-}
-
-/* Straßenboden, flach in die Tiefe gekippt */
-
-.rl-sol {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 216px;
-  height: 460px;
-  margin-left: -108px;
-  transform: rotateX(84deg);
-  transform-origin: bottom center;
-  background:
-    linear-gradient(
-      90deg,
-      transparent 0 48%,
-      rgba(255, 235, 190, 0.07) 48% 52%,
-      transparent 52%
-    ),
-    repeating-linear-gradient(
-      0deg,
-      #35304e 0 14px,
-      #2b2742 14px 28px
-    ),
-    #2f2b48;
-  box-shadow: inset 0 0 60px 20px rgba(8, 8, 26, 0.7);
-}
-
-/* Seitenfassaden: nach hinten weggedrehte Wände */
-
-.rl-mur {
-  position: absolute;
-  bottom: 0;
-  width: 240px;
-  height: 300px;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 0.12) 0 4px,
-      transparent 4px 22px
-    ),
-    linear-gradient(#2e2340, #40283a 55%, #3a2434);
-  box-shadow: inset 0 0 40px 12px rgba(8, 8, 26, 0.55);
-}
-
-.rl-mur--l {
-  left: 0;
-  transform: rotateY(74deg);
-  transform-origin: left bottom;
-  filter: brightness(0.78);
-}
-
-.rl-mur--r {
-  right: 0;
-  transform: rotateY(-74deg);
-  transform-origin: right bottom;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 0.14) 0 4px,
-      transparent 4px 22px
-    ),
-    linear-gradient(#33243c, #4a1d26 55%, #3f1b22);
-  filter: brightness(0.92);
-}
-
-/* Dachkante */
-
-.rl-mur::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 14px;
-  background: #221a30;
-  border-bottom: 3px solid #0d0b20;
-}
-
-/* Fenster auf den Fassaden */
-
-.rl-w {
-  position: absolute;
-  width: 24px;
-  height: 34px;
-  background: #14112a;
-  border: 3px solid #100d22;
-}
-
-.rl-w--on {
-  background: linear-gradient(#ffe2a0, #f0b45e);
-  box-shadow: 0 0 12px 2px rgba(255, 200, 110, 0.35);
-}
-
-.rl-w::after {
-  content: '';
-  position: absolute;
-  left: -4px;
-  right: -4px;
-  bottom: -6px;
-  height: 5px;
-  background: repeating-linear-gradient(
-    90deg,
-    #0d0b20 0 2px,
-    transparent 2px 5px
-  );
-}
-
-/* Ladentüren an der Gasse */
-
-.rl-porte {
-  position: absolute;
-  bottom: 0;
-  width: 34px;
-  height: 62px;
-  background: #241014;
-  border: 3px solid #0d0b20;
-  border-bottom: 0;
-  box-shadow: inset 0 12px 0 -7px #ffcf6e;
-}
-
-.rl-porte--b {
-  background: #1a2b22;
-}
-
-.rl-porte--c {
-  background: #2a1c30;
-}
-
-/* Ladenschilder */
-
-.rl-ens {
-  position: absolute;
-  left: 26px;
-  bottom: 66px;
-  padding: 5px 6px 4px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  font-style: normal;
-  letter-spacing: 1px;
-  color: #ffd98a;
-  background: #1a1228;
-  border: 3px solid #0d0b20;
-  white-space: nowrap;
-}
-
-.rl-ens--r {
-  left: auto;
-  right: 26px;
-  color: #9fd7ff;
-}
-
-/* Abschlussgebäude am Fluchtpunkt */
-
-.rl-sky {
-  position: absolute;
-  left: 50%;
-  bottom: 96px;
-  width: 300px;
-  height: 260px;
-  margin-left: -150px;
-  transform: translateZ(-320px);
-  background: linear-gradient(#0a0e2e, #1c1d48 65%, #2a2352);
-}
-
-.rl-sky::after {
-  content: '';
-  position: absolute;
-  left: 60px;
-  top: 40px;
-  width: 3px;
-  height: 3px;
-  background: #fff;
-  box-shadow:
-    54px 22px 0 #cfd6ff,
-    106px 10px 0 #fff,
-    156px 36px 0 #cfd6ff,
-    198px 16px 0 #fff,
-    82px 62px 0 #fff;
-}
-
-.rl-fond {
-  position: absolute;
-  left: 50%;
-  bottom: 96px;
-  width: 160px;
-  height: 150px;
-  margin-left: -80px;
-  transform: translateZ(-318px);
-  background: linear-gradient(#3a2c50, #4a3352);
-  border: 4px solid #0d0b20;
-  border-bottom: 0;
-}
-
-.rl-fond__toit {
-  position: absolute;
-  left: -8px;
-  right: -8px;
-  top: -16px;
-  height: 16px;
-  background: #262b4c;
-  border: 4px solid #0d0b20;
-  border-bottom: 0;
-}
-
-.rl-fond__w {
-  position: absolute;
-  width: 22px;
-  height: 30px;
-  background: linear-gradient(#ffe2a0, #f0b45e);
-  border: 3px solid #0d0b20;
-}
-
-.rl-fond__w:nth-of-type(1) {
-  left: 18px;
-  top: 26px;
-}
-
-.rl-fond__w:nth-of-type(2) {
-  left: 68px;
-  top: 26px;
-  background: #1d1a38;
-}
-
-.rl-fond__w:nth-of-type(3) {
-  right: 18px;
-  top: 26px;
-}
-
-.rl-fond__w:nth-of-type(4) {
-  left: 68px;
-  top: 78px;
-  background: #ffcf6e;
-}
-
-.rl-fond__porte {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 34px;
-  height: 44px;
-  margin-left: -17px;
-  background: #201628;
-  border: 3px solid #0d0b20;
-  border-bottom: 0;
-  box-shadow: inset 0 10px 0 -6px #ffcf6e;
-}
-
-/* Laternen an den Wänden, in die Tiefe gestaffelt */
-
-.rl-lamp {
-  position: absolute;
-  background: linear-gradient(#ffe9b8, #ffca6e);
-  border: 3px solid #1d0e08;
-}
-
-.rl-lamp--near {
-  left: 30px;
-  bottom: 206px;
-  width: 12px;
-  height: 15px;
-  box-shadow: 0 0 24px 7px rgba(255, 200, 100, 0.45);
-}
-
-.rl-lamp--near::before {
-  content: '';
-  position: absolute;
-  left: -9px;
-  top: -5px;
-  width: 9px;
-  height: 5px;
-  background: #1d0e08;
-}
-
-.rl-lamp--mid {
-  right: 50px;
-  bottom: 192px;
-  width: 8px;
-  height: 10px;
-  border-width: 2px;
-  box-shadow: 0 0 16px 5px rgba(255, 200, 100, 0.4);
-}
-
-.rl-lamp--far {
-  left: 76px;
-  bottom: 176px;
-  width: 5px;
-  height: 6px;
-  border-width: 2px;
-  box-shadow: 0 0 11px 3px rgba(255, 200, 100, 0.34);
-}
-
-/* Lichterketten quer über die Gasse */
-
-.rl-fils {
-  position: absolute;
-  background: radial-gradient(
-    circle at 2px 2px,
-    #ffd98a 1.4px,
-    rgba(255, 217, 138, 0) 2.1px
-  );
-  background-repeat: repeat-x;
-  filter: drop-shadow(0 0 3px rgba(255, 217, 138, 0.55));
-}
-
-.rl-fils--near {
-  left: 4px;
-  right: 4px;
-  bottom: 250px;
-  height: 5px;
-  background-size: 16px 5px;
-  transform: rotate(2deg);
-}
-
-.rl-fils--far {
-  left: 58px;
-  right: 58px;
-  bottom: 212px;
-  height: 4px;
-  background-size: 10px 4px;
-  transform: rotate(-2deg);
-}
-
-/* Passanten, perspektivisch kleiner */
-
-.rl-pass {
-  position: absolute;
-  background: #191426;
-}
-
-.rl-pass--mid {
-  right: 74px;
-  bottom: 128px;
-  width: 7px;
-  height: 15px;
-}
-
-.rl-pass--mid::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: -6px;
-  width: 7px;
-  height: 6px;
-  background: #241a2c;
-}
-
-.rl-pass--far {
-  left: 92px;
-  bottom: 150px;
-  width: 4px;
-  height: 9px;
-}
-
-.rl-pass--far::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: -4px;
-  width: 4px;
-  height: 4px;
-  background: inherit;
-}
-
-/* Nahe Requisiten */
-
-.rl-velo {
-  position: absolute;
-  left: 34px;
-  bottom: 44px;
-  width: 13px;
-  height: 13px;
-  border: 3px solid #10101c;
-  border-radius: 50%;
-}
-
-.rl-velo::before {
-  content: '';
-  position: absolute;
-  left: 14px;
-  top: -3px;
-  width: 13px;
-  height: 13px;
-  border: 3px solid #10101c;
-  border-radius: 50%;
-}
-
-.rl-velo::after {
-  content: '';
-  position: absolute;
-  left: 4px;
-  top: -4px;
-  width: 16px;
-  height: 3px;
-  background: #10101c;
-  transform: rotate(-14deg);
-  box-shadow: -2px -5px 0 -1px #10101c;
-}
-
-.rl-caisses {
-  position: absolute;
-  right: 40px;
-  bottom: 38px;
-  width: 20px;
-  height: 16px;
-  background: #6b4a28;
-  border: 3px solid #10101c;
-  box-shadow: inset 0 0 0 2px #8a6038;
-}
-
-.rl-caisses::before {
-  content: '';
-  position: absolute;
-  left: 3px;
-  top: -15px;
-  width: 15px;
-  height: 12px;
-  background: #7a5230;
-  border: 3px solid #10101c;
-}
-
-.rl-cafeside {
-  position: absolute;
-  right: 4px;
-  top: 88px;
-  z-index: 2;
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
-  letter-spacing: 4px;
-  color: #e8c05a;
-  background: #2a1016;
-  border: 2px solid #0d0b20;
-  padding: 6px 3px;
-  text-shadow: 0 0 5px rgba(232, 192, 90, 0.5);
-}
-
-/* Atmosphärischer Dunst zum Fluchtpunkt hin */
-
-.rl-haze {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse 90px 70px at 50% 62%,
-    rgba(150, 140, 200, 0.22),
-    rgba(10, 10, 30, 0.35) 60%,
-    rgba(7, 7, 20, 0.6)
-  );
 }
 
 /* ============ Librairie ============ */
