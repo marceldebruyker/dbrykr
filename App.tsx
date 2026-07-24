@@ -1,6 +1,47 @@
 import { useEffect, useRef, useState } from 'react';
 
 const MAIL = 'marcel@debruyker.de';
+/* Später: hier die echte Tool-URL eintragen */
+const INFLUENCER_URL = '#';
+
+type Mode = 'street' | 'cafe' | 'labo';
+
+interface Zone {
+  x: number;
+  r: number;
+  dir: 'up' | 'down';
+  to: Mode;
+  spawn: number;
+  label: string;
+  b: number;
+}
+
+const SPEED = 150; /* px pro Sekunde */
+
+const BOUNDS: Record<Mode, [number, number]> = {
+  street: [-760, 830],
+  cafe: [-430, 434],
+  labo: [-434, 430],
+};
+
+const ZONES: Record<Mode, Zone[]> = {
+  street: [
+    { x: -42, r: 38, dir: 'up', to: 'cafe', spawn: -380, label: '↑ ENTRER', b: 252 },
+  ],
+  cafe: [
+    { x: -380, r: 58, dir: 'down', to: 'street', spawn: -42, label: '↓ SORTIR', b: 272 },
+    { x: 384, r: 58, dir: 'up', to: 'labo', spawn: -384, label: '↑ LABO', b: 296 },
+  ],
+  labo: [
+    { x: -384, r: 58, dir: 'down', to: 'cafe', spawn: 384, label: '↓ CAFÉ', b: 296 },
+  ],
+};
+
+const START_POS: Record<Mode, number> = {
+  street: -560,
+  cafe: -380,
+  labo: -384,
+};
 
 /* Tour Eiffel: [Außenbreite, Bogenlücke] je 8px-Reihe, von unten nach oben */
 const EIFFEL_ROWS: Array<[number, number]> = [
@@ -40,16 +81,6 @@ const EIFFEL_ROWS: Array<[number, number]> = [
   [9, 0],
 ];
 
-/* Spielfigur */
-const SPEED = 150; /* px pro Sekunde */
-const STREET_MIN = -760;
-const STREET_MAX = 830;
-const STREET_START = -560;
-const STREET_DOOR = -52; /* Spielerposition mittig vor der Café-Tür */
-const ROOM_MIN = -330;
-const ROOM_MAX = 330;
-const ROOM_DOOR = -122;
-
 const Windows = ({ n }: { n: number }) => (
   <>
     {Array.from({ length: n }, (_, i) => (
@@ -67,44 +98,85 @@ const Smoke = () => (
 );
 
 const App = () => {
-  const [mode, setMode] = useState<'street' | 'room'>('street');
+  const [mode, setMode] = useState<Mode>('street');
   const [walking, setWalking] = useState(false);
   const [facing, setFacing] = useState(1);
-  const [nearDoor, setNearDoor] = useState(false);
+  const [zone, setZone] = useState<Zone | null>(null);
   const [fade, setFade] = useState(false);
 
   const keysRef = useRef({ left: false, right: false });
-  const posStreetRef = useRef(STREET_START);
-  const posRoomRef = useRef(ROOM_DOOR);
+  const posRef = useRef<Record<Mode, number>>({ ...START_POS });
   const playerRef = useRef<HTMLSpanElement>(null);
-  const modeRef = useRef<'street' | 'room'>('street');
-  const nearRef = useRef(false);
+  const mondeRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const rueRef = useRef<HTMLDivElement>(null);
+  const modeRef = useRef<Mode>('street');
+  const zoneRef = useRef<Zone | null>(null);
   const fadeRef = useRef(false);
-  const actionRef = useRef<() => void>(() => {});
+  const camRef = useRef(0);
+  const camLimRef = useRef({ min: 0, max: 0 });
+  const scaleRef = useRef(1);
+  const actionRef = useRef<(dir: 'up' | 'down') => void>(() => {});
+
+  /* Kameragrenzen & Raum-Zoom je Szene */
+  const measureLimits = () => {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    if (modeRef.current === 'street') {
+      scaleRef.current = 1;
+      const rue = rueRef.current;
+      if (!rue) return;
+      const rect = rue.getBoundingClientRect();
+      const cam = camRef.current;
+      const baseL = rect.left - cam;
+      const baseR = rect.right - cam;
+      camLimRef.current = {
+        max: Math.max(0, 44 - baseL),
+        min: Math.min(0, vw - 44 - baseR),
+      };
+    } else {
+      const s = vw >= 1100 && vh >= 640 ? 1.3 : vw >= 760 ? 1.15 : 1;
+      scaleRef.current = s;
+      const half = Math.max(0, 486 * s - vw / 2);
+      camLimRef.current = { min: -half, max: half };
+    }
+  };
+
+  const applyCam = () => {
+    if (modeRef.current === 'street') {
+      if (mondeRef.current) {
+        mondeRef.current.style.transform = `translateX(${camRef.current}px)`;
+      }
+    } else if (sceneRef.current) {
+      sceneRef.current.style.transform = `translateX(${camRef.current}px) scale(${scaleRef.current})`;
+    }
+  };
 
   useEffect(() => {
-    const swap = (to: 'street' | 'room') => {
+    modeRef.current = mode;
+    camRef.current = 0;
+    measureLimits();
+    applyCam();
+  }, [mode]);
+
+  useEffect(() => {
+    const swap = (z: Zone) => {
       if (fadeRef.current) return;
       fadeRef.current = true;
       setFade(true);
       window.setTimeout(() => {
-        modeRef.current = to;
-        if (to === 'room') {
-          posRoomRef.current = ROOM_DOOR;
-        } else {
-          posStreetRef.current = STREET_DOOR;
-        }
-        setMode(to);
+        posRef.current[z.to] = z.spawn;
+        setMode(z.to);
         window.setTimeout(() => {
           fadeRef.current = false;
           setFade(false);
-        }, 60);
+        }, 80);
       }, 240);
     };
 
-    actionRef.current = () => {
-      if (!nearRef.current) return;
-      swap(modeRef.current === 'street' ? 'room' : 'street');
+    actionRef.current = (dir) => {
+      const z = zoneRef.current;
+      if (z && z.dir === dir) swap(z);
     };
 
     const onDown = (e: KeyboardEvent) => {
@@ -116,10 +188,10 @@ const App = () => {
         e.preventDefault();
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
-        if (modeRef.current === 'street' && nearRef.current) swap('room');
+        actionRef.current('up');
       } else if (e.key === 'ArrowDown') {
         e.preventDefault();
-        if (modeRef.current === 'room' && nearRef.current) swap('street');
+        actionRef.current('down');
       }
     };
 
@@ -128,50 +200,79 @@ const App = () => {
       if (e.key === 'ArrowRight') keysRef.current.right = false;
     };
 
+    const onResize = () => {
+      measureLimits();
+      applyCam();
+    };
+
     let raf = 0;
     let last = performance.now();
     const step = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
 
+      const m = modeRef.current;
       const k = keysRef.current;
       let dir = 0;
       if (k.left) dir -= 1;
       if (k.right) dir += 1;
 
-      const inRoom = modeRef.current === 'room';
-      const pos = inRoom ? posRoomRef : posStreetRef;
-      const min = inRoom ? ROOM_MIN : STREET_MIN;
-      const max = inRoom ? ROOM_MAX : STREET_MAX;
-
       if (dir !== 0 && !fadeRef.current) {
-        pos.current = Math.min(
+        const [min, max] = BOUNDS[m];
+        posRef.current[m] = Math.min(
           max,
-          Math.max(min, pos.current + dir * SPEED * dt)
+          Math.max(min, posRef.current[m] + dir * SPEED * dt)
         );
         setFacing(dir > 0 ? 1 : -1);
       }
       setWalking(dir !== 0 && !fadeRef.current);
 
-      const near = inRoom
-        ? Math.abs(pos.current - ROOM_DOOR) < 42
-        : pos.current > STREET_DOOR - 36 && pos.current < STREET_DOOR + 36;
-      nearRef.current = near;
-      setNearDoor(near);
+      const pos = posRef.current[m];
+      const z =
+        ZONES[m].find((zz) => Math.abs(pos - zz.x) < zz.r) ?? null;
+      if (z !== zoneRef.current) {
+        zoneRef.current = z;
+        setZone(z);
+      }
 
       if (playerRef.current) {
-        playerRef.current.style.transform = `translateX(${pos.current}px)`;
+        playerRef.current.style.transform = `translateX(${pos}px)`;
+
+        /* Kamera folgt der Figur */
+        const world =
+          m === 'street' ? mondeRef.current : sceneRef.current;
+        if (world) {
+          const pr = playerRef.current.getBoundingClientRect();
+          const vw = window.innerWidth;
+          const c = (pr.left + pr.right) / 2;
+          const lo = vw * 0.35;
+          const hi = vw * 0.65;
+          let delta = 0;
+          if (c < lo) delta = lo - c;
+          else if (c > hi) delta = hi - c;
+          if (delta !== 0) {
+            const lim = camLimRef.current;
+            camRef.current = Math.min(
+              lim.max,
+              Math.max(lim.min, camRef.current + delta * 0.3)
+            );
+            applyCam();
+          }
+        }
       }
       raf = requestAnimationFrame(step);
     };
 
     raf = requestAnimationFrame(step);
+    measureLimits();
     window.addEventListener('keydown', onDown);
     window.addEventListener('keyup', onUp);
+    window.addEventListener('resize', onResize);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('keydown', onDown);
       window.removeEventListener('keyup', onUp);
+      window.removeEventListener('resize', onResize);
     };
   }, []);
 
@@ -181,11 +282,7 @@ const App = () => {
         facing < 0 ? ' is-flip' : ''
       }`}
       ref={playerRef}
-      style={{
-        transform: `translateX(${
-          mode === 'room' ? posRoomRef.current : posStreetRef.current
-        }px)`,
-      }}
+      style={{ transform: `translateX(${posRef.current[mode]}px)` }}
       aria-hidden="true"
     >
       <span className="player__flip">
@@ -194,15 +291,26 @@ const App = () => {
     </span>
   );
 
+  const hint =
+    zone && !fade ? (
+      <span
+        className="hint"
+        style={{ left: zone.x, bottom: zone.b }}
+        aria-hidden="true"
+      >
+        {zone.label}
+      </span>
+    ) : null;
+
   return (
     <main className="nuit">
       <h1 className="sr-only">Marcel Debruyker</h1>
       <p className="sr-only">
         Ein Brettspielcafé in einer französischen Metropole: Spiele, Jazz,
-        Impro-Theater und ein kleines Forschungslabor im Hinterzimmer. Mit den
-        Pfeiltasten läufst du die Straße entlang, vor der Café-Tür geht es mit
-        der Pfeiltaste nach oben hinein. Was das alles soll? Gute Frage.
-        Schreib mir: marcel@debruyker.de
+        Impro-Theater und ein Forschungslabor über dem Café. Mit den
+        Pfeiltasten läufst du durch die Welt, vor Türen und Treppen geht es
+        mit Hoch oder Runter weiter. Was das alles soll? Gute Frage. Schreib
+        mir: marcel@debruyker.de
       </p>
 
       {/* Himmel */}
@@ -267,312 +375,427 @@ const App = () => {
         <span className="e-spark e-spark--b" />
       </div>
 
-      {/* Häuserzeile */}
-      <div className="rue" aria-hidden="true">
-        <div className="bat bat--jazz" title="Musik.">
-          <div className="toit">
-            <span className="dorm" />
-            <span className="dorm" />
-          </div>
-          <div className="wins">
-            <Windows n={6} />
-          </div>
-          <div className="club">
-            <span className="neon">LE JAZZ</span>
-            <span className="club__door" />
-            <span className="club__poster">
-              TRIO
-              <br />
-              22H
-            </span>
-          </div>
-          <span className="note note--a" />
-          <span className="note note--b" />
-        </div>
-
-        <div className="bat bat--a" title="Morgen wieder.">
-          <span className="chimney chimney--rue">
-            <Smoke />
-          </span>
-          <span className="chat chat--roof" />
-          <div className="toit">
-            <span className="dorm" />
-            <span className="pots" />
-          </div>
-          <div className="wins">
-            <Windows n={2} />
-          </div>
-          <div className="shopfront">
-            <span className="shopsign">BOULANGERIE</span>
-            <span className="shopwin">
-              <i className="baguette" />
-              <i className="baguette" />
-              <i className="baguette" />
-              <i className="ferme">FERMÉ</i>
-            </span>
-          </div>
-        </div>
-
-        <div className="bat bat--d">
-          <div className="toit" />
-          <div className="wins">
-            <Windows n={4} />
-          </div>
-        </div>
-
-        <div className="bat bat--b">
-          <span className="chimney chimney--b">
-            <Smoke />
-          </span>
-          <div className="toit">
-            <span className="pots" />
-            <span className="tvant" />
-            <span className="pots pots--2" />
-          </div>
-          <div className="wins">
-            <Windows n={9} />
-          </div>
-        </div>
-
-        <div className="bat bat--f">
-          <div className="toit" />
-          <div className="wins">
-            <Windows n={2} />
-          </div>
-        </div>
-
-        <div className="bat bat--theatre" title="Impro.">
-          <div className="toit">
-            <span className="dorm" />
-            <span className="pots" />
-          </div>
-          <div className="wins">
-            <Windows n={6} />
-          </div>
-          <div className="stagefront">
-            <div className="marquee">
-              <span className="marquee__bulbs" />
-              <span className="marquee__name">THÉÂTRE</span>
+      {/* Bewegliche Welt: Straße */}
+      <div className="monde" ref={mondeRef}>
+        <div className="rue" aria-hidden="true" ref={rueRef}>
+          <div className="bat bat--jazz" title="Musik.">
+            <div className="toit">
+              <span className="dorm" />
+              <span className="dorm" />
             </div>
-            <span className="playbill">CE SOIR: IMPRO</span>
-            <span className="stagedoor" />
+            <div className="wins">
+              <Windows n={6} />
+            </div>
+            <div className="club">
+              <span className="neon">LE JAZZ</span>
+              <span className="club__door" />
+              <span className="club__poster">
+                TRIO
+                <br />
+                22H
+              </span>
+            </div>
+            <span className="note note--a" />
+            <span className="note note--b" />
+          </div>
+
+          <div className="bat bat--a" title="Morgen wieder.">
+            <span className="chimney chimney--rue">
+              <Smoke />
+            </span>
+            <span className="chat chat--roof" />
+            <div className="toit">
+              <span className="dorm" />
+              <span className="pots" />
+            </div>
+            <div className="wins">
+              <Windows n={2} />
+            </div>
+            <div className="shopfront">
+              <span className="shopsign">BOULANGERIE</span>
+              <span className="shopwin">
+                <i className="baguette" />
+                <i className="baguette" />
+                <i className="baguette" />
+                <i className="ferme">FERMÉ</i>
+              </span>
+            </div>
+          </div>
+
+          <div className="bat bat--d">
+            <div className="toit" />
+            <div className="wins">
+              <Windows n={4} />
+            </div>
+          </div>
+
+          <div className="bat bat--b">
+            <span className="chimney chimney--b">
+              <Smoke />
+            </span>
+            <div className="toit">
+              <span className="pots" />
+              <span className="tvant" />
+              <span className="pots pots--2" />
+            </div>
+            <div className="wins">
+              <Windows n={9} />
+            </div>
+          </div>
+
+          <div className="bat bat--f">
+            <div className="toit" />
+            <div className="wins">
+              <Windows n={2} />
+            </div>
+          </div>
+
+          <div className="bat bat--theatre" title="Impro.">
+            <div className="toit">
+              <span className="dorm" />
+              <span className="pots" />
+            </div>
+            <div className="wins">
+              <Windows n={6} />
+            </div>
+            <div className="stagefront">
+              <div className="marquee">
+                <span className="marquee__bulbs" />
+                <span className="marquee__name">THÉÂTRE</span>
+              </div>
+              <span className="playbill">CE SOIR: IMPRO</span>
+              <span className="stagedoor" />
+            </div>
+          </div>
+
+          <div className="bat bat--fleur" title="Für dich.">
+            <div className="toit">
+              <span className="dorm" />
+            </div>
+            <div className="wins">
+              <Windows n={4} />
+            </div>
+            <div className="fleurshop">
+              <span className="fleursign">FLEURS</span>
+              <span className="fleurwin">
+                <i className="bouquet bq--a" />
+                <i className="bouquet bq--b" />
+                <i className="bouquet bq--c" />
+              </span>
+            </div>
+          </div>
+
+          <div className="bat bat--c">
+            <div className="toit">
+              <span className="pots" />
+            </div>
+            <div className="wins">
+              <Windows n={4} />
+            </div>
+            <div className="tabac">
+              <span className="carotte" />
+              <span className="tabacsign">TABAC</span>
+              <span className="tabacwin" />
+            </div>
+          </div>
+
+          <div className="bat bat--hotel" title="Schlaf später.">
+            <div className="toit">
+              <span className="pots" />
+              <span className="tvant" />
+            </div>
+            <div className="wins">
+              <Windows n={6} />
+            </div>
+            <span className="hneon">HOTEL</span>
+            <span className="hdoor" />
+          </div>
+
+          <div className="bat bat--e">
+            <div className="toit">
+              <span className="tvant" />
+            </div>
+            <div className="wins">
+              <Windows n={9} />
+            </div>
           </div>
         </div>
 
-        <div className="bat bat--fleur" title="Für dich.">
-          <div className="toit">
-            <span className="dorm" />
+        <div className="fore">
+          <span className="fils fils--l" aria-hidden="true" />
+          <span className="fils fils--r" aria-hidden="true" />
+
+          <div className="metro" aria-hidden="true" title="Untergrund.">
+            <span className="metro__sign">MÉTROPOLITAIN</span>
+            <span className="metro__stem metro__stem--l" />
+            <span className="metro__stem metro__stem--r" />
+            <span className="metro__rail metro__rail--l" />
+            <span className="metro__rail metro__rail--r" />
+            <span className="metro__stairs" />
           </div>
-          <div className="wins">
-            <Windows n={4} />
+
+          <span className="walker walker--a" aria-hidden="true" />
+          <span className="walker walker--b" aria-hidden="true" />
+          <span className="dog" aria-hidden="true" title="Wuff." />
+          <span className="walker walker--c" aria-hidden="true" />
+
+          <div
+            className="cafe"
+            aria-hidden="true"
+            title="Brettspiele. Und Kaffee."
+          >
+            <span className="chimney chimney--cafe">
+              <Smoke />
+            </span>
+            <div className="cafe__roof">
+              <span className="dorm dorm--cafe" />
+            </div>
+
+            <div className="cafe__etage">
+              <span className="plaque">PLACE DU MARCHÉ</span>
+              <span className="volet volet--l" />
+              <div className="labo" title="Forschung.">
+                <span className="labo__chart" />
+                <span className="labo__desk" />
+                <span className="labo__chercheur" />
+                <span className="labo__lampe" />
+              </div>
+              <span className="volet volet--r" />
+              <span className="fleurbox fleurbox--l" />
+              <span className="fleurbox fleurbox--r" />
+              <span className="labo__plate">LABO DE RECHERCHE</span>
+            </div>
+
+            <div className="cafe__fascia">
+              <span className="cafe__name">CHEZ MARCEL</span>
+              <span className="cafe__sub">CAFÉ · JEUX · SOIRÉES</span>
+            </div>
+            <div className="awning" />
+
+            <div className="cafe__front">
+              <span className="cafe__guirl" />
+              <div className="vitrine vitrine--l">
+                <span className="shelf" />
+                <span className="joueur joueur--l" />
+                <span className="joueur joueur--r" />
+                <span className="table-in" />
+                <span className="die die--in" />
+              </div>
+              <span className="sconce sconce--l" />
+              <div className="porte">
+                <span className="porte__ouvert">OUVERT</span>
+                <span className="porte__light" />
+              </div>
+              <span className="sconce sconce--r" />
+              <div className="vitrine vitrine--r">
+                <span className="shelf" />
+                <span className="joueur joueur--l" />
+                <span className="joueur joueur--r" />
+                <span className="table-in" />
+                <span className="meeple meeple--r" />
+                <span className="meeple meeple--b" />
+                <span className="chat chat--sill" />
+              </div>
+            </div>
+            <span className="spill" />
           </div>
-          <div className="fleurshop">
-            <span className="fleursign">FLEURS</span>
-            <span className="fleurwin">
-              <i className="bouquet bq--a" />
-              <i className="bouquet bq--b" />
-              <i className="bouquet bq--c" />
+
+          <span className="pool pool--l" aria-hidden="true" />
+          <span className="pool pool--r" aria-hidden="true" />
+
+          <div className="terrasse" aria-hidden="true">
+            <div className="table table--a">
+              <span className="sitter sitter--l" />
+              <span className="sitter sitter--r" />
+              <span className="die die--out" />
+              <span className="cup cup--a" />
+            </div>
+            <div className="table table--b">
+              <span className="sitter sitter--solo" />
+              <span className="cup cup--c" />
+              <span className="cards" />
+            </div>
+          </div>
+
+          <span className="chat" aria-hidden="true" title="Miau." />
+
+          <a className="board" href={`mailto:${MAIL}`} title="Schreib mir!">
+            <span className="board__head">CE SOIR: JEUX</span>
+            <span className="board__line" />
+            <span className="board__txt">écris-moi:</span>
+            <span className="board__mail">{MAIL}</span>
+          </a>
+
+          <div className="morris" aria-hidden="true">
+            <span className="affiche affiche--a">
+              <b>IMPRO</b>
+              ce soir
+            </span>
+            <span className="affiche affiche--b">
+              <b>JAZZ</b>
+              trio 22h
             </span>
           </div>
+
+          <span className="borne borne--1" aria-hidden="true" />
+          <span className="borne borne--2" aria-hidden="true" />
+          <span className="borne borne--3" aria-hidden="true" />
+          <span className="borne borne--4" aria-hidden="true" />
+          <span className="borne borne--5" aria-hidden="true" />
+
+          <span className="lampe lampe--l" aria-hidden="true" />
+          <span className="lampe lampe--r" aria-hidden="true" />
+
+          {mode === 'street' && hint}
+          {mode === 'street' && player}
         </div>
 
-        <div className="bat bat--c">
-          <div className="toit">
-            <span className="pots" />
-          </div>
-          <div className="wins">
-            <Windows n={4} />
-          </div>
-          <div className="tabac">
-            <span className="carotte" />
-            <span className="tabacsign">TABAC</span>
-            <span className="tabacwin" />
-          </div>
-        </div>
-
-        <div className="bat bat--hotel" title="Schlaf später.">
-          <div className="toit">
-            <span className="pots" />
-            <span className="tvant" />
-          </div>
-          <div className="wins">
-            <Windows n={6} />
-          </div>
-          <span className="hneon">HOTEL</span>
-          <span className="hdoor" />
-        </div>
-
-        <div className="bat bat--e">
-          <div className="toit" />
-          <div className="wins">
-            <Windows n={9} />
-          </div>
-        </div>
+        <div className="street" aria-hidden="true" />
       </div>
 
-      {/* Vordergrund */}
-      <div className="fore">
-        <span className="fils fils--l" aria-hidden="true" />
-        <span className="fils fils--r" aria-hidden="true" />
+      {/* Café-Innenraum */}
+      {mode === 'cafe' && (
+        <div className="salle salle--cafe">
+          <div className="salle__wall" aria-hidden="true" />
+          <div className="salle__floor" aria-hidden="true" />
+          <div className="salle__scene" ref={sceneRef}>
+            <div className="deco" aria-hidden="true">
+              <span className="s-guirl" />
+              <span className="s-lamp" style={{ left: -250 }} />
+              <span className="s-lamp" style={{ left: 0 }} />
+              <span className="s-lamp" style={{ left: 250 }} />
 
-        <div className="metro" aria-hidden="true" title="Untergrund.">
-          <span className="metro__sign">MÉTROPOLITAIN</span>
-          <span className="metro__stem metro__stem--l" />
-          <span className="metro__stem metro__stem--r" />
-          <span className="metro__rail metro__rail--l" />
-          <span className="metro__rail metro__rail--r" />
-          <span className="metro__stairs" />
-        </div>
+              <span className="s-door" />
+              <span className="s-mat" />
+              <span className="s-plant" />
 
-        <span className="walker walker--a" aria-hidden="true" />
-        <span className="walker walker--b" aria-hidden="true" />
-        <span className="dog" aria-hidden="true" title="Wuff." />
-        <span className="walker walker--c" aria-hidden="true" />
+              <span className="s-fenetre" />
+              <span className="s-poster">
+                SOIRÉE JEUX
+                <br />
+                jeudi 20h
+              </span>
 
-        <div className="cafe" aria-hidden="true" title="Brettspiele. Und Kaffee.">
-          <span className="chimney chimney--cafe">
-            <Smoke />
-          </span>
-          <div className="cafe__roof">
-            <span className="dorm dorm--cafe" />
-          </div>
+              <span className="s-rug s-rug--a" />
+              <div className="s-table">
+                <span className="sitter sitter--ca" />
+                <span className="sitter sitter--cb" />
+                <span className="die" />
+                <span className="meeple meeple--g" />
+                <span className="cup" />
+              </div>
 
-          <div className="cafe__etage">
-            <span className="plaque">PLACE DU MARCHÉ</span>
-            <span className="volet volet--l" />
-            <div className="labo" title="Forschung.">
-              <span className="labo__chart" />
-              <span className="labo__desk" />
-              <span className="labo__chercheur" />
-              <span className="labo__lampe" />
+              <div className="s-bar">
+                <span className="s-bar__menu">
+                  CAFÉ 2€ · THÉ 2€
+                  <br />
+                  JEUX 0€
+                </span>
+                <span className="s-bar__machine" />
+                <span className="s-bar__cake" />
+                <span className="s-bar__cups" />
+                <span className="s-barista" />
+              </div>
+
+              <div className="s-chem">
+                <span className="s-chem__feu" />
+                <span className="s-chem__trophy" />
+                <span className="s-chem__candle" />
+              </div>
+              <span className="s-rug s-rug--b" />
+              <span className="s-catnap" />
+
+              <span className="s-chair" />
+
+              <div className="s-biblio">
+                <span className="s-biblio__plant" />
+              </div>
+
+              <div className="s-esc">
+                <span className="s-esc__rail" />
+                <span className="s-esc__sign">LABO</span>
+                <span className="s-esc__glow" />
+              </div>
             </div>
-            <span className="volet volet--r" />
-            <span className="fleurbox fleurbox--l" />
-            <span className="fleurbox fleurbox--r" />
-            <span className="labo__plate">LABO DE RECHERCHE</span>
-          </div>
-
-          <div className="cafe__fascia">
-            <span className="cafe__name">CHEZ MARCEL</span>
-            <span className="cafe__sub">CAFÉ · JEUX · SOIRÉES</span>
-          </div>
-          <div className="awning" />
-
-          <div className="cafe__front">
-            <span className="cafe__guirl" />
-            <div className="vitrine vitrine--l">
-              <span className="shelf" />
-              <span className="joueur joueur--l" />
-              <span className="joueur joueur--r" />
-              <span className="table-in" />
-              <span className="die die--in" />
-            </div>
-            <span className="sconce sconce--l" />
-            <div className="porte">
-              <span className="porte__ouvert">OUVERT</span>
-              <span className="porte__light" />
-            </div>
-            <span className="sconce sconce--r" />
-            <div className="vitrine vitrine--r">
-              <span className="shelf" />
-              <span className="joueur joueur--l" />
-              <span className="joueur joueur--r" />
-              <span className="table-in" />
-              <span className="meeple meeple--r" />
-              <span className="meeple meeple--b" />
-              <span className="chat chat--sill" />
-            </div>
-          </div>
-          <span className="spill" />
-        </div>
-
-        <span className="pool pool--l" aria-hidden="true" />
-        <span className="pool pool--r" aria-hidden="true" />
-
-        <div className="terrasse" aria-hidden="true">
-          <div className="table table--a">
-            <span className="sitter sitter--l" />
-            <span className="sitter sitter--r" />
-            <span className="die die--out" />
-            <span className="cup cup--a" />
-          </div>
-          <div className="table table--b">
-            <span className="sitter sitter--solo" />
-            <span className="cup cup--c" />
-            <span className="cards" />
+            {hint}
+            {player}
           </div>
         </div>
+      )}
 
-        <span className="chat" aria-hidden="true" title="Miau." />
+      {/* Labo-Innenraum */}
+      {mode === 'labo' && (
+        <div className="salle salle--labo">
+          <div className="salle__wall" aria-hidden="true" />
+          <div className="salle__floor" aria-hidden="true" />
+          <div className="salle__scene" ref={sceneRef}>
+            <div className="deco" aria-hidden="true">
+              <span className="l-strip" />
 
-        <a className="board" href={`mailto:${MAIL}`} title="Schreib mir!">
-          <span className="board__head">CE SOIR: JEUX</span>
-          <span className="board__line" />
-          <span className="board__txt">écris-moi:</span>
-          <span className="board__mail">{MAIL}</span>
-        </a>
+              <div className="l-esc">
+                <span className="l-esc__rail" />
+                <span className="l-esc__sign">CAFÉ</span>
+              </div>
 
-        <div className="morris" aria-hidden="true">
-          <span className="affiche affiche--a">
-            <b>IMPRO</b>
-            ce soir
-          </span>
-          <span className="affiche affiche--b">
-            <b>JAZZ</b>
-            trio 22h
-          </span>
-        </div>
+              <span className="l-fenetre" />
+              <span className="l-scope" />
 
-        <span className="borne borne--1" aria-hidden="true" />
-        <span className="borne borne--2" aria-hidden="true" />
-        <span className="borne borne--3" aria-hidden="true" />
-        <span className="borne borne--4" aria-hidden="true" />
-        <span className="borne borne--5" aria-hidden="true" />
+              <div className="l-cork">
+                <i className="l-cork__fil l-cork__fil--a" />
+                <i className="l-cork__fil l-cork__fil--b" />
+                <i className="l-cork__fil l-cork__fil--c" />
+              </div>
 
-        <span className="lampe lampe--l" aria-hidden="true" />
-        <span className="lampe lampe--r" aria-hidden="true" />
+              <span className="l-chart">
+                LE MARCHÉ <b>↗</b>
+              </span>
 
-        {mode === 'street' && nearDoor && !fade && (
-          <span className="hint hint--street" aria-hidden="true">
-            ↑ ENTRER
-          </span>
-        )}
-        {mode === 'street' && player}
-      </div>
+              <div className="l-desk">
+                <span className="l-desk__term" />
+                <span className="l-desk__mug" />
+                <span className="l-desk__chair" />
+                <span className="l-desk__dice" />
+              </div>
 
-      <div className="street" aria-hidden="true" />
+              <div className="l-loupe">
+                <span className="l-loupe__meeple" />
+                <span className="l-loupe__glass" />
+              </div>
 
-      {/* Innenraum */}
-      {mode === 'room' && (
-        <div className="salle" aria-hidden="true">
-          <div className="salle__wall">
-            <span className="salle__fenetre" />
-            <span className="salle__lamp salle__lamp--a" />
-            <span className="salle__lamp salle__lamp--b" />
-            <span className="salle__door" />
-            <span className="salle__mat" />
-            <span className="salle__boxes">JEUX</span>
-            <span className="salle__shelfbig" />
-            <span className="salle__sign">
-              pardon —
-              <br />
-              on installe
-              <br />
-              encore…
-            </span>
+              <div className="l-serv" />
+            </div>
+
+            <a
+              className="monitor"
+              href={INFLUENCER_URL}
+              title="Influencer Monitor — Link folgt"
+              aria-label="Influencer Monitor öffnen"
+            >
+              <span className="monitor__rec" aria-hidden="true" />
+              <span className="monitor__grid" aria-hidden="true">
+                <i className="ecr ecr--1" />
+                <i className="ecr ecr--2" />
+                <i className="ecr ecr--radar" />
+                <i className="ecr ecr--3" />
+                <i className="ecr ecr--4" />
+                <i className="ecr ecr--5" />
+              </span>
+              <span className="monitor__plate">INFLUENCER MONITOR</span>
+              <span className="monitor__go" aria-hidden="true">
+                ▶ VOIR
+              </span>
+            </a>
+
+            {hint}
+            {player}
           </div>
-          <div className="salle__floor" />
-          {nearDoor && !fade && (
-            <span className="hint hint--room">↓ SORTIR</span>
-          )}
-          {player}
         </div>
       )}
 
       <span className="copy">© 2026 Marcel Debruyker</span>
 
       <span className="hud" aria-hidden="true">
-        ←→ marcher · ↑ entrer
+        ←→ marcher · ↑↓ portes
       </span>
 
       <div className="pad" aria-hidden="true">
@@ -594,13 +817,13 @@ const App = () => {
         >
           ▶
         </button>
-        {nearDoor && (
+        {zone && (
           <button
             type="button"
             className="pad__action"
-            onClick={() => actionRef.current()}
+            onClick={() => actionRef.current(zone.dir)}
           >
-            {mode === 'street' ? '▲' : '▼'}
+            {zone.dir === 'up' ? '▲' : '▼'}
           </button>
         )}
       </div>

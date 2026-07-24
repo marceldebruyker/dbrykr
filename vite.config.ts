@@ -13,6 +13,10 @@ export default defineConfig(async () => {
         config: {
           main: './worker/index.ts',
           compatibility_flags: ['nodejs_compat'],
+          assets: {
+            binding: 'ASSETS',
+            not_found_handling: 'single-page-application',
+          },
         },
       })
     );
