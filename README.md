@@ -1,10 +1,16 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Marcel Debruyker
 
-# Run locally
+Interaktive persönliche Website „Chez Marcel · Café des Jeux“.
 
-**Prerequisites:** Node.js
+## Lokal starten
 
-1. Install dependencies: `npm install`
-2. Start the dev server: `npm run dev`
+```bash
+npm install
+npm run dev
+```
+
+## Produktionsversion erstellen
+
+```bash
+npm run build
+```
