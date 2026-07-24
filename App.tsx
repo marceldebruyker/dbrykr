@@ -21,7 +21,7 @@ const SPEED = 150; /* px pro Sekunde */
 const BOUNDS: Record<Mode, [number, number]> = {
   street: [-940, 970],
   cafe: [-408, 408],
-  labo: [-434, 430],
+  labo: [-434, 760],
   metro: [-390, 470],
 };
 
@@ -125,6 +125,7 @@ const App = () => {
     moved: boolean;
   } | null>(null);
   const manualRef = useRef(false);
+  const movedRef = useRef(false);
   const targetRef = useRef<number | null>(null);
   const enterRef = useRef<Zone | null>(null);
   const actionRef = useRef<(dir: 'up' | 'down') => void>(() => {});
@@ -373,12 +374,20 @@ const App = () => {
     applyCam();
   };
 
-  const onDragEnd = (e: React.PointerEvent) => {
+  const onDragEnd = () => {
     const d = dragRef.current;
     dragRef.current = null;
-    if (!d || d.moved || fadeRef.current) return;
+    movedRef.current = !!d?.moved;
+  };
 
-    /* Tippen: Bildschirm-x in Weltkoordinaten umrechnen */
+  /* Tippen wird über click ausgewertet — auf iOS zuverlässiger als pointerup */
+  const onTap = (e: React.MouseEvent) => {
+    if (movedRef.current || fadeRef.current) {
+      movedRef.current = false;
+      return;
+    }
+    if ((e.target as HTMLElement).closest('a, button, .ecran')) return;
+
     const el = playerRef.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
@@ -392,8 +401,8 @@ const App = () => {
       Math.max(min, posRef.current[m] + (e.clientX - (r.left + r.width / 2)) / k)
     );
 
-    /* Zielt der Tipp auf eine Tür, wird sie nach der Ankunft genommen */
-    const z = ZONES[m].find((zz) => Math.abs(cible - zz.x) < zz.r) ?? null;
+    /* Großzügige Trefferfläche: Tippen auf eine Tür führt hindurch */
+    const z = ZONES[m].find((zz) => Math.abs(cible - zz.x) < zz.r * 1.8) ?? null;
     targetRef.current = z ? z.x : cible;
     enterRef.current = z;
     manualRef.current = false;
@@ -433,7 +442,7 @@ const App = () => {
       onPointerMove={onDragMove}
       onPointerUp={onDragEnd}
       onPointerCancel={onDragEnd}
-      onPointerLeave={onDragEnd}
+      onClick={onTap}
     >
       <h1 className="sr-only">Marcel Debruyker</h1>
       <p className="sr-only">
@@ -1023,6 +1032,104 @@ const App = () => {
 
               <span className="l-fenetre" />
               <span className="l-scope" />
+
+              {/* Bestseller-Charts verschiedener Portale */}
+              <div className="l-charts" title="Ranks & Bestseller.">
+                <span className="l-charts__t">RANKS · TOP 10</span>
+                <span className="l-chartbox">
+                  <i className="l-chartbox__n">BGG</i>
+                  <b style={{ height: 26 }} />
+                  <b style={{ height: 34 }} />
+                  <b style={{ height: 21 }} />
+                  <b style={{ height: 40 }} />
+                  <b style={{ height: 30 }} />
+                </span>
+                <span className="l-chartbox l-chartbox--b">
+                  <i className="l-chartbox__n">AMZ</i>
+                  <b style={{ height: 36 }} />
+                  <b style={{ height: 24 }} />
+                  <b style={{ height: 31 }} />
+                  <b style={{ height: 18 }} />
+                  <b style={{ height: 28 }} />
+                </span>
+                <span className="l-chartbox l-chartbox--c">
+                  <i className="l-chartbox__n">RET</i>
+                  <b style={{ height: 22 }} />
+                  <b style={{ height: 38 }} />
+                  <b style={{ height: 27 }} />
+                  <b style={{ height: 33 }} />
+                  <b style={{ height: 20 }} />
+                </span>
+              </div>
+
+              {/* Presseecke: Zeitungen & Zeitschriften */}
+              <div className="l-presse" title="Was die Presse schreibt.">
+                <span className="l-journal">
+                  <i className="l-journal__tete">LA GAZETTE</i>
+                  <i className="l-journal__l" />
+                  <i className="l-journal__l" />
+                  <i className="l-journal__l" />
+                  <i className="l-journal__photo" />
+                </span>
+                <span className="l-revue l-revue--a" />
+                <span className="l-revue l-revue--b" />
+                <span className="l-revue l-revue--c" />
+                <span className="l-presse__pile" />
+              </div>
+
+              {/* Studienregal mit Ordnern */}
+              <div className="l-etudes" title="Studien & Berichte.">
+                <span className="l-etudes__t">ÉTUDES</span>
+                <span className="l-classeurs">
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span className="l-classeurs l-classeurs--b">
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span className="l-rapport">
+                  RAPPORT
+                  <br />
+                  2026
+                </span>
+              </div>
+
+              {/* Feldforschung: Händler, Verlage, Cafés */}
+              <div className="l-terrain" title="Händler · Verlage · Cafés.">
+                <span className="l-terrain__t">TERRAIN</span>
+                <span className="l-terrain__row">
+                  <i className="l-pion l-pion--m" />
+                  <b>DÉTAIL</b>
+                </span>
+                <span className="l-terrain__row">
+                  <i className="l-pion l-pion--v" />
+                  <b>ÉDITEURS</b>
+                </span>
+                <span className="l-terrain__row">
+                  <i className="l-pion l-pion--c" />
+                  <b>CAFÉS</b>
+                </span>
+                <span className="l-tel" />
+              </div>
+
+              {/* Testtisch: Spiele selbst anspielen */}
+              <div className="l-test" title="Selber spielen hilft.">
+                <span className="l-test__plateau" />
+                <span className="l-test__meep l-test__meep--a" />
+                <span className="l-test__meep l-test__meep--b" />
+                <span className="l-test__de" />
+                <span className="l-test__bloc" />
+                <span className="l-test__chrono" />
+                <span className="l-test__t">TEST</span>
+              </div>
 
               <div className="l-cork">
                 <i className="l-cork__fil l-cork__fil--a" />
