@@ -2762,60 +2762,6 @@ body {
   transform: scale(0.85);
 }
 
-/* --- Kreidetafel (Mail) --- */
-
-.board {
-  position: absolute;
-  left: -34px;
-  bottom: 52px;
-  width: 158px;
-  padding: 12px 10px 14px;
-  text-align: center;
-  text-decoration: none;
-  background: #1e2a26;
-  border: 5px solid #4a3020;
-  box-shadow: 0 10px 0 -4px #171008;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  z-index: 3;
-}
-
-.board:hover,
-.board:focus-visible {
-  box-shadow:
-    0 10px 0 -4px #171008,
-    0 0 0 3px rgba(255, 217, 138, 0.7),
-    0 0 22px rgba(255, 217, 138, 0.35);
-  outline: none;
-}
-
-.board__head {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  color: #ffd98a;
-  letter-spacing: 1px;
-}
-
-.board__line {
-  width: 60%;
-  height: 2px;
-  margin: 0 auto;
-  background: rgba(244, 239, 226, 0.5);
-}
-
-.board__txt {
-  font-size: 16px;
-  color: #d8e4dc;
-}
-
-.board__mail {
-  font-size: 16px;
-  color: #fff;
-  text-decoration: underline;
-  overflow-wrap: anywhere;
-}
-
 /* --- Litfaßsäule --- */
 
 .morris {
