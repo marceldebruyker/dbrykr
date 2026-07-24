@@ -4,7 +4,7 @@ const MAIL = 'marcel@debruyker.de';
 /* Später: hier die echte Tool-URL eintragen */
 const INFLUENCER_URL = '#';
 
-type Mode = 'street' | 'cafe' | 'labo';
+type Mode = 'street' | 'cafe' | 'labo' | 'metro';
 
 interface Zone {
   x: number;
@@ -19,14 +19,16 @@ interface Zone {
 const SPEED = 150; /* px pro Sekunde */
 
 const BOUNDS: Record<Mode, [number, number]> = {
-  street: [-760, 830],
+  street: [-940, 970],
   cafe: [-430, 434],
   labo: [-434, 430],
+  metro: [-390, 470],
 };
 
 const ZONES: Record<Mode, Zone[]> = {
   street: [
     { x: -42, r: 38, dir: 'up', to: 'cafe', spawn: -380, label: '↑ ENTRER', b: 252 },
+    { x: -542, r: 54, dir: 'down', to: 'metro', spawn: -330, label: '↓ MÉTRO', b: 216 },
   ],
   cafe: [
     { x: -380, r: 58, dir: 'down', to: 'street', spawn: -42, label: '↓ SORTIR', b: 272 },
@@ -35,51 +37,17 @@ const ZONES: Record<Mode, Zone[]> = {
   labo: [
     { x: -384, r: 58, dir: 'down', to: 'cafe', spawn: 384, label: '↓ CAFÉ', b: 296 },
   ],
+  metro: [
+    { x: -330, r: 62, dir: 'up', to: 'street', spawn: -542, label: '↑ SORTIE', b: 300 },
+  ],
 };
 
 const START_POS: Record<Mode, number> = {
   street: -560,
   cafe: -380,
   labo: -384,
+  metro: -330,
 };
-
-/* Tour Eiffel: [Außenbreite, Bogenlücke] je 8px-Reihe, von unten nach oben */
-const EIFFEL_ROWS: Array<[number, number]> = [
-  [110, 56],
-  [104, 48],
-  [98, 38],
-  [92, 26],
-  [86, 14],
-  [80, 0],
-  [72, 0],
-  [66, 0],
-  [60, 0],
-  [54, 0],
-  [49, 0],
-  [45, 0],
-  [41, 0],
-  [38, 0],
-  [35, 0],
-  [32, 0],
-  [30, 0],
-  [28, 0],
-  [26, 0],
-  [24, 0],
-  [22, 0],
-  [21, 0],
-  [20, 0],
-  [19, 0],
-  [18, 0],
-  [17, 0],
-  [16, 0],
-  [15, 0],
-  [14, 0],
-  [13, 0],
-  [12, 0],
-  [11, 0],
-  [10, 0],
-  [9, 0],
-];
 
 const Windows = ({ n }: { n: number }) => (
   <>
@@ -116,6 +84,8 @@ const App = () => {
   const camRef = useRef(0);
   const camLimRef = useRef({ min: 0, max: 0 });
   const scaleRef = useRef(1);
+  const dragRef = useRef<{ startX: number; camStart: number } | null>(null);
+  const manualRef = useRef(false);
   const actionRef = useRef<(dir: 'up' | 'down') => void>(() => {});
 
   /* Kameragrenzen & Raum-Zoom je Szene */
@@ -134,6 +104,10 @@ const App = () => {
         max: Math.max(0, 44 - baseL),
         min: Math.min(0, vw - 44 - baseR),
       };
+    } else if (modeRef.current === 'metro') {
+      scaleRef.current = 1;
+      const half = Math.max(0, 540 - vw / 2);
+      camLimRef.current = { min: -half, max: half };
     } else {
       const s = vw >= 1100 && vh >= 640 ? 1.3 : vw >= 760 ? 1.15 : 1;
       scaleRef.current = s;
@@ -208,7 +182,7 @@ const App = () => {
     let raf = 0;
     let last = performance.now();
     const step = (now: number) => {
-      const dt = Math.min((now - last) / 1000, 0.05);
+      const dt = Math.min((now - last) / 1000, 0.25);
       last = now;
 
       const m = modeRef.current;
@@ -224,6 +198,7 @@ const App = () => {
           Math.max(min, posRef.current[m] + dir * SPEED * dt)
         );
         setFacing(dir > 0 ? 1 : -1);
+        manualRef.current = false;
       }
       setWalking(dir !== 0 && !fadeRef.current);
 
@@ -238,10 +213,10 @@ const App = () => {
       if (playerRef.current) {
         playerRef.current.style.transform = `translateX(${pos}px)`;
 
-        /* Kamera folgt der Figur */
+        /* Kamera folgt der Figur (außer nach manuellem Swipe) */
         const world =
           m === 'street' ? mondeRef.current : sceneRef.current;
-        if (world) {
+        if (world && !manualRef.current) {
           const pr = playerRef.current.getBoundingClientRect();
           const vw = window.innerWidth;
           const c = (pr.left + pr.right) / 2;
@@ -276,6 +251,29 @@ const App = () => {
     };
   }, []);
 
+  /* Swipe/Drag: Kamera frei schwenken */
+  const onDragStart = (e: React.PointerEvent) => {
+    if ((e.target as HTMLElement).closest('a, button')) return;
+    dragRef.current = { startX: e.clientX, camStart: camRef.current };
+  };
+
+  const onDragMove = (e: React.PointerEvent) => {
+    const d = dragRef.current;
+    if (!d) return;
+    const lim = camLimRef.current;
+    const next = Math.min(
+      lim.max,
+      Math.max(lim.min, d.camStart + (e.clientX - d.startX))
+    );
+    if (Math.abs(e.clientX - d.startX) > 4) manualRef.current = true;
+    camRef.current = next;
+    applyCam();
+  };
+
+  const onDragEnd = () => {
+    dragRef.current = null;
+  };
+
   const player = (
     <span
       className={`player${walking ? ' is-walking' : ''}${
@@ -303,7 +301,14 @@ const App = () => {
     ) : null;
 
   return (
-    <main className="nuit">
+    <main
+      className="nuit"
+      onPointerDown={onDragStart}
+      onPointerMove={onDragMove}
+      onPointerUp={onDragEnd}
+      onPointerCancel={onDragEnd}
+      onPointerLeave={onDragEnd}
+    >
       <h1 className="sr-only">Marcel Debruyker</h1>
       <p className="sr-only">
         Ein Brettspielcafé in einer französischen Metropole: Spiele, Jazz,
@@ -322,60 +327,29 @@ const App = () => {
       <span className="shoot" aria-hidden="true" />
       <div className="halo" aria-hidden="true" />
 
-      {/* Ferne */}
-      <div className="butte" aria-hidden="true">
-        <span className="basilique" />
-      </div>
+      {/* Ferne: Lille */}
       <div className="faraway" aria-hidden="true" />
       <div className="faraway2" aria-hidden="true">
         <span className="fw-lights" />
       </div>
 
-      <div className="eiffel" aria-hidden="true">
-        {EIFFEL_ROWS.map(([w, g], i) => {
-          const y = i * 8;
-          if (g > 0) {
-            const leg = (w - g) / 2;
-            return (
-              <span key={i}>
-                <i
-                  className="er"
-                  style={{ bottom: y, width: leg, marginLeft: -w / 2 }}
-                />
-                <i
-                  className="er"
-                  style={{ bottom: y, width: leg, marginLeft: g / 2 }}
-                />
-              </span>
-            );
-          }
-          return (
-            <i
-              key={i}
-              className="er"
-              style={{ bottom: y, width: w, marginLeft: -w / 2 }}
-            />
-          );
-        })}
-        <i
-          className="er er--deck"
-          style={{ bottom: 46, width: 90, marginLeft: -45 }}
-        />
-        <i
-          className="er er--deck"
-          style={{ bottom: 94, width: 54, marginLeft: -27 }}
-        />
-        <i
-          className="er er--deck"
-          style={{ bottom: 270, width: 18, marginLeft: -9 }}
-        />
-        <span className="e-antenne" />
-        <span className="e-beacon" />
-        <span className="e-spark e-spark--a" />
-        <span className="e-spark e-spark--b" />
+      <div className="beffroi2" aria-hidden="true" />
+
+      <div className="beffroi" aria-hidden="true" title="Lille.">
+        <span className="bf-shaft" />
+        <span className="bf-clock" />
+        <span className="bf-ledge" />
+        <span className="bf-turret bf-turret--l" />
+        <span className="bf-turret bf-turret--r" />
+        <span className="bf-stage" />
+        <span className="bf-dome" />
+        <span className="bf-lantern" />
+        <span className="bf-onion" />
+        <span className="bf-spire" />
       </div>
 
-      {/* Bewegliche Welt: Straße */}
+      {/* Oberwelt + Untergrund fahren gemeinsam vertikal */}
+      <div className={`univers${mode === 'metro' ? ' is-sous' : ''}`}>
       <div className="monde" ref={mondeRef}>
         <div className="rue" aria-hidden="true" ref={rueRef}>
           <div className="bat bat--jazz" title="Musik.">
@@ -400,6 +374,7 @@ const App = () => {
           </div>
 
           <div className="bat bat--a" title="Morgen wieder.">
+            <span className="pignon" />
             <span className="chimney chimney--rue">
               <Smoke />
             </span>
@@ -420,6 +395,77 @@ const App = () => {
                 <i className="ferme">FERMÉ</i>
               </span>
             </div>
+          </div>
+
+          <div className="ruelle" aria-hidden="true" title="La ville continue…">
+            <div className="rl-scene">
+              {/* Himmel & Abschlussgebäude am Fluchtpunkt */}
+              <span className="rl-sky" />
+              <span className="rl-fond">
+                <i className="rl-fond__toit" />
+                <i className="rl-fond__w" />
+                <i className="rl-fond__w" />
+                <i className="rl-fond__w" />
+                <i className="rl-fond__w" />
+                <i className="rl-fond__porte" />
+              </span>
+
+              {/* Boden: liegt flach, läuft zum Fluchtpunkt */}
+              <span className="rl-sol" />
+
+              {/* Linke Fassadenwand, perspektivisch weggedreht */}
+              <span className="rl-mur rl-mur--l">
+                <i className="rl-w" style={{ left: 14, bottom: 96 }} />
+                <i className="rl-w rl-w--on" style={{ left: 52, bottom: 96 }} />
+                <i className="rl-w" style={{ left: 92, bottom: 96 }} />
+                <i className="rl-w rl-w--on" style={{ left: 132, bottom: 96 }} />
+                <i className="rl-w" style={{ left: 172, bottom: 96 }} />
+                <i className="rl-w rl-w--on" style={{ left: 14, bottom: 152 }} />
+                <i className="rl-w" style={{ left: 52, bottom: 152 }} />
+                <i className="rl-w rl-w--on" style={{ left: 92, bottom: 152 }} />
+                <i className="rl-w" style={{ left: 132, bottom: 152 }} />
+                <i className="rl-w rl-w--on" style={{ left: 172, bottom: 152 }} />
+                <i className="rl-porte" style={{ left: 44 }} />
+                <i className="rl-porte rl-porte--b" style={{ left: 148 }} />
+                <i className="rl-ens">ÉPICERIE</i>
+              </span>
+
+              {/* Rechte Fassadenwand */}
+              <span className="rl-mur rl-mur--r">
+                <i className="rl-w rl-w--on" style={{ left: 16, bottom: 96 }} />
+                <i className="rl-w" style={{ left: 56, bottom: 96 }} />
+                <i className="rl-w rl-w--on" style={{ left: 96, bottom: 96 }} />
+                <i className="rl-w" style={{ left: 136, bottom: 96 }} />
+                <i className="rl-w rl-w--on" style={{ left: 176, bottom: 96 }} />
+                <i className="rl-w" style={{ left: 16, bottom: 152 }} />
+                <i className="rl-w rl-w--on" style={{ left: 56, bottom: 152 }} />
+                <i className="rl-w" style={{ left: 96, bottom: 152 }} />
+                <i className="rl-w rl-w--on" style={{ left: 136, bottom: 152 }} />
+                <i className="rl-w" style={{ left: 176, bottom: 152 }} />
+                <i className="rl-porte" style={{ left: 60 }} />
+                <i className="rl-porte rl-porte--c" style={{ left: 164 }} />
+                <i className="rl-ens rl-ens--r">FRITERIE</i>
+              </span>
+
+              {/* Lichterketten quer über die Gasse */}
+              <span className="rl-fils rl-fils--near" />
+              <span className="rl-fils rl-fils--far" />
+
+              {/* Laternen in der Tiefe */}
+              <span className="rl-lamp rl-lamp--near" />
+              <span className="rl-lamp rl-lamp--mid" />
+              <span className="rl-lamp rl-lamp--far" />
+
+              {/* Passanten, kleiner werdend */}
+              <span className="rl-pass rl-pass--mid" />
+              <span className="rl-pass rl-pass--far" />
+
+              <span className="rl-velo" />
+              <span className="rl-caisses" />
+            </div>
+
+            <span className="rl-cafeside">CAFÉ</span>
+            <span className="rl-haze" />
           </div>
 
           <div className="bat bat--d">
@@ -469,6 +515,7 @@ const App = () => {
           </div>
 
           <div className="bat bat--fleur" title="Für dich.">
+            <span className="pignon" />
             <div className="toit">
               <span className="dorm" />
             </div>
@@ -485,7 +532,29 @@ const App = () => {
             </div>
           </div>
 
+          <div className="bat bat--livres" title="Lesen.">
+            <span className="pignon" />
+            <div className="toit">
+              <span className="dorm" />
+            </div>
+            <div className="wins">
+              <Windows n={2} />
+            </div>
+            <div className="livshop">
+              <span className="livsign">LIBRAIRIE</span>
+              <span className="livpend" />
+              <span className="livwin">
+                <i className="livrow livrow--a" />
+                <i className="livrow livrow--b" />
+                <span className="chat chat--sill" />
+              </span>
+              <span className="livdoor" />
+              <span className="livstack" />
+            </div>
+          </div>
+
           <div className="bat bat--c">
+            <span className="pignon" />
             <div className="toit">
               <span className="pots" />
             </div>
@@ -653,6 +722,66 @@ const App = () => {
         <div className="street" aria-hidden="true" />
       </div>
 
+      {/* Métro Rihour: liegt direkt unter der Straße */}
+      <div className="souterrain" aria-hidden={mode !== 'metro'}>
+        <div className="mt-terre" />
+        <div className="mt-voute" />
+        <div className="mt-quai" />
+        <div className="salle__scene" ref={mode === 'metro' ? sceneRef : null}>
+          <div className="deco">
+            <span className="mt-fosse" />
+            <span className="mt-tube" />
+            <span className="mt-rail" />
+
+            <span className="mt-train">
+              <i className="mt-train__nez" />
+              <i className="mt-train__vitres" />
+              <i className="mt-train__pax" />
+              <i className="mt-train__bas" />
+            </span>
+
+            <span className="mt-portes" />
+
+            <span className="mt-nom">RIHOUR</span>
+            <span className="mt-nom mt-nom--b">RIHOUR</span>
+            <span className="mt-ligne">
+              <b>1</b> 4 CANTONS ↦
+            </span>
+            <span className="mt-plan">
+              <i />
+              <i />
+              <i />
+            </span>
+            <span className="mt-pub">
+              CHEZ
+              <br />
+              MARCEL
+              <br />
+              <small>café · jeux</small>
+            </span>
+            <span className="mt-ecran" />
+
+            <span className="mt-banc" />
+            <span className="sitter mt-attente mt-attente--a" />
+            <span className="sitter mt-attente mt-attente--b" />
+            <span className="walker mt-attente mt-attente--c" />
+            <span className="mt-poubelle" />
+            <span className="mt-colonne mt-colonne--a" />
+            <span className="mt-colonne mt-colonne--b" />
+
+            <div className="mt-esc">
+              <span className="mt-esc__cage" />
+              <span className="mt-esc__marches" />
+              <span className="mt-esc__rampe" />
+              <span className="mt-esc__jour" />
+            </div>
+          </div>
+          {mode === 'metro' && hint}
+          {mode === 'metro' && player}
+        </div>
+      </div>
+      </div>
+
       {/* Café-Innenraum */}
       {mode === 'cafe' && (
         <div className="salle salle--cafe">
@@ -664,16 +793,82 @@ const App = () => {
               <span className="s-lamp" style={{ left: -250 }} />
               <span className="s-lamp" style={{ left: 0 }} />
               <span className="s-lamp" style={{ left: 250 }} />
+              <span className="s-fanions s-fanions--a" />
+              <span className="s-fanions s-fanions--b" />
 
               <span className="s-door" />
               <span className="s-mat" />
               <span className="s-plant" />
 
               <span className="s-fenetre" />
+              <span className="s-fenetre s-fenetre--coin" />
               <span className="s-poster">
                 SOIRÉE JEUX
                 <br />
                 jeudi 20h
+              </span>
+
+              <span className="s-cadre s-cadre--meeple" />
+              <span className="s-cadre s-cadre--des" />
+              <span className="s-horloge" />
+              <span className="s-hplant" />
+              <span className="s-sconce2 s-sconce2--a" />
+              <span className="s-sconce2 s-sconce2--b" />
+
+              {/* Große Spielewand: Regalturm voller Boxen */}
+              <div className="s-mur">
+                <span className="s-mur__etage">
+                  <i className="bx bx--catan" />
+                  <i className="bx bx--mono" />
+                  <i className="bx bx--uno" />
+                  <i className="bx bx--dixit" />
+                  <i className="bx bx--azul" />
+                </span>
+                <span className="s-mur__etage">
+                  <i className="bx bx--carc" />
+                  <i className="bx bx--risk" />
+                  <i className="bx bx--catan2" />
+                  <i className="bx bx--scrab" />
+                  <i className="bx bx--clue" />
+                </span>
+                <span className="s-mur__etage">
+                  <i className="bx bx--mono2" />
+                  <i className="bx bx--uno2" />
+                  <i className="bx bx--ticket" />
+                  <i className="bx bx--pand" />
+                  <i className="bx bx--chess" />
+                </span>
+                <span className="s-mur__etage s-mur__etage--tranches">
+                  <i className="tr" />
+                  <i className="tr" />
+                  <i className="tr" />
+                  <i className="tr" />
+                  <i className="tr" />
+                  <i className="tr" />
+                  <i className="tr" />
+                  <i className="tr" />
+                  <i className="tr" />
+                  <i className="tr" />
+                  <i className="tr" />
+                  <i className="tr" />
+                </span>
+              </div>
+
+              {/* Vitrine mit Preisstücken */}
+              <div className="s-vitro">
+                <span className="s-vitro__top">JEU DU MOIS</span>
+                <i className="bx bx--catan bx--big" />
+                <i className="bx bx--dixit bx--big" />
+              </div>
+
+              <span className="s-topjeux">
+                TOP JEUX
+                <br />
+                1· CATAN
+                <br />
+                2· DIXIT
+                <br />
+                3· AZUL
               </span>
 
               <span className="s-rug s-rug--a" />
@@ -696,6 +891,8 @@ const App = () => {
                 <span className="s-bar__cups" />
                 <span className="s-barista" />
               </div>
+              <span className="s-barstack" />
+              <span className="walker s-guest" />
 
               <div className="s-chem">
                 <span className="s-chem__feu" />
@@ -709,6 +906,16 @@ const App = () => {
 
               <div className="s-biblio">
                 <span className="s-biblio__plant" />
+                <span className="s-biblio__row">
+                  <i className="bx bx--uno" />
+                  <i className="bx bx--catan" />
+                  <i className="bx bx--mono" />
+                </span>
+                <span className="s-biblio__row s-biblio__row--b">
+                  <i className="bx bx--azul" />
+                  <i className="bx bx--carc" />
+                  <i className="bx bx--dixit" />
+                </span>
               </div>
 
               <div className="s-esc">
@@ -719,6 +926,22 @@ const App = () => {
             </div>
             {hint}
             {player}
+            <div className="decofront" aria-hidden="true">
+              <div className="s-ftable s-ftable--a">
+                <span className="sitter sitter--fa" />
+                <span className="sitter sitter--fb" />
+                <span className="s-plateau s-plateau--catan" />
+                <span className="meeple meeple--y" />
+              </div>
+              <div className="s-ftable s-ftable--b">
+                <span className="sitter sitter--fc" />
+                <span className="s-plateau s-plateau--mono" />
+                <span className="s-unofan" />
+                <span className="cup" />
+              </div>
+              <span className="s-gstack" />
+              <span className="s-gstack s-gstack--b" />
+            </div>
           </div>
         </div>
       )}

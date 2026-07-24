@@ -28,6 +28,7 @@ body {
   position: fixed;
   inset: 0;
   overflow: hidden;
+  touch-action: none;
   background: linear-gradient(
     #05050f 0%,
     #0a0e2e 45%,
@@ -209,58 +210,6 @@ body {
 
 /* ============ Ferne ============ */
 
-.butte {
-  position: absolute;
-  left: 4%;
-  bottom: 330px;
-  width: 380px;
-  height: 88px;
-  background: #0f0d26;
-  border-radius: 100% 100% 0 0;
-  pointer-events: none;
-}
-
-.basilique {
-  position: absolute;
-  left: 50%;
-  top: -6px;
-  width: 56px;
-  height: 16px;
-  margin-left: -28px;
-  background: #34305e;
-  box-shadow: inset 0 2px 0 #454078;
-}
-
-.basilique::before {
-  content: '';
-  position: absolute;
-  left: 17px;
-  top: -24px;
-  width: 22px;
-  height: 24px;
-  background: #34305e;
-  border-radius: 11px 11px 0 0;
-  box-shadow:
-    -15px 10px 0 -3px #2c2852,
-    15px 10px 0 -3px #2c2852,
-    -15px 2px 0 -6px #2c2852,
-    15px 2px 0 -6px #2c2852,
-    0 -8px 0 -8px #454078;
-}
-
-.basilique::after {
-  content: '';
-  position: absolute;
-  right: -14px;
-  top: -30px;
-  width: 9px;
-  height: 30px;
-  background: #2c2852;
-  box-shadow:
-    0 -6px 0 -2px #34305e,
-    -1px -10px 0 -3px #454078;
-}
-
 .faraway {
   position: absolute;
   left: 0;
@@ -351,55 +300,7 @@ body {
     1540px -32px 0 #b98d4e;
 }
 
-/* ============ Tour Eiffel ============ */
-
-.eiffel {
-  position: absolute;
-  right: 10%;
-  bottom: 336px;
-  width: 120px;
-  height: 314px;
-  filter: drop-shadow(0 0 14px rgba(255, 170, 60, 0.18));
-  pointer-events: none;
-}
-
-.er {
-  position: absolute;
-  left: 50%;
-  height: 8px;
-  background: #2a2145;
-  box-shadow: inset 0 2px 0 rgba(255, 186, 90, 0.32);
-}
-
-.er--deck {
-  height: 6px;
-  background: #3d2f58;
-  box-shadow:
-    inset 0 2px 0 rgba(255, 200, 110, 0.85),
-    0 0 8px rgba(255, 190, 100, 0.35);
-  z-index: 1;
-}
-
-.e-antenne {
-  position: absolute;
-  left: 50%;
-  bottom: 272px;
-  width: 4px;
-  height: 34px;
-  margin-left: -2px;
-  background: #2a2145;
-}
-
-.e-beacon {
-  position: absolute;
-  left: 50%;
-  bottom: 306px;
-  width: 8px;
-  height: 8px;
-  margin-left: -4px;
-  background: #ff2b2b;
-  animation: blink 1.3s steps(2, start) infinite;
-}
+/* ============ Beffrois (Lille) ============ */
 
 @keyframes blink {
   to {
@@ -407,47 +308,229 @@ body {
   }
 }
 
-.e-spark {
+.beffroi {
+  position: absolute;
+  right: 9%;
+  bottom: 330px;
+  width: 96px;
+  height: 320px;
+  filter: drop-shadow(0 0 16px rgba(255, 190, 110, 0.16));
+  pointer-events: none;
+}
+
+.beffroi > span {
   position: absolute;
   left: 50%;
+}
+
+.bf-shaft {
   bottom: 0;
+  width: 64px;
+  height: 152px;
+  margin-left: -32px;
+  background:
+    linear-gradient(
+      90deg,
+      #c9b490 0 7px,
+      transparent 7px calc(100% - 7px),
+      #c9b490 calc(100% - 7px)
+    ),
+    repeating-linear-gradient(0deg, #5a3230 0 6px, #533028 6px 12px);
+  border: 3px solid #0d0b20;
+}
+
+.bf-shaft::before {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 26px;
+  width: 9px;
+  height: 20px;
+  background: #241c30;
+  box-shadow: 15px 0 0 #241c30, 7px 56px 0 #241c30;
+}
+
+.bf-clock {
+  bottom: 152px;
+  width: 64px;
+  height: 36px;
+  margin-left: -32px;
+  background: #d8c8a8;
+  border: 3px solid #0d0b20;
+}
+
+.bf-clock::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  background: #e8c05a;
+  border: 3px solid #0d0b20;
+  border-radius: 50%;
+  box-shadow: 0 0 14px 3px rgba(232, 192, 90, 0.65);
+}
+
+.bf-clock::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
   width: 2px;
-  height: 2px;
+  height: 8px;
+  margin: -7px 0 0 -1px;
+  background: #0d0b20;
+  box-shadow: 1px 6px 0 -0px #0d0b20;
 }
 
-.e-spark--a {
-  box-shadow:
-    -22px -34px 0 #fff,
-    14px -66px 0 #fff,
-    -9px -104px 0 #fff,
-    12px -140px 0 #fff,
-    -6px -180px 0 #fff,
-    4px -224px 0 #fff,
-    -26px -52px 0 #fff;
-  animation: sparkle 1.6s steps(2, start) infinite;
+.bf-ledge {
+  bottom: 188px;
+  width: 80px;
+  height: 8px;
+  margin-left: -40px;
+  background: #c9b490;
+  border: 3px solid #0d0b20;
 }
 
-.e-spark--b {
-  box-shadow:
-    20px -44px 0 #fff,
-    -14px -80px 0 #fff,
-    8px -118px 0 #fff,
-    -10px -156px 0 #fff,
-    7px -196px 0 #fff,
-    -3px -244px 0 #fff,
-    28px -58px 0 #fff;
-  animation: sparkle 1.6s steps(2, start) 0.8s infinite;
+.bf-turret {
+  bottom: 196px;
+  width: 13px;
+  height: 24px;
+  background: #c9b490;
+  border: 2px solid #0d0b20;
 }
 
-@keyframes sparkle {
-  0%,
-  22% {
-    opacity: 1;
-  }
-  23%,
-  100% {
-    opacity: 0;
-  }
+.bf-turret::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: -12px;
+  width: 17px;
+  height: 12px;
+  background: #29233c;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.bf-turret--l {
+  margin-left: -38px;
+}
+
+.bf-turret--r {
+  margin-left: 25px;
+}
+
+.bf-stage {
+  bottom: 196px;
+  width: 44px;
+  height: 46px;
+  margin-left: -22px;
+  background:
+    linear-gradient(
+      90deg,
+      #c9b490 0 6px,
+      transparent 6px calc(100% - 6px),
+      #c9b490 calc(100% - 6px)
+    ),
+    #5a3230;
+  border: 3px solid #0d0b20;
+}
+
+.bf-stage::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 8px;
+  width: 8px;
+  height: 22px;
+  background: #241c30;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 12px 0 0 #241c30;
+}
+
+.bf-dome {
+  bottom: 242px;
+  width: 48px;
+  height: 20px;
+  margin-left: -24px;
+  background: #29233c;
+  border: 3px solid #0d0b20;
+  border-radius: 24px 24px 4px 4px;
+}
+
+.bf-lantern {
+  bottom: 262px;
+  width: 18px;
+  height: 13px;
+  margin-left: -9px;
+  background: #3a3450;
+  border: 3px solid #0d0b20;
+  box-shadow: inset 0 -4px 0 -1px rgba(255, 210, 120, 0.55);
+}
+
+.bf-onion {
+  bottom: 275px;
+  width: 15px;
+  height: 14px;
+  margin-left: -8px;
+  background: #29233c;
+  border: 2px solid #0d0b20;
+  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+}
+
+.bf-spire {
+  bottom: 289px;
+  width: 3px;
+  height: 26px;
+  margin-left: -2px;
+  background: #29233c;
+}
+
+.bf-spire::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 7px;
+  height: 4px;
+  background: #e8c05a;
+  box-shadow: 0 0 6px rgba(232, 192, 90, 0.7);
+}
+
+/* Rathaus-Beffroi, fern */
+
+.beffroi2 {
+  position: absolute;
+  left: 6%;
+  bottom: 324px;
+  width: 24px;
+  height: 150px;
+  background: #191634;
+  pointer-events: none;
+}
+
+.beffroi2::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: -22px;
+  width: 34px;
+  height: 22px;
+  background: #191634;
+  clip-path: polygon(0 100%, 18% 45%, 18% 0, 82% 0, 82% 45%, 100% 100%);
+}
+
+.beffroi2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -12px;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  background: #d8a95e;
+  box-shadow: 0 0 8px 2px rgba(216, 169, 94, 0.55);
 }
 
 /* ============ Häuserzeile ============ */
@@ -456,7 +539,7 @@ body {
   position: absolute;
   bottom: 84px;
   left: 50%;
-  transform: translateX(calc(-50% + 33px));
+  transform: translateX(calc(-50% + 18px));
   display: flex;
   align-items: flex-end;
 }
@@ -481,9 +564,10 @@ body {
 }
 
 .bat--a {
+  --fac: #5a3440;
   width: 150px;
   height: 240px;
-  background: #3f3a5e;
+  background: #5a3440;
 }
 
 .bat--d {
@@ -511,21 +595,73 @@ body {
 }
 
 .bat--fleur {
+  --fac: #513448;
   width: 130px;
   height: 250px;
-  background: #3d3358;
+  background: #513448;
+}
+
+.bat--livres {
+  --fac: #5e3a2e;
+  width: 140px;
+  height: 258px;
+  background: #5e3a2e;
 }
 
 .bat--c {
+  --fac: #4a3038;
   width: 150px;
   height: 235px;
-  background: #3c3760;
+  background: #4a3038;
 }
 
 .bat--e {
   width: 160px;
   height: 310px;
   background: #413b60;
+}
+
+/* Treppengiebel (Lille) */
+
+.pignon {
+  position: absolute;
+  z-index: 1;
+  top: -17px;
+  left: 50%;
+  width: 58%;
+  height: 17px;
+  transform: translateX(-50%);
+  background: var(--fac, #4a3550);
+  border: 4px solid #0d0b20;
+  border-bottom: 0;
+  box-shadow: inset 0 4px 0 rgba(232, 216, 184, 0.14);
+}
+
+.pignon::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -17px;
+  width: 62%;
+  height: 13px;
+  transform: translateX(-50%);
+  background: inherit;
+  border: 4px solid #0d0b20;
+  border-bottom: 0;
+  box-shadow: inset 0 4px 0 rgba(232, 216, 184, 0.14);
+}
+
+.pignon::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -28px;
+  width: 26%;
+  height: 11px;
+  transform: translateX(-50%);
+  background: inherit;
+  border: 4px solid #0d0b20;
+  border-bottom: 0;
 }
 
 /* Dächer */
@@ -1198,6 +1334,600 @@ body {
   box-shadow: inset 0 6px 0 -3px rgba(90, 80, 140, 0.4);
 }
 
+/* ============ Seitengasse: echte Straßenflucht ============ */
+
+.ruelle {
+  position: relative;
+  flex: 0 0 auto;
+  width: 216px;
+  height: 336px;
+  overflow: hidden;
+  background: #08081a;
+}
+
+/* 3D-Bühne: alles darin steht im perspektivischen Raum */
+
+.rl-scene {
+  position: absolute;
+  inset: 0;
+  perspective: 260px;
+  perspective-origin: 50% 46%;
+  transform-style: preserve-3d;
+}
+
+/* Straßenboden, flach in die Tiefe gekippt */
+
+.rl-sol {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 216px;
+  height: 460px;
+  margin-left: -108px;
+  transform: rotateX(84deg);
+  transform-origin: bottom center;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0 48%,
+      rgba(255, 235, 190, 0.07) 48% 52%,
+      transparent 52%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      #35304e 0 14px,
+      #2b2742 14px 28px
+    ),
+    #2f2b48;
+  box-shadow: inset 0 0 60px 20px rgba(8, 8, 26, 0.7);
+}
+
+/* Seitenfassaden: nach hinten weggedrehte Wände */
+
+.rl-mur {
+  position: absolute;
+  bottom: 0;
+  width: 240px;
+  height: 300px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.12) 0 4px,
+      transparent 4px 22px
+    ),
+    linear-gradient(#2e2340, #40283a 55%, #3a2434);
+  box-shadow: inset 0 0 40px 12px rgba(8, 8, 26, 0.55);
+}
+
+.rl-mur--l {
+  left: 0;
+  transform: rotateY(74deg);
+  transform-origin: left bottom;
+  filter: brightness(0.78);
+}
+
+.rl-mur--r {
+  right: 0;
+  transform: rotateY(-74deg);
+  transform-origin: right bottom;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.14) 0 4px,
+      transparent 4px 22px
+    ),
+    linear-gradient(#33243c, #4a1d26 55%, #3f1b22);
+  filter: brightness(0.92);
+}
+
+/* Dachkante */
+
+.rl-mur::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 14px;
+  background: #221a30;
+  border-bottom: 3px solid #0d0b20;
+}
+
+/* Fenster auf den Fassaden */
+
+.rl-w {
+  position: absolute;
+  width: 24px;
+  height: 34px;
+  background: #14112a;
+  border: 3px solid #100d22;
+}
+
+.rl-w--on {
+  background: linear-gradient(#ffe2a0, #f0b45e);
+  box-shadow: 0 0 12px 2px rgba(255, 200, 110, 0.35);
+}
+
+.rl-w::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  bottom: -6px;
+  height: 5px;
+  background: repeating-linear-gradient(
+    90deg,
+    #0d0b20 0 2px,
+    transparent 2px 5px
+  );
+}
+
+/* Ladentüren an der Gasse */
+
+.rl-porte {
+  position: absolute;
+  bottom: 0;
+  width: 34px;
+  height: 62px;
+  background: #241014;
+  border: 3px solid #0d0b20;
+  border-bottom: 0;
+  box-shadow: inset 0 12px 0 -7px #ffcf6e;
+}
+
+.rl-porte--b {
+  background: #1a2b22;
+}
+
+.rl-porte--c {
+  background: #2a1c30;
+}
+
+/* Ladenschilder */
+
+.rl-ens {
+  position: absolute;
+  left: 26px;
+  bottom: 66px;
+  padding: 5px 6px 4px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  font-style: normal;
+  letter-spacing: 1px;
+  color: #ffd98a;
+  background: #1a1228;
+  border: 3px solid #0d0b20;
+  white-space: nowrap;
+}
+
+.rl-ens--r {
+  left: auto;
+  right: 26px;
+  color: #9fd7ff;
+}
+
+/* Abschlussgebäude am Fluchtpunkt */
+
+.rl-sky {
+  position: absolute;
+  left: 50%;
+  bottom: 96px;
+  width: 300px;
+  height: 260px;
+  margin-left: -150px;
+  transform: translateZ(-320px);
+  background: linear-gradient(#0a0e2e, #1c1d48 65%, #2a2352);
+}
+
+.rl-sky::after {
+  content: '';
+  position: absolute;
+  left: 60px;
+  top: 40px;
+  width: 3px;
+  height: 3px;
+  background: #fff;
+  box-shadow:
+    54px 22px 0 #cfd6ff,
+    106px 10px 0 #fff,
+    156px 36px 0 #cfd6ff,
+    198px 16px 0 #fff,
+    82px 62px 0 #fff;
+}
+
+.rl-fond {
+  position: absolute;
+  left: 50%;
+  bottom: 96px;
+  width: 160px;
+  height: 150px;
+  margin-left: -80px;
+  transform: translateZ(-318px);
+  background: linear-gradient(#3a2c50, #4a3352);
+  border: 4px solid #0d0b20;
+  border-bottom: 0;
+}
+
+.rl-fond__toit {
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  top: -16px;
+  height: 16px;
+  background: #262b4c;
+  border: 4px solid #0d0b20;
+  border-bottom: 0;
+}
+
+.rl-fond__w {
+  position: absolute;
+  width: 22px;
+  height: 30px;
+  background: linear-gradient(#ffe2a0, #f0b45e);
+  border: 3px solid #0d0b20;
+}
+
+.rl-fond__w:nth-of-type(1) {
+  left: 18px;
+  top: 26px;
+}
+
+.rl-fond__w:nth-of-type(2) {
+  left: 68px;
+  top: 26px;
+  background: #1d1a38;
+}
+
+.rl-fond__w:nth-of-type(3) {
+  right: 18px;
+  top: 26px;
+}
+
+.rl-fond__w:nth-of-type(4) {
+  left: 68px;
+  top: 78px;
+  background: #ffcf6e;
+}
+
+.rl-fond__porte {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 34px;
+  height: 44px;
+  margin-left: -17px;
+  background: #201628;
+  border: 3px solid #0d0b20;
+  border-bottom: 0;
+  box-shadow: inset 0 10px 0 -6px #ffcf6e;
+}
+
+/* Laternen an den Wänden, in die Tiefe gestaffelt */
+
+.rl-lamp {
+  position: absolute;
+  background: linear-gradient(#ffe9b8, #ffca6e);
+  border: 3px solid #1d0e08;
+}
+
+.rl-lamp--near {
+  left: 30px;
+  bottom: 206px;
+  width: 12px;
+  height: 15px;
+  box-shadow: 0 0 24px 7px rgba(255, 200, 100, 0.45);
+}
+
+.rl-lamp--near::before {
+  content: '';
+  position: absolute;
+  left: -9px;
+  top: -5px;
+  width: 9px;
+  height: 5px;
+  background: #1d0e08;
+}
+
+.rl-lamp--mid {
+  right: 50px;
+  bottom: 192px;
+  width: 8px;
+  height: 10px;
+  border-width: 2px;
+  box-shadow: 0 0 16px 5px rgba(255, 200, 100, 0.4);
+}
+
+.rl-lamp--far {
+  left: 76px;
+  bottom: 176px;
+  width: 5px;
+  height: 6px;
+  border-width: 2px;
+  box-shadow: 0 0 11px 3px rgba(255, 200, 100, 0.34);
+}
+
+/* Lichterketten quer über die Gasse */
+
+.rl-fils {
+  position: absolute;
+  background: radial-gradient(
+    circle at 2px 2px,
+    #ffd98a 1.4px,
+    rgba(255, 217, 138, 0) 2.1px
+  );
+  background-repeat: repeat-x;
+  filter: drop-shadow(0 0 3px rgba(255, 217, 138, 0.55));
+}
+
+.rl-fils--near {
+  left: 4px;
+  right: 4px;
+  bottom: 250px;
+  height: 5px;
+  background-size: 16px 5px;
+  transform: rotate(2deg);
+}
+
+.rl-fils--far {
+  left: 58px;
+  right: 58px;
+  bottom: 212px;
+  height: 4px;
+  background-size: 10px 4px;
+  transform: rotate(-2deg);
+}
+
+/* Passanten, perspektivisch kleiner */
+
+.rl-pass {
+  position: absolute;
+  background: #191426;
+}
+
+.rl-pass--mid {
+  right: 74px;
+  bottom: 128px;
+  width: 7px;
+  height: 15px;
+}
+
+.rl-pass--mid::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -6px;
+  width: 7px;
+  height: 6px;
+  background: #241a2c;
+}
+
+.rl-pass--far {
+  left: 92px;
+  bottom: 150px;
+  width: 4px;
+  height: 9px;
+}
+
+.rl-pass--far::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -4px;
+  width: 4px;
+  height: 4px;
+  background: inherit;
+}
+
+/* Nahe Requisiten */
+
+.rl-velo {
+  position: absolute;
+  left: 34px;
+  bottom: 44px;
+  width: 13px;
+  height: 13px;
+  border: 3px solid #10101c;
+  border-radius: 50%;
+}
+
+.rl-velo::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: -3px;
+  width: 13px;
+  height: 13px;
+  border: 3px solid #10101c;
+  border-radius: 50%;
+}
+
+.rl-velo::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: -4px;
+  width: 16px;
+  height: 3px;
+  background: #10101c;
+  transform: rotate(-14deg);
+  box-shadow: -2px -5px 0 -1px #10101c;
+}
+
+.rl-caisses {
+  position: absolute;
+  right: 40px;
+  bottom: 38px;
+  width: 20px;
+  height: 16px;
+  background: #6b4a28;
+  border: 3px solid #10101c;
+  box-shadow: inset 0 0 0 2px #8a6038;
+}
+
+.rl-caisses::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: -15px;
+  width: 15px;
+  height: 12px;
+  background: #7a5230;
+  border: 3px solid #10101c;
+}
+
+.rl-cafeside {
+  position: absolute;
+  right: 4px;
+  top: 88px;
+  z-index: 2;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  letter-spacing: 4px;
+  color: #e8c05a;
+  background: #2a1016;
+  border: 2px solid #0d0b20;
+  padding: 6px 3px;
+  text-shadow: 0 0 5px rgba(232, 192, 90, 0.5);
+}
+
+/* Atmosphärischer Dunst zum Fluchtpunkt hin */
+
+.rl-haze {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 90px 70px at 50% 62%,
+    rgba(150, 140, 200, 0.22),
+    rgba(10, 10, 30, 0.35) 60%,
+    rgba(7, 7, 20, 0.6)
+  );
+}
+
+/* ============ Librairie ============ */
+
+.livshop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 86px;
+  background: #4a2c22;
+  border-top: 4px solid #0d0b20;
+}
+
+.livsign {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  letter-spacing: 1px;
+  color: #f2e2c4;
+  background: #2e1a12;
+  border: 2px solid #0d0b20;
+  padding: 4px 5px 3px;
+  white-space: nowrap;
+}
+
+.livpend {
+  position: absolute;
+  left: -4px;
+  top: -18px;
+  width: 16px;
+  height: 11px;
+  background: linear-gradient(
+    90deg,
+    #f4efe2 0 6px,
+    #c04444 6px 10px,
+    #f4efe2 10px
+  );
+  border: 2px solid #0d0b20;
+}
+
+.livpend::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: -7px;
+  width: 3px;
+  height: 7px;
+  background: #0d0b20;
+}
+
+.livwin {
+  position: absolute;
+  left: 10px;
+  bottom: 0;
+  width: 74px;
+  height: 56px;
+  background: linear-gradient(#ffe2a0 0 30%, #f4bc62);
+  border: 4px solid #2e1a12;
+  border-bottom: 0;
+  overflow: hidden;
+}
+
+.livrow {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  height: 15px;
+  background: repeating-linear-gradient(
+    90deg,
+    #c04444 0 4px,
+    #3a6bb0 4px 8px,
+    #2f8f4a 8px 11px,
+    #d8912f 11px 16px,
+    #7a4a9a 16px 19px,
+    #3a8f8a 19px 24px
+  );
+  border-bottom: 3px solid #3a241c;
+}
+
+.livrow--a {
+  top: 5px;
+}
+
+.livrow--b {
+  top: 26px;
+}
+
+.livwin .chat--sill {
+  right: 4px;
+  bottom: 0;
+  transform: scale(0.9);
+}
+
+.livdoor {
+  position: absolute;
+  right: 12px;
+  bottom: 0;
+  width: 30px;
+  height: 50px;
+  background: #2e1a12;
+  border: 3px solid #0d0b20;
+  border-bottom: 0;
+  box-shadow: inset 0 9px 0 -5px #ffcf6e;
+}
+
+.livstack {
+  position: absolute;
+  right: 46px;
+  bottom: 0;
+  width: 16px;
+  height: 6px;
+  background: #3a6bb0;
+  border: 2px solid #0d0b20;
+  box-shadow:
+    1px -7px 0 -1px #c04444,
+    1px -7px 0 1px #0d0b20,
+    -1px -13px 0 -2px #2f8f4a,
+    -1px -13px 0 0 #0d0b20;
+}
+
 /* ============ Straße ============ */
 
 .monde {
@@ -1283,7 +2013,7 @@ body {
 
 .metro {
   position: absolute;
-  left: -452px;
+  left: -608px;
   bottom: 56px;
   width: 132px;
   height: 56px;
@@ -2525,7 +3255,7 @@ body {
 
 .morris {
   position: absolute;
-  left: -524px;
+  left: -712px;
   bottom: 56px;
   width: 46px;
   height: 116px;
@@ -2655,7 +3385,7 @@ body {
 }
 
 .lampe--l {
-  left: -382px;
+  left: -368px;
 }
 
 .lampe--r {
@@ -2731,6 +3461,17 @@ body {
 
 .salle .player.is-flip .player__flip {
   transform: scale(2) scaleX(-1);
+}
+
+.salle .sitter {
+  transform: scale(1.45);
+  transform-origin: 9px 21px;
+}
+
+/* Vordergrund-Gäste größer: Tiefenwirkung */
+.decofront .sitter {
+  transform: scale(2);
+  transform-origin: 9px 21px;
 }
 
 .deco {
@@ -2878,10 +3619,51 @@ body {
   box-shadow: 112px 0 0 0 #6b2a34, 112px 0 0 3px #1d0e08;
 }
 
+/* Eckfenster: das Café liegt an der Straßenecke */
+
+.s-fenetre--coin {
+  left: 312px;
+  bottom: 274px;
+  width: 118px;
+  height: 116px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0 36px,
+      #1d0e08 36px 40px,
+      transparent 40px 74px,
+      #1d0e08 74px 78px,
+      transparent 78px
+    ),
+    linear-gradient(
+      0deg,
+      transparent 0 60px,
+      #1d0e08 60px 64px,
+      transparent 64px
+    ),
+    #0d1230;
+}
+
+.s-fenetre--coin::before {
+  right: 22px;
+  bottom: 16px;
+  box-shadow:
+    -34px -44px 0 -1px #fff,
+    -66px -22px 0 -1px #cfd6ff,
+    -14px -74px 0 -1px #fff;
+}
+
+.s-fenetre--coin::after {
+  left: -13px;
+  top: -12px;
+  height: 128px;
+  box-shadow: 126px 0 0 0 #6b2a34, 126px 0 0 3px #1d0e08;
+}
+
 .s-poster {
   position: absolute;
-  bottom: 258px;
-  left: 118px;
+  bottom: 344px;
+  left: 178px;
   width: 92px;
   padding: 6px 4px;
   text-align: center;
@@ -2915,7 +3697,7 @@ body {
 
 .s-rug--b {
   bottom: 90px;
-  left: 14px;
+  left: 28px;
   width: 130px;
 }
 
@@ -2929,11 +3711,17 @@ body {
   content: '';
   position: absolute;
   left: 0;
-  bottom: 28px;
-  width: 58px;
-  height: 9px;
-  background: #4a2c1c;
-  border: 2px solid #1d0e08;
+  bottom: 26px;
+  width: 62px;
+  height: 15px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(244, 239, 226, 0.8) 0 5px,
+      transparent 5px 10px
+    ),
+    #3a5a8e;
+  border: 3px solid #24344e;
 }
 
 .s-table::after {
@@ -3105,7 +3893,7 @@ body {
 .s-chem {
   position: absolute;
   bottom: 100px;
-  left: 24px;
+  left: 34px;
   width: 96px;
   height: 100px;
   background:
@@ -3230,7 +4018,7 @@ body {
 .s-catnap {
   position: absolute;
   bottom: 98px;
-  left: 62px;
+  left: 74px;
   width: 22px;
   height: 10px;
   background: #14101c;
@@ -3319,28 +4107,11 @@ body {
     inset 0 92px 0 -88px #1d0e08;
 }
 
-.s-biblio::before {
-  content: '';
-  position: absolute;
-  left: 7px;
-  top: 10px;
-  width: 13px;
-  height: 26px;
-  background: #c04444;
-  box-shadow:
-    16px 3px 0 #3a6bb0,
-    32px 0 0 #2f8f4a,
-    48px 4px 0 #d8912f,
-    64px 0 0 #7a4a9a,
-    80px 2px 0 #c04477,
-    96px 0 0 #3a8f8a;
-}
-
 .s-biblio::after {
   content: '';
   position: absolute;
   left: 7px;
-  top: 56px;
+  bottom: 12px;
   width: 13px;
   height: 26px;
   background: #2f8f4a;
@@ -3453,6 +4224,939 @@ body {
     transparent 62%
   );
   pointer-events: none;
+}
+
+/* --- Café: Wanddeko --- */
+
+.s-fanions {
+  position: absolute;
+  width: 310px;
+  height: 15px;
+  background: repeating-linear-gradient(
+    90deg,
+    #c04444 0 31px,
+    #d8912f 31px 62px,
+    #2f8f4a 62px 93px,
+    #3a6bb0 93px 124px,
+    #c04477 124px 155px
+  );
+  clip-path: polygon(
+    0 0,
+    5% 100%,
+    10% 0,
+    15% 100%,
+    20% 0,
+    25% 100%,
+    30% 0,
+    35% 100%,
+    40% 0,
+    45% 100%,
+    50% 0,
+    55% 100%,
+    60% 0,
+    65% 100%,
+    70% 0,
+    75% 100%,
+    80% 0,
+    85% 100%,
+    90% 0,
+    95% 100%,
+    100% 0
+  );
+}
+
+.s-fanions--a {
+  left: -368px;
+  bottom: 480px;
+  transform: rotate(4deg);
+}
+
+.s-fanions--b {
+  left: 52px;
+  bottom: 476px;
+  transform: rotate(-4deg);
+}
+
+/* ===== Spieleschachteln mit erkennbaren Motiven ===== */
+
+.bx {
+  position: relative;
+  display: block;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  border: 2px solid #1d0e08;
+  background: var(--b, #c04444);
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+}
+
+.bx--big {
+  width: 44px;
+  height: 44px;
+}
+
+/* CATAN: Hexfeld */
+.bx--catan {
+  --b: #e8a03a;
+}
+
+.bx--catan::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  margin: -8px 0 0 -8px;
+  background: #3f8f4a;
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  box-shadow:
+    -7px 4px 0 -4px #c9622f,
+    7px 4px 0 -4px #d8b23a;
+}
+
+.bx--catan::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  bottom: 2px;
+  right: 3px;
+  height: 4px;
+  background: #f4e6c8;
+}
+
+.bx--catan2 {
+  --b: #d8912f;
+}
+
+.bx--catan2::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  margin: -7px 0 0 -7px;
+  background: #4a8f5e;
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+
+/* MONOPOLY: rotes Band + Hut */
+.bx--mono,
+.bx--mono2 {
+  --b: #d8e4d0;
+}
+
+.bx--mono::before,
+.bx--mono2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 7px;
+  height: 9px;
+  background: #c8202c;
+  border-top: 2px solid #1d0e08;
+  border-bottom: 2px solid #1d0e08;
+}
+
+.bx--mono::after,
+.bx--mono2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 12px;
+  height: 5px;
+  margin-left: -6px;
+  background: #1d0e08;
+  box-shadow: 0 -4px 0 -2px #1d0e08;
+}
+
+.bx--mono2 {
+  --b: #cfe0c8;
+}
+
+/* UNO: gelbes Oval auf Rot */
+.bx--uno,
+.bx--uno2 {
+  --b: #c8202c;
+}
+
+.bx--uno::before,
+.bx--uno2::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 12px;
+  margin: -6px 0 0 -10px;
+  background: #f2c832;
+  border-radius: 50%;
+  transform: rotate(-18deg);
+}
+
+.bx--uno::after,
+.bx--uno2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3px;
+  height: 7px;
+  margin: -4px 0 0 -6px;
+  background: #c8202c;
+  box-shadow: 5px 0 0 #c8202c, 10px 0 0 #c8202c;
+  transform: rotate(-18deg);
+}
+
+.bx--uno2 {
+  --b: #b81b26;
+}
+
+/* DIXIT: Mond + Sterne */
+.bx--dixit {
+  --b: #3a4ea8;
+}
+
+.bx--dixit::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 7px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f2e2b0;
+  box-shadow: inset -5px 0 0 -1px #3a4ea8;
+}
+
+.bx--dixit::after {
+  content: '';
+  position: absolute;
+  right: 5px;
+  top: 6px;
+  width: 3px;
+  height: 3px;
+  background: #f2e2b0;
+  box-shadow: -3px 12px 0 #f2e2b0, 2px 7px 0 -1px #f2e2b0;
+}
+
+/* AZUL: Fliesenmuster */
+.bx--azul {
+  --b: #2a72a8;
+}
+
+.bx--azul::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 7px;
+  height: 7px;
+  background: #e8e2d0;
+  box-shadow:
+    9px 0 0 #d8a03a,
+    0 9px 0 #c04455,
+    9px 9px 0 #e8e2d0,
+    4px 15px 0 #4aa8b8;
+}
+
+/* CARCASSONNE: Burgturm */
+.bx--carc {
+  --b: #7a9a4a;
+}
+
+.bx--carc::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  width: 13px;
+  height: 15px;
+  margin-left: -7px;
+  background: #d8c8a0;
+}
+
+.bx--carc::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  width: 17px;
+  height: 5px;
+  margin-left: -9px;
+  background: #b04a3a;
+  clip-path: polygon(0 100%, 0 0, 25% 0, 25% 50%, 50% 50%, 50% 0, 75% 0, 75% 50%, 100% 50%, 100% 100%);
+}
+
+/* RISK: Weltkarte */
+.bx--risk {
+  --b: #2a4a7a;
+}
+
+.bx--risk::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  width: 8px;
+  height: 6px;
+  background: #6b9a4a;
+  box-shadow:
+    11px 3px 0 -1px #6b9a4a,
+    2px 10px 0 -2px #6b9a4a,
+    13px 12px 0 -1px #6b9a4a;
+}
+
+.bx--risk::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  width: 5px;
+  height: 5px;
+  background: #c8202c;
+  box-shadow: 12px -3px 0 #f2c832;
+}
+
+/* SCRABBLE: Buchstabenstein */
+.bx--scrab {
+  --b: #d8c8a0;
+}
+
+.bx--scrab::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 7px;
+  width: 9px;
+  height: 9px;
+  background: #f2e6c8;
+  border: 2px solid #8a6a3a;
+  box-shadow: 10px 8px 0 -1px #f2e6c8, 10px 8px 0 1px #8a6a3a;
+}
+
+.bx--scrab::after {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 10px;
+  width: 3px;
+  height: 3px;
+  background: #3a2a18;
+  box-shadow: 10px 8px 0 #3a2a18;
+}
+
+/* CLUEDO: Lupe */
+.bx--clue {
+  --b: #6b2a4a;
+}
+
+.bx--clue::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border: 3px solid #e8d8a0;
+  border-radius: 50%;
+}
+
+.bx--clue::after {
+  content: '';
+  position: absolute;
+  right: 6px;
+  bottom: 5px;
+  width: 4px;
+  height: 9px;
+  background: #e8d8a0;
+  transform: rotate(-40deg);
+}
+
+/* TICKET TO RIDE: Waggon */
+.bx--ticket {
+  --b: #b8442a;
+}
+
+.bx--ticket::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  bottom: 9px;
+  width: 19px;
+  height: 9px;
+  background: #f2e2b0;
+}
+
+.bx--ticket::after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  bottom: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #1d0e08;
+  box-shadow: 10px 0 0 #1d0e08;
+}
+
+/* PANDEMIC: Biohazard-Kreis */
+.bx--pand {
+  --b: #2a6a5a;
+}
+
+.bx--pand::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: #e8a03a;
+  box-shadow: inset 0 0 0 3px #2a6a5a;
+}
+
+.bx--pand::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: #e8a03a;
+}
+
+/* SCHACH */
+.bx--chess {
+  --b: #f2e6c8;
+}
+
+.bx--chess::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: conic-gradient(
+      #241a10 25%,
+      #f4e6c8 0 50%,
+      #241a10 0 75%,
+      #f4e6c8 0
+    )
+    0 0 / 8px 8px;
+}
+
+/* ===== Große Spielewand ===== */
+
+.s-mur {
+  position: absolute;
+  left: -212px;
+  bottom: 296px;
+  width: 250px;
+  padding: 6px 5px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #3a2216;
+  border: 5px solid #1d0e08;
+  box-shadow: inset 0 0 0 2px #56331f;
+}
+
+.s-mur__etage {
+  display: flex;
+  gap: 4px;
+  padding-bottom: 5px;
+  border-bottom: 4px solid #24140c;
+}
+
+/* Regalreihe mit hochkant stehenden Spielen (Rücken) */
+
+.s-mur__etage--tranches {
+  gap: 3px;
+  padding-top: 2px;
+}
+
+.tr {
+  display: block;
+  width: 15px;
+  height: 28px;
+  flex: 0 0 auto;
+  border: 2px solid #1d0e08;
+  box-shadow: inset -3px 0 0 rgba(0, 0, 0, 0.25);
+}
+
+.tr:nth-child(6n + 1) {
+  background: #c04444;
+}
+
+.tr:nth-child(6n + 2) {
+  background: #3a6bb0;
+}
+
+.tr:nth-child(6n + 3) {
+  background: #2f8f4a;
+}
+
+.tr:nth-child(6n + 4) {
+  background: #d8912f;
+}
+
+.tr:nth-child(6n + 5) {
+  background: #7a4a9a;
+}
+
+.tr:nth-child(6n) {
+  background: #3a8f8a;
+}
+
+/* Vitrine „Jeu du mois" */
+
+.s-vitro {
+  position: absolute;
+  left: 62px;
+  bottom: 322px;
+  display: flex;
+  gap: 6px;
+  padding: 22px 8px 8px;
+  background: rgba(220, 235, 255, 0.13);
+  border: 4px solid #2a1016;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.18),
+    0 0 16px rgba(255, 214, 130, 0.25);
+}
+
+.s-vitro__top {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: 4px;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: #ffd98a;
+}
+
+/* Regalreihen im Bücherregal */
+
+.s-biblio__row {
+  position: absolute;
+  left: 7px;
+  display: flex;
+  gap: 3px;
+}
+
+.s-biblio__row .bx {
+  width: 24px;
+  height: 24px;
+}
+
+.s-biblio__row {
+  top: 12px;
+}
+
+.s-biblio__row--b {
+  top: 58px;
+}
+
+.s-cadre {
+  position: absolute;
+  background: #f2e6cc;
+  border: 3px solid #8a6a3a;
+  box-shadow: 0 0 0 2px #1d0e08;
+}
+
+.s-cadre--meeple {
+  left: -262px;
+  bottom: 428px;
+  width: 30px;
+  height: 34px;
+}
+
+.s-cadre--meeple::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  width: 5px;
+  height: 5px;
+  background: #cc4444;
+}
+
+.s-cadre--meeple::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 13px;
+  width: 13px;
+  height: 5px;
+  background: #cc4444;
+  box-shadow: 2px 5px 0 -1px #cc4444;
+}
+
+.s-cadre--des {
+  left: -298px;
+  bottom: 384px;
+  width: 34px;
+  height: 28px;
+}
+
+.s-cadre--des::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  background: #f4efe2;
+  border: 2px solid #1d0e08;
+  box-shadow:
+    12px 4px 0 -1px #cc4444,
+    12px 4px 0 1px #1d0e08;
+}
+
+.s-horloge {
+  position: absolute;
+  left: -68px;
+  bottom: 434px;
+  width: 28px;
+  height: 28px;
+  background: #f2e6cc;
+  border: 3px solid #1d0e08;
+  border-radius: 50%;
+}
+
+.s-horloge::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 7px;
+  height: 2px;
+  background: #1d0e08;
+}
+
+.s-horloge::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 4px;
+  width: 2px;
+  height: 8px;
+  background: #1d0e08;
+}
+
+.s-topjeux {
+  position: absolute;
+  left: 308px;
+  bottom: 424px;
+  width: 100px;
+  padding: 8px 8px 9px;
+  font-size: 15px;
+  line-height: 1.25;
+  color: #e8e4d2;
+  background: #1e2a26;
+  border: 4px solid #4a3020;
+}
+
+.s-hplant {
+  position: absolute;
+  left: 268px;
+  bottom: 458px;
+  width: 14px;
+  height: 11px;
+  background: #a33d2a;
+  border: 2px solid #1d0e08;
+}
+
+.s-hplant::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: -12px;
+  width: 3px;
+  height: 12px;
+  background: #1d0e08;
+}
+
+.s-hplant::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 10px;
+  width: 4px;
+  height: 16px;
+  background: #2f8f4a;
+  box-shadow:
+    7px 4px 0 #37a856,
+    13px -1px 0 #2f8f4a,
+    13px 9px 0 -1px #37a856,
+    3px 16px 0 -1px #2f8f4a;
+}
+
+.s-sconce2 {
+  position: absolute;
+  width: 11px;
+  height: 14px;
+  background: linear-gradient(#ffe9b8, #ffca6e);
+  border: 3px solid #2a1016;
+  box-shadow: 0 0 14px rgba(255, 200, 100, 0.5);
+}
+
+.s-sconce2::after {
+  content: '';
+  position: absolute;
+  left: 1px;
+  bottom: -6px;
+  width: 4px;
+  height: 6px;
+  background: #2a1016;
+}
+
+.s-sconce2--a {
+  left: -352px;
+  bottom: 300px;
+}
+
+.s-sconce2--b {
+  left: 196px;
+  bottom: 306px;
+}
+
+.s-barstack {
+  position: absolute;
+  left: -132px;
+  bottom: 162px;
+  width: 22px;
+  height: 10px;
+  background: #3a6bb0;
+  border: 2px solid #1d0e08;
+  box-shadow:
+    2px -11px 0 -1px #c04444,
+    2px -11px 0 1px #1d0e08;
+}
+
+.s-guest {
+  left: -80px;
+  bottom: 128px;
+  --shirt: #8a5a9e;
+  --hair: #20140c;
+}
+
+/* --- Café: Vordergrund-Ebene --- */
+
+.decofront {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+.s-ftable {
+  position: absolute;
+  bottom: 52px;
+}
+
+.s-ftable::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 30px;
+  width: 82px;
+  height: 18px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(244, 239, 226, 0.85) 0 5px,
+      transparent 5px 10px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(244, 239, 226, 0.5) 0 5px,
+      transparent 5px 10px
+    ),
+    #b03a3a;
+  border: 3px solid #5e1d20;
+}
+
+.s-ftable::after {
+  content: '';
+  position: absolute;
+  left: 36px;
+  bottom: 4px;
+  width: 10px;
+  height: 28px;
+  background: #2a1812;
+  box-shadow:
+    -9px 26px 0 -12px #171008,
+    9px 26px 0 -12px #171008;
+}
+
+.s-ftable--a {
+  left: -252px;
+}
+
+.s-ftable--b {
+  left: 58px;
+}
+
+.s-ftable .sitter {
+  bottom: 48px;
+}
+
+.s-ftable .sitter::after {
+  top: 16px;
+  height: 30px;
+  width: 8px;
+}
+
+.sitter--fa {
+  left: -26px;
+  --shirt: #b0583a;
+}
+
+.sitter--fa::after {
+  left: -8px;
+}
+
+.sitter--fb {
+  left: 86px;
+  --shirt: #3e6b8e;
+  --hair: #d8b02f;
+}
+
+.sitter--fb::after {
+  left: 20px;
+}
+
+.sitter--fc {
+  left: 86px;
+  --shirt: #2f7a5e;
+}
+
+.sitter--fc::after {
+  left: 20px;
+}
+
+/* Aufgebaute Spiele auf den Tischen */
+
+.s-plateau {
+  position: absolute;
+  left: 16px;
+  bottom: 49px;
+  width: 38px;
+  height: 17px;
+  border: 2px solid #10101c;
+}
+
+/* Catan-Brett: Hexfelder */
+.s-plateau--catan {
+  background:
+    radial-gradient(circle at 8px 7px, #d8a03a 3px, transparent 3.5px),
+    radial-gradient(circle at 16px 4px, #4a8f5e 3px, transparent 3.5px),
+    radial-gradient(circle at 16px 11px, #b8622f 3px, transparent 3.5px),
+    radial-gradient(circle at 24px 7px, #8aa84a 3px, transparent 3.5px),
+    #6b8a9a;
+}
+
+.s-plateau--catan::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: -4px;
+  width: 4px;
+  height: 4px;
+  background: #c04444;
+  box-shadow: 14px 2px 0 #3a6bb0;
+}
+
+/* Monopoly-Brett: rotes Band */
+.s-plateau--mono {
+  background:
+    linear-gradient(
+      90deg,
+      #c8202c 0 4px,
+      transparent 4px calc(100% - 4px),
+      #c8202c calc(100% - 4px)
+    ),
+    linear-gradient(
+      0deg,
+      #c8202c 0 3px,
+      transparent 3px calc(100% - 3px),
+      #c8202c calc(100% - 3px)
+    ),
+    #d8e4d0;
+}
+
+.s-plateau--mono::after {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 4px;
+  width: 4px;
+  height: 4px;
+  background: #f2c832;
+  box-shadow: 7px 3px 0 #3a6bb0;
+}
+
+/* UNO-Kartenfächer */
+.s-unofan {
+  position: absolute;
+  left: 60px;
+  bottom: 50px;
+  width: 7px;
+  height: 11px;
+  background: #c8202c;
+  border: 2px solid #10101c;
+  transform: rotate(-14deg);
+  box-shadow:
+    5px 1px 0 -1px #f2c832,
+    5px 1px 0 1px #10101c,
+    10px 3px 0 -2px #3a6bb0,
+    10px 3px 0 0 #10101c;
+}
+
+.s-ftable .meeple--y {
+  left: 60px;
+  bottom: 51px;
+  background: #d8b02f;
+}
+
+.s-ftable--b .cup {
+  left: 62px;
+  bottom: 51px;
+}
+
+.s-gstack {
+  position: absolute;
+  left: 178px;
+  bottom: 52px;
+  width: 30px;
+  height: 12px;
+  background: #3a6bb0;
+  border: 3px solid #10101c;
+  box-shadow:
+    2px -14px 0 -2px #c04444,
+    2px -14px 0 1px #10101c,
+    -2px -27px 0 -3px #2f8f4a,
+    -2px -27px 0 0 #10101c,
+    1px -38px 0 -4px #d8912f,
+    1px -38px 0 -1px #10101c;
+}
+
+.s-gstack--b {
+  left: -338px;
+  bottom: 52px;
+  background: #c8202c;
+  box-shadow:
+    -2px -13px 0 -2px #d8e4d0,
+    -2px -13px 0 1px #10101c,
+    2px -25px 0 -3px #e8a03a,
+    2px -25px 0 0 #10101c;
 }
 
 /* --- Labo: Grundstimmung --- */
@@ -4120,6 +5824,706 @@ body {
   animation: blink 1.6s steps(2, start) 0.8s infinite;
 }
 
+/* ============ Métro Rihour ============ */
+
+/* Oberwelt und Untergrund in einem vertikal fahrenden Container */
+
+.univers {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.univers.is-sous {
+  transform: translateY(-58vh);
+}
+
+.souterrain {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 60vh;
+  min-height: 400px;
+  overflow: hidden;
+  background: #12141f;
+}
+
+.souterrain .salle__scene {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 100%;
+  transform-origin: bottom center;
+  will-change: transform;
+}
+
+.souterrain .deco {
+  position: absolute;
+  inset: 0;
+}
+
+.souterrain .player {
+  left: 0;
+  bottom: 88px;
+  z-index: 2;
+}
+
+.souterrain .player__flip {
+  transform: scale(2);
+}
+
+.souterrain .player.is-flip .player__flip {
+  transform: scale(2) scaleX(-1);
+}
+
+.souterrain .sitter {
+  transform: scale(1.45);
+  transform-origin: 9px 21px;
+}
+
+/* Erdreich zwischen Straße und Tunnel */
+
+.mt-terre {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 26px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.2) 0 4px,
+      transparent 4px 26px
+    ),
+    linear-gradient(#241d18, #1a1620);
+  border-bottom: 5px solid #0a0c14;
+}
+
+/* Deckengewölbe */
+
+.mt-voute {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 26px;
+  bottom: 168px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.18) 0 3px,
+      transparent 3px 74px
+    ),
+    linear-gradient(#1c2030 0 40%, #262b3e);
+}
+
+.mt-voute::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 26px;
+  background: #10131e;
+  border-bottom: 4px solid #0a0c14;
+}
+
+/* Deckenleuchten */
+.mt-voute::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 30px;
+  height: 7px;
+  background: repeating-linear-gradient(
+    90deg,
+    #ffeec0 0 96px,
+    transparent 96px 168px
+  );
+  box-shadow: 0 6px 34px 4px rgba(255, 230, 180, 0.18);
+}
+
+/* Bahnsteig */
+
+.mt-quai {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 168px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.16) 0 3px,
+      transparent 3px 52px
+    ),
+    linear-gradient(#4a4e60 0 8px, #3a3e50 8px);
+  border-top: 5px solid #0a0c14;
+}
+
+/* Taktiler Sicherheitsstreifen */
+.mt-quai::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 8px;
+  height: 12px;
+  background: repeating-linear-gradient(
+    90deg,
+    #d8b23a 0 9px,
+    #3a3e50 9px 18px
+  );
+}
+
+.salle--metro .salle__scene {
+  z-index: 1;
+}
+
+/* Gleisbett hinter den Türen */
+
+.mt-fosse {
+  position: absolute;
+  left: -900px;
+  right: -900px;
+  bottom: 168px;
+  width: 1800px;
+  height: 120px;
+  background: linear-gradient(#0a0c14, #141826);
+}
+
+.mt-tube {
+  position: absolute;
+  left: 190px;
+  bottom: 168px;
+  width: 150px;
+  height: 122px;
+  background: radial-gradient(
+    ellipse 74px 60px at 50% 100%,
+    #05060c,
+    #0d1018 70%
+  );
+  border-radius: 74px 74px 0 0;
+  box-shadow: inset 0 0 0 5px #1c2030;
+}
+
+.mt-rail {
+  position: absolute;
+  left: -900px;
+  width: 1800px;
+  bottom: 172px;
+  height: 5px;
+  background: #565c72;
+  box-shadow: 0 9px 0 -1px #454a5e;
+}
+
+/* Fahrerloser VAL: fährt ein, hält, fährt weiter */
+
+.mt-train {
+  position: absolute;
+  bottom: 177px;
+  left: -212px;
+  width: 470px;
+  height: 92px;
+  background: linear-gradient(#f4f4f6 0 62%, #e2e2e8);
+  border: 4px solid #14161f;
+  border-radius: 8px 30px 6px 6px;
+  animation: valpasse 17s cubic-bezier(0.3, 0, 0.2, 1) infinite;
+}
+
+/* Rote Front (fahrerlos: durchgehende Panoramascheibe) */
+.mt-train__nez {
+  position: absolute;
+  right: -4px;
+  top: -4px;
+  bottom: -4px;
+  width: 74px;
+  background: #d92c2c;
+  border: 4px solid #14161f;
+  border-radius: 8px 30px 6px 6px;
+}
+
+.mt-train__nez::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  right: 12px;
+  height: 40px;
+  background: #1d2740;
+  border: 3px solid #14161f;
+  border-radius: 4px 16px 4px 4px;
+  box-shadow: inset 0 5px 0 rgba(160, 200, 255, 0.28);
+}
+
+/* Zielanzeige + Scheinwerfer */
+.mt-train__nez::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  bottom: 14px;
+  width: 34px;
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    #ffd23a 0 3px,
+    #7a2020 3px 6px
+  );
+  box-shadow: -2px 16px 0 -2px #fff8e0;
+}
+
+/* Fensterband */
+.mt-train__vitres {
+  position: absolute;
+  left: 10px;
+  right: 82px;
+  top: 12px;
+  height: 42px;
+  background-color: #1d2740;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0 44px,
+    #14161f 44px 50px
+  );
+  border: 3px solid #14161f;
+  box-shadow: inset 0 5px 0 rgba(160, 200, 255, 0.25);
+}
+
+/* Fahrgäste als Silhouetten */
+.mt-train__pax {
+  position: absolute;
+  left: 30px;
+  top: 26px;
+  width: 9px;
+  height: 20px;
+  background: #47506e;
+  border-radius: 4px 4px 0 0;
+  box-shadow:
+    62px 2px 0 #3e4763,
+    124px -1px 0 #4d5675,
+    186px 3px 0 #3e4763,
+    248px 0 0 #47506e,
+    310px 2px 0 #3e4763;
+}
+
+/* Türen & Schürze */
+.mt-train__bas {
+  position: absolute;
+  left: 6px;
+  right: 78px;
+  bottom: 6px;
+  height: 26px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 38px,
+    #c8ccd8 38px 42px,
+    #14161f 42px 46px,
+    #c8ccd8 46px 50px,
+    transparent 50px 88px
+  );
+  border-bottom: 5px solid #d92c2c;
+}
+
+@keyframes valpasse {
+  0% {
+    transform: translateX(760px);
+  }
+  16% {
+    transform: translateX(0);
+  }
+  46% {
+    transform: translateX(0);
+  }
+  70%,
+  100% {
+    transform: translateX(-1120px);
+  }
+}
+
+/* Bahnsteigtüren (portes palières) */
+
+.mt-portes {
+  position: absolute;
+  left: -900px;
+  width: 1800px;
+  bottom: 168px;
+  height: 108px;
+  background: repeating-linear-gradient(
+    90deg,
+    #6e7488 0 7px,
+    rgba(190, 215, 245, 0.14) 7px 62px,
+    #6e7488 62px 69px,
+    rgba(190, 215, 245, 0.14) 69px 124px
+  );
+  border-top: 5px solid #8a90a4;
+  border-bottom: 4px solid #14161f;
+  box-shadow: inset 0 -18px 0 -12px rgba(20, 22, 31, 0.5);
+}
+
+.mt-portes::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 22px;
+  height: 4px;
+  background: rgba(216, 178, 58, 0.55);
+}
+
+/* Stationsschild */
+
+.mt-nom {
+  position: absolute;
+  bottom: 244px;
+  left: -224px;
+  padding: 9px 16px 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: #f4f6ff;
+  background: #1d3f8f;
+  border: 4px solid #e8ecf8;
+  box-shadow: 0 0 0 4px #14161f;
+}
+
+.mt-nom--b {
+  left: 246px;
+}
+
+.mt-ligne {
+  position: absolute;
+  bottom: 300px;
+  left: -46px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px 6px;
+  font-size: 19px;
+  letter-spacing: 1px;
+  color: #14161f;
+  background: #f2c832;
+  border: 4px solid #14161f;
+}
+
+.mt-ligne b {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: #f2c832;
+  background: #14161f;
+  border-radius: 50%;
+}
+
+/* Liniennetzplan */
+
+.mt-plan {
+  position: absolute;
+  bottom: 200px;
+  left: -420px;
+  width: 116px;
+  height: 78px;
+  background: #f0f2f8;
+  border: 4px solid #14161f;
+  box-shadow: inset 0 0 0 3px #c8ccd8;
+}
+
+.mt-plan i {
+  position: absolute;
+  height: 5px;
+  border-radius: 3px;
+}
+
+.mt-plan i:nth-child(1) {
+  left: 10px;
+  top: 18px;
+  width: 88px;
+  background: #f2c832;
+}
+
+.mt-plan i:nth-child(2) {
+  left: 18px;
+  top: 38px;
+  width: 76px;
+  background: #d92c2c;
+}
+
+.mt-plan i:nth-child(3) {
+  left: 26px;
+  top: 56px;
+  width: 60px;
+  background: #4a7ad8;
+}
+
+/* Werbeplakat: Eigenwerbung fürs Café */
+
+.mt-pub {
+  position: absolute;
+  bottom: 190px;
+  left: 322px;
+  width: 104px;
+  padding: 12px 6px 14px;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  line-height: 1.7;
+  color: #e8c05a;
+  background: #58252e;
+  border: 5px solid #c8ccd8;
+  box-shadow: 0 0 0 4px #14161f;
+}
+
+.mt-pub small {
+  font-family: 'VT323', monospace;
+  font-size: 17px;
+  letter-spacing: 1px;
+  color: #d8a8b0;
+}
+
+/* Abfahrtsanzeige */
+
+.mt-ecran {
+  position: absolute;
+  bottom: 268px;
+  left: 118px;
+  width: 96px;
+  height: 30px;
+  background: #0a1622;
+  border: 4px solid #14161f;
+}
+
+.mt-ecran::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 7px;
+  width: 46px;
+  height: 5px;
+  background: #f2c832;
+  box-shadow: 0 11px 0 -1px #f2c832;
+}
+
+.mt-ecran::after {
+  content: '';
+  position: absolute;
+  right: 8px;
+  top: 7px;
+  width: 22px;
+  height: 5px;
+  background: #4affc2;
+  box-shadow: 0 11px 0 -6px #4affc2;
+  animation: blink 2.4s steps(2, start) infinite;
+}
+
+/* Bahnsteig-Mobiliar */
+
+.mt-banc {
+  position: absolute;
+  bottom: 92px;
+  left: -240px;
+  width: 120px;
+  height: 10px;
+  background: #7a5230;
+  border: 3px solid #14161f;
+}
+
+.mt-banc::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 10px;
+  width: 9px;
+  height: 20px;
+  background: #565c72;
+  box-shadow: 90px 0 0 #565c72;
+}
+
+.mt-banc::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -22px;
+  height: 22px;
+  background: #7a5230;
+  border: 3px solid #14161f;
+  border-bottom: 0;
+}
+
+.mt-attente {
+  position: absolute;
+}
+
+.mt-attente--a {
+  left: -226px;
+  bottom: 118px;
+  --shirt: #b0583a;
+}
+
+.mt-attente--a::after {
+  display: none;
+}
+
+.mt-attente--b {
+  left: -166px;
+  bottom: 118px;
+  --shirt: #3e6b8e;
+  --hair: #1a1210;
+}
+
+.mt-attente--b::after {
+  display: none;
+}
+
+.mt-attente--c {
+  left: 138px;
+  bottom: 88px;
+  --shirt: #4a7a5e;
+  --hair: #4a3220;
+}
+
+.mt-poubelle {
+  position: absolute;
+  bottom: 92px;
+  left: -74px;
+  width: 26px;
+  height: 34px;
+  background: #3a3e50;
+  border: 3px solid #14161f;
+  box-shadow: inset 0 0 0 2px #565c72;
+}
+
+.mt-poubelle::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: -7px;
+  width: 30px;
+  height: 7px;
+  background: #565c72;
+  border: 3px solid #14161f;
+}
+
+.mt-colonne {
+  position: absolute;
+  bottom: 96px;
+  width: 34px;
+  height: 184px;
+  background: linear-gradient(90deg, #3f4456, #565c72 40%, #343949);
+  border: 4px solid #14161f;
+}
+
+.mt-colonne::after {
+  content: '';
+  position: absolute;
+  left: -5px;
+  right: -5px;
+  top: -10px;
+  height: 10px;
+  background: #565c72;
+  border: 3px solid #14161f;
+}
+
+.mt-colonne--a {
+  left: -300px;
+}
+
+.mt-colonne--b {
+  left: 208px;
+}
+
+/* Rolltreppe zur Straße */
+
+.mt-esc {
+  position: absolute;
+  bottom: 88px;
+  left: -420px;
+  width: 190px;
+  height: 190px;
+}
+
+/* Schacht: geschlossener Aufgang zur Straße */
+
+.mt-esc__cage {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 190px;
+  height: 178px;
+  background: linear-gradient(#151824, #1e2333);
+  border-left: 5px solid #0e1018;
+  clip-path: polygon(0 100%, 0 34%, 100% 0, 100% 26%, 26% 100%);
+}
+
+/* Durchgehendes Stufenband */
+
+.mt-esc__marches {
+  position: absolute;
+  left: 8px;
+  bottom: 6px;
+  width: 176px;
+  height: 132px;
+  background:
+    repeating-linear-gradient(
+      -37deg,
+      #7d welcome 0 0,
+      transparent 0 0
+    ),
+    repeating-linear-gradient(
+      -37deg,
+      #737a90 0 7px,
+      #545a6e 7px 9px,
+      #676e84 9px 15px,
+      #3f4456 15px 17px
+    );
+  clip-path: polygon(0 100%, 0 74%, 100% 0, 100% 22%, 24% 100%);
+  border-bottom: 4px solid #0e1018;
+}
+
+/* Handlauf */
+
+.mt-esc__rampe {
+  position: absolute;
+  left: 6px;
+  bottom: 34px;
+  width: 196px;
+  height: 7px;
+  background: #0e1018;
+  transform: rotate(-37deg);
+  transform-origin: left bottom;
+  box-shadow: 0 -4px 0 0 #9aa1b6;
+}
+
+.mt-esc__rampe::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 5px;
+  height: 26px;
+  background: #0e1018;
+  box-shadow: 60px 0 0 #0e1018, 120px 0 0 #0e1018, 180px 0 0 #0e1018;
+}
+
+.mt-esc__jour {
+  position: absolute;
+  left: 104px;
+  bottom: 96px;
+  width: 110px;
+  height: 130px;
+  background: linear-gradient(
+    202deg,
+    rgba(255, 214, 130, 0.34),
+    transparent 62%
+  );
+  pointer-events: none;
+}
+
 /* ============ Hinweise & HUD ============ */
 
 .hint {
@@ -4225,8 +6629,8 @@ body {
     transform-origin: bottom center;
   }
 
-  .eiffel {
-    right: 0;
+  .beffroi {
+    right: 1%;
   }
 }
 
@@ -4249,14 +6653,14 @@ body {
     bottom: 240px;
   }
 
-  .butte {
-    left: -60px;
-    bottom: 280px;
+  .beffroi2 {
+    left: 2%;
+    bottom: 264px;
   }
 
-  .eiffel {
+  .beffroi {
     bottom: 250px;
-    right: -20px;
+    right: -14px;
     transform: scale(0.85);
     transform-origin: bottom center;
   }
