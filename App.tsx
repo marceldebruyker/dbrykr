@@ -20,22 +20,22 @@ const SPEED = 150; /* px pro Sekunde */
 
 const BOUNDS: Record<Mode, [number, number]> = {
   street: [-940, 970],
-  cafe: [-430, 434],
+  cafe: [-408, 408],
   labo: [-434, 430],
   metro: [-390, 470],
 };
 
 const ZONES: Record<Mode, Zone[]> = {
   street: [
-    { x: -42, r: 38, dir: 'up', to: 'cafe', spawn: -380, label: '↑ ENTRER', b: 252 },
+    { x: -42, r: 38, dir: 'up', to: 'cafe', spawn: 0, label: '↑ ENTRER', b: 252 },
     { x: -542, r: 54, dir: 'down', to: 'metro', spawn: -330, label: '↓ MÉTRO', b: 216 },
   ],
   cafe: [
-    { x: -380, r: 58, dir: 'down', to: 'street', spawn: -42, label: '↓ SORTIR', b: 272 },
-    { x: 384, r: 58, dir: 'up', to: 'labo', spawn: -384, label: '↑ LABO', b: 296 },
+    { x: 0, r: 54, dir: 'down', to: 'street', spawn: -42, label: '↓ SORTIR', b: 244 },
+    { x: 356, r: 60, dir: 'up', to: 'labo', spawn: -376, label: '↑ LABO', b: 250 },
   ],
   labo: [
-    { x: -384, r: 58, dir: 'down', to: 'cafe', spawn: 384, label: '↓ CAFÉ', b: 296 },
+    { x: -376, r: 62, dir: 'down', to: 'cafe', spawn: 356, label: '↓ CAFÉ', b: 296 },
   ],
   metro: [
     { x: -330, r: 62, dir: 'up', to: 'street', spawn: -542, label: '↑ SORTIE', b: 300 },
@@ -44,10 +44,36 @@ const ZONES: Record<Mode, Zone[]> = {
 
 const START_POS: Record<Mode, number> = {
   street: -560,
-  cafe: -380,
+  cafe: 0,
   labo: -384,
   metro: -330,
 };
+
+/* Auf schmalen Schirmen direkt vor dem Café starten */
+const startStreet = () =>
+  typeof window !== 'undefined' && window.innerWidth < 900 ? -110 : -560;
+
+/* Brettspielcafés in Europa — Auszug aus der Datenbank */
+const CAFES: Array<[string, string, string, string, string]> = [
+  ['Lille', 'FR', 'Chez Marcel', '14', '620'],
+  ['Paris', 'FR', 'Le Dé Ivre', '22', '900'],
+  ['Bruxelles', 'BE', 'Outopia', '18', '750'],
+  ['Amsterdam', 'NL', 'De Spellenbus', '16', '540'],
+  ['Berlin', 'DE', 'Würfelbrett', '20', '810'],
+  ['Köln', 'DE', 'Spieleschmiede', '12', '430'],
+  ['Hamburg', 'DE', 'Meeple Nord', '15', '590'],
+  ['Wien', 'AT', 'Brettspielcafé', '15', '600'],
+  ['Zürich', 'CH', 'Würfelstube', '10', '380'],
+  ['Milano', 'IT', 'Tana dei Goblin', '24', '1100'],
+  ['Barcelona', 'ES', 'El Dau', '19', '720'],
+  ['Lisboa', 'PT', 'Café dos Jogos', '11', '350'],
+  ['København', 'DK', 'Bastard Café', '30', '1400'],
+  ['Stockholm', 'SE', "Dragon's Lair", '17', '680'],
+  ['Kraków', 'PL', 'Kości', '13', '470'],
+  ['Praha', 'CZ', 'Herna Bastion', '14', '520'],
+  ['London', 'UK', 'Draughts', '26', '950'],
+  ['Dublin', 'IE', 'The Gamer Lounge', '12', '410'],
+];
 
 const Windows = ({ n }: { n: number }) => (
   <>
@@ -71,9 +97,16 @@ const App = () => {
   const [facing, setFacing] = useState(1);
   const [zone, setZone] = useState<Zone | null>(null);
   const [fade, setFade] = useState(false);
+  const [lift, setLift] = useState<'' | 'close' | 'ride' | 'open'>('');
+  const [liftDir, setLiftDir] = useState<'up' | 'down'>('up');
+
+  const [page, setPage] = useState<'' | 'menu' | 'contact' | 'base'>('');
 
   const keysRef = useRef({ left: false, right: false });
-  const posRef = useRef<Record<Mode, number>>({ ...START_POS });
+  const posRef = useRef<Record<Mode, number>>({
+    ...START_POS,
+    street: startStreet(),
+  });
   const playerRef = useRef<HTMLSpanElement>(null);
   const mondeRef = useRef<HTMLDivElement>(null);
   const lointainRef = useRef<HTMLDivElement>(null);
@@ -110,6 +143,10 @@ const App = () => {
       scaleRef.current = 1;
       const half = Math.max(0, 540 - vw / 2);
       camLimRef.current = { min: -half, max: half };
+    } else if (modeRef.current === 'cafe') {
+      /* Raumkasten (900×400) formatfüllend einpassen */
+      scaleRef.current = Math.min(vw / 940, (vh * 0.86) / 452);
+      camLimRef.current = { min: 0, max: 0 };
     } else {
       const s = vw >= 1100 && vh >= 640 ? 1.3 : vw >= 760 ? 1.15 : 1;
       scaleRef.current = s;
@@ -126,10 +163,10 @@ const App = () => {
       }
       /* Ferne zieht gedämpft mit, Himmel noch schwächer */
       if (lointainRef.current) {
-        lointainRef.current.style.transform = `translateX(${c * 0.28}px)`;
+        lointainRef.current.style.transform = `translateX(${c * 0.5}px)`;
       }
       if (cielRef.current) {
-        cielRef.current.style.transform = `translateX(${c * 0.08}px)`;
+        cielRef.current.style.transform = `translateX(${c * 0.16}px)`;
       }
     } else if (sceneRef.current) {
       sceneRef.current.style.transform = `translateX(${camRef.current}px) scale(${scaleRef.current})`;
@@ -147,6 +184,30 @@ const App = () => {
     const swap = (z: Zone) => {
       if (fadeRef.current) return;
       fadeRef.current = true;
+
+      /* Café ↔ Labo: Fahrt mit dem Aufzug statt Schnitt */
+      const parLift =
+        (modeRef.current === 'cafe' && z.to === 'labo') ||
+        (modeRef.current === 'labo' && z.to === 'cafe');
+
+      if (parLift) {
+        setLiftDir(z.dir);
+        setLift('close');
+        window.setTimeout(() => {
+          setLift('ride');
+          window.setTimeout(() => {
+            posRef.current[z.to] = z.spawn;
+            setMode(z.to);
+            setLift('open');
+            window.setTimeout(() => {
+              setLift('');
+              fadeRef.current = false;
+            }, 420);
+          }, 900);
+        }, 460);
+        return;
+      }
+
       setFade(true);
       window.setTimeout(() => {
         posRef.current[z.to] = z.spawn;
@@ -366,6 +427,23 @@ const App = () => {
       <div className={`univers${mode === 'metro' ? ' is-sous' : ''}`}>
       <div className="monde" ref={mondeRef}>
         <div className="rue" aria-hidden="true" ref={rueRef}>
+          {/* Peripherie links: reine Wohnhäuser */}
+          <div className="bat bat--e">
+            <div className="toit">
+              <span className="tvant" />
+            </div>
+            <div className="wins">
+              <Windows n={9} />
+            </div>
+          </div>
+
+          <div className="bat bat--f">
+            <div className="toit" />
+            <div className="wins">
+              <Windows n={2} />
+            </div>
+          </div>
+
           <div className="bat bat--jazz" title="Musik.">
             <div className="toit">
               <span className="dorm" />
@@ -411,33 +489,8 @@ const App = () => {
             </div>
           </div>
 
-          <div className="bat bat--d">
-            <div className="toit" />
-            <div className="wins">
-              <Windows n={4} />
-            </div>
-          </div>
-
-          <div className="bat bat--b">
-            <span className="chimney chimney--b">
-              <Smoke />
-            </span>
-            <div className="toit">
-              <span className="pots" />
-              <span className="tvant" />
-              <span className="pots pots--2" />
-            </div>
-            <div className="wins">
-              <Windows n={9} />
-            </div>
-          </div>
-
-          <div className="bat bat--f">
-            <div className="toit" />
-            <div className="wins">
-              <Windows n={2} />
-            </div>
-          </div>
+          {/* Lücke: hier steht das Café im Vordergrund */}
+          <div className="trou" aria-hidden="true" />
 
           <div className="bat bat--theatre" title="Impro.">
             <div className="toit">
@@ -523,12 +576,25 @@ const App = () => {
             <span className="hdoor" />
           </div>
 
-          <div className="bat bat--e">
+          {/* Peripherie rechts: reine Wohnhäuser */}
+          <div className="bat bat--b">
+            <span className="chimney chimney--b">
+              <Smoke />
+            </span>
             <div className="toit">
+              <span className="pots" />
               <span className="tvant" />
+              <span className="pots pots--2" />
             </div>
             <div className="wins">
               <Windows n={9} />
+            </div>
+          </div>
+
+          <div className="bat bat--d">
+            <div className="toit" />
+            <div className="wins">
+              <Windows n={4} />
             </div>
           </div>
         </div>
@@ -538,9 +604,13 @@ const App = () => {
           <span className="fils fils--r" aria-hidden="true" />
 
           <div className="metro" aria-hidden="true" title="Untergrund.">
-            <span className="metro__sign">MÉTROPOLITAIN</span>
-            <span className="metro__stem metro__stem--l" />
-            <span className="metro__stem metro__stem--r" />
+            <span className="metro__mat" />
+            <span className="metro__cube">
+              <i className="metro__m" />
+              <i className="metro__cube-cote">
+                <b className="metro__m metro__m--cote" />
+              </i>
+            </span>
             <span className="metro__rail metro__rail--l" />
             <span className="metro__rail metro__rail--r" />
             <span className="metro__stairs" />
@@ -630,13 +700,6 @@ const App = () => {
           </div>
 
           <span className="chat" aria-hidden="true" title="Miau." />
-
-          <a className="board" href={`mailto:${MAIL}`} title="Schreib mir!">
-            <span className="board__head">CE SOIR: JEUX</span>
-            <span className="board__line" />
-            <span className="board__txt">écris-moi:</span>
-            <span className="board__mail">{MAIL}</span>
-          </a>
 
           <div className="morris" aria-hidden="true">
             <span className="affiche affiche--a">
@@ -728,148 +791,140 @@ const App = () => {
       {/* Café-Innenraum */}
       {mode === 'cafe' && (
         <div className="salle salle--cafe">
-          <div className="salle__wall" aria-hidden="true" />
-          <div className="salle__floor" aria-hidden="true" />
-          <div className="salle__scene" ref={sceneRef}>
-            <div className="deco" aria-hidden="true">
-              <span className="s-guirl" />
-              <span className="s-lamp" style={{ left: -250 }} />
-              <span className="s-lamp" style={{ left: 0 }} />
-              <span className="s-lamp" style={{ left: 250 }} />
-              <span className="s-fanions s-fanions--a" />
-              <span className="s-fanions s-fanions--b" />
+          <div className="piece" ref={sceneRef}>
+            {/* Decke */}
+            <div className="pc-plafond" aria-hidden="true">
+              <span className="pc-poutre" style={{ left: 120 }} />
+              <span className="pc-poutre" style={{ left: 400 }} />
+              <span className="pc-poutre" style={{ left: 680 }} />
+              <span className="pc-lustre" style={{ left: 236 }} />
+              <span className="pc-lustre" style={{ left: 560 }} />
+              <span className="pc-guirl" />
+            </div>
 
-              <span className="s-door" />
+            {/* Rückwand = Straßenfassade von innen */}
+            <div className="pc-mur" aria-hidden="true">
+              {/* Regal in der linken Ecke */}
+              <span className="etag etag--coinl">
+                <i className="bx bx--catan bx--xl" />
+                <i className="bx bx--uno bx--sm" />
+                <i className="bx bx--dixit bx--tiny" />
+              </span>
+              <span className="etag etag--coinl2">
+                <i className="bx bx--azul bx--wide" />
+                <i className="bx bx--scrab bx--sm" />
+              </span>
+
+              {/* Fenster links */}
+              <span className="vitro vitro--g">
+                <i className="vitro__nuit" />
+                <i className="vitro__maison" />
+                <i className="vitro__lampe" />
+                <i className="vitro__passant" />
+                <i className="vitro__croix" />
+              </span>
+              <span className="vitro__tablette" style={{ left: 96 }} />
+
+              {/* Regal zwischen Fenster und Tür */}
+              <span className="etag etag--pilierg">
+                <i className="bx bx--mono bx--wide" />
+              </span>
+              <span className="etag etag--pilierg2">
+                <i className="bx bx--uno2 bx--tiny" />
+                <i className="bx bx--carc bx--tiny" />
+              </span>
+              <span className="etag etag--pilierg3">
+                <i className="bx bx--risk bx--wide" />
+              </span>
+
+              {/* Eingangstür */}
+              <span className="s-door">
+                <i className="s-door__vitre" />
+                <i className="s-door__poignee" />
+                <i className="s-door__pancarte">OUVERT</i>
+              </span>
               <span className="s-mat" />
-              <span className="s-plant" />
 
-              <span className="s-fenetre" />
-              <span className="s-fenetre s-fenetre--coin" />
-              <span className="s-poster">
-                SOIRÉE JEUX
-                <br />
-                jeudi 20h
+              {/* Regal zwischen Tür und Fenster */}
+              <span className="etag etag--pilierd">
+                <i className="bx bx--ticket bx--wide" />
+              </span>
+              <span className="etag etag--pilierd2">
+                <i className="bx bx--pand bx--tiny" />
+                <i className="bx bx--chess bx--tiny" />
+              </span>
+              <span className="etag etag--pilierd3">
+                <i className="bx bx--catan2 bx--wide" />
               </span>
 
-              <span className="s-cadre s-cadre--meeple" />
-              <span className="s-cadre s-cadre--des" />
-              <span className="s-horloge" />
-              <span className="s-hplant" />
-              <span className="s-sconce2 s-sconce2--a" />
-              <span className="s-sconce2 s-sconce2--b" />
+              {/* Fenster rechts */}
+              <span className="vitro vitro--d">
+                <i className="vitro__nuit" />
+                <i className="vitro__maison vitro__maison--b" />
+                <i className="vitro__lampe vitro__lampe--b" />
+                <i className="vitro__croix" />
+              </span>
+              <span className="vitro__tablette" style={{ right: 96 }} />
 
-              {/* Große Spielewand: Regalturm voller Boxen */}
-              <div className="s-mur">
-                <span className="s-mur__etage">
-                  <i className="bx bx--catan" />
-                  <i className="bx bx--mono" />
-                  <i className="bx bx--uno" />
-                  <i className="bx bx--dixit" />
-                  <i className="bx bx--azul" />
-                </span>
-                <span className="s-mur__etage">
-                  <i className="bx bx--carc" />
-                  <i className="bx bx--risk" />
-                  <i className="bx bx--catan2" />
-                  <i className="bx bx--scrab" />
-                  <i className="bx bx--clue" />
-                </span>
-                <span className="s-mur__etage">
-                  <i className="bx bx--mono2" />
-                  <i className="bx bx--uno2" />
-                  <i className="bx bx--ticket" />
-                  <i className="bx bx--pand" />
-                  <i className="bx bx--chess" />
-                </span>
-                <span className="s-mur__etage s-mur__etage--tranches">
-                  <i className="tr" />
-                  <i className="tr" />
-                  <i className="tr" />
-                  <i className="tr" />
-                  <i className="tr" />
-                  <i className="tr" />
-                  <i className="tr" />
-                  <i className="tr" />
-                  <i className="tr" />
-                  <i className="tr" />
-                  <i className="tr" />
-                  <i className="tr" />
-                </span>
-              </div>
-
-              {/* Vitrine mit Preisstücken */}
-              <div className="s-vitro">
-                <span className="s-vitro__top">JEU DU MOIS</span>
-                <i className="bx bx--catan bx--big" />
-                <i className="bx bx--dixit bx--big" />
-              </div>
-
-              <span className="s-topjeux">
-                TOP JEUX
-                <br />
-                1· CATAN
-                <br />
-                2· DIXIT
-                <br />
-                3· AZUL
+              {/* Regal in der rechten Ecke */}
+              <span className="etag etag--coind">
+                <i className="bx bx--clue bx--sm" />
+                <i className="bx bx--mono2 bx--wide" />
+              </span>
+              <span className="etag etag--coind2">
+                <i className="bx bx--scrab bx--tiny" />
+                <i className="bx bx--dixit bx--sm" />
               </span>
 
-              <span className="s-rug s-rug--a" />
-              <div className="s-table">
-                <span className="sitter sitter--ca" />
-                <span className="sitter sitter--cb" />
-                <span className="die" />
-                <span className="meeple meeple--g" />
-                <span className="cup" />
-              </div>
+              {/* Kreidetafel & Deko */}
+              <span className="pc-ardoise">
+                CAFÉ 2€ · THÉ 2€
+                <br />
+                JEUX 0€
+              </span>
+              <span className="pc-affiche">
+                SOIRÉE
+                <br />
+                JEUX
+                <br />
+                <small>jeudi 20h</small>
+              </span>
+              <span className="pc-horloge" />
+            </div>
 
-              <div className="s-bar">
-                <span className="s-bar__menu">
-                  CAFÉ 2€ · THÉ 2€
-                  <br />
-                  JEUX 0€
+            {/* Seitenwände */}
+            <div className="pc-cote pc-cote--l" aria-hidden="true">
+              <span className="pc-cote__bar">
+                <i className="pc-bar__machine" />
+                <i className="pc-bar__cake" />
+                <i className="pc-bar__cups" />
+              </span>
+              <span className="pc-barista" />
+              <span className="pc-carte">MENU</span>
+            </div>
+
+            <div className="pc-cote pc-cote--r" aria-hidden="true">
+              <div className="asc">
+                <span className="asc__cadre" />
+                <span className="asc__porte asc__porte--l" />
+                <span className="asc__porte asc__porte--r" />
+                <span className="asc__fleche" />
+                <span className="asc__etages">
+                  <i />
+                  <i className="is-on" />
                 </span>
-                <span className="s-bar__machine" />
-                <span className="s-bar__cake" />
-                <span className="s-bar__cups" />
-                <span className="s-barista" />
-              </div>
-              <span className="s-barstack" />
-              <span className="walker s-guest" />
-
-              <div className="s-chem">
-                <span className="s-chem__feu" />
-                <span className="s-chem__trophy" />
-                <span className="s-chem__candle" />
-              </div>
-              <span className="s-rug s-rug--b" />
-              <span className="s-catnap" />
-
-              <span className="s-chair" />
-
-              <div className="s-biblio">
-                <span className="s-biblio__plant" />
-                <span className="s-biblio__row">
-                  <i className="bx bx--uno" />
-                  <i className="bx bx--catan" />
-                  <i className="bx bx--mono" />
-                </span>
-                <span className="s-biblio__row s-biblio__row--b">
-                  <i className="bx bx--azul" />
-                  <i className="bx bx--carc" />
-                  <i className="bx bx--dixit" />
-                </span>
-              </div>
-
-              <div className="s-esc">
-                <span className="s-esc__rail" />
-                <span className="s-esc__sign">LABO</span>
-                <span className="s-esc__glow" />
+                <span className="asc__plaque">LABO ↑</span>
               </div>
             </div>
+
+            {/* Boden */}
+            <div className="pc-sol" aria-hidden="true" />
+
             {hint}
             {player}
-            <div className="decofront" aria-hidden="true">
+
+            {/* Möbel im Raum, vor der Figur */}
+            <div className="pc-avant" aria-hidden="true">
               <div className="s-ftable s-ftable--a">
                 <span className="sitter sitter--fa" />
                 <span className="sitter sitter--fb" />
@@ -883,7 +938,7 @@ const App = () => {
                 <span className="cup" />
               </div>
               <span className="s-gstack" />
-              <span className="s-gstack s-gstack--b" />
+              <span className="s-catnap" />
             </div>
           </div>
         </div>
@@ -898,9 +953,17 @@ const App = () => {
             <div className="deco" aria-hidden="true">
               <span className="l-strip" />
 
-              <div className="l-esc">
-                <span className="l-esc__rail" />
-                <span className="l-esc__sign">CAFÉ</span>
+              {/* Aufzug zurück ins Café */}
+              <div className="asc asc--labo">
+                <span className="asc__cadre" />
+                <span className="asc__porte asc__porte--l" />
+                <span className="asc__porte asc__porte--r" />
+                <span className="asc__fleche asc__fleche--down" />
+                <span className="asc__etages">
+                  <i className="is-on" />
+                  <i />
+                </span>
+                <span className="asc__plaque">CAFÉ ↓</span>
               </div>
 
               <span className="l-fenetre" />
@@ -960,6 +1023,134 @@ const App = () => {
 
       <span className="copy">© 2026 Marcel Debruyker</span>
 
+      {/* Retro-Menü */}
+      <button
+        type="button"
+        className={`burger${page ? ' is-x' : ''}`}
+        onClick={() => setPage(page ? '' : 'menu')}
+        aria-label={page ? 'Menü schließen' : 'Menü öffnen'}
+      >
+        <i />
+        <i />
+        <i />
+      </button>
+
+      <a className="mailtag" href={`mailto:${MAIL}`}>
+        ✉ {MAIL}
+      </a>
+
+      {page && (
+        <div className="ecran" role="dialog" aria-label="Menü">
+          <div className="ecran__box">
+            <header className="ecran__bar">
+              <span>
+                {page === 'menu'
+                  ? 'MENU'
+                  : page === 'contact'
+                    ? 'CONTACT'
+                    : 'CAFÉS · EUROPE'}
+              </span>
+              <button
+                type="button"
+                className="ecran__x"
+                onClick={() => setPage('')}
+                aria-label="Schließen"
+              >
+                ×
+              </button>
+            </header>
+
+            <div className="ecran__body">
+              {page === 'menu' && (
+                <nav className="mnu">
+                  <button type="button" onClick={() => setPage('contact')}>
+                    ▸ CONTACT
+                  </button>
+                  <button type="button" onClick={() => setPage('base')}>
+                    ▸ CAFÉS EN EUROPE
+                  </button>
+                  <a href={`mailto:${MAIL}`}>▸ ÉCRIRE UN MAIL</a>
+                  <button type="button" onClick={() => setPage('')}>
+                    ▸ RETOUR À LA VILLE
+                  </button>
+                </nav>
+              )}
+
+              {page === 'contact' && (
+                <div className="fiche">
+                  <p className="fiche__hi">Bonjour!</p>
+                  <p>
+                    Ich bin Marcel — Marktforscher für Brettspiele, nebenbei
+                    Musik, Impro und viel zu viele Spielabende.
+                  </p>
+                  <p className="fiche__k">E-MAIL</p>
+                  <p>
+                    <a href={`mailto:${MAIL}`}>{MAIL}</a>
+                  </p>
+                  <p className="fiche__k">ADRESSE</p>
+                  <p>
+                    Marcel Debruyker
+                    <br />
+                    Untere Burghalde 96
+                    <br />
+                    71229 Leonberg
+                    <br />
+                    Deutschland
+                  </p>
+                  <p className="fiche__k">AILLEURS</p>
+                  <p>
+                    <a
+                      href="https://www.linkedin.com/in/marcel-murschel-bb7b1b145/"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      LinkedIn
+                    </a>
+                  </p>
+                </div>
+              )}
+
+              {page === 'base' && (
+                <div className="base">
+                  <p className="base__intro">
+                    Brettspielcafés in Europa — laufend erhoben. Auszug aus
+                    der Datenbank.
+                  </p>
+                  <div className="base__scroll">
+                    <table className="tbl">
+                      <thead>
+                        <tr>
+                          <th>VILLE</th>
+                          <th>P</th>
+                          <th>CAFÉ</th>
+                          <th>T</th>
+                          <th>JEUX</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {CAFES.map(([v, p, c, t, j]) => (
+                          <tr key={v + c}>
+                            <td>{v}</td>
+                            <td className="tbl__p">{p}</td>
+                            <td>{c}</td>
+                            <td className="tbl__n">{t}</td>
+                            <td className="tbl__n">{j}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="base__pied">
+                    T = Tische · JEUX = Spiele im Bestand · {CAFES.length} von
+                    1 240 Einträgen
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       <span className="hud" aria-hidden="true">
         ←→ marcher · ↑↓ portes
       </span>
@@ -995,6 +1186,34 @@ const App = () => {
       </div>
 
       <div className={`noir${fade ? ' is-on' : ''}`} aria-hidden="true" />
+
+      {/* Aufzugfahrt */}
+      <div
+        className={`cabine${lift ? ` is-${lift}` : ''} cabine--${liftDir}`}
+        aria-hidden="true"
+      >
+        <div className="cabine__mur">
+          <span className="cabine__rail" />
+          <span className="cabine__rail cabine__rail--b" />
+        </div>
+        <div className="cabine__int">
+          <span className="cabine__plafond" />
+          <span className="cabine__panneau">
+            <i className="cabine__num">{liftDir === 'up' ? '2' : '1'}</i>
+            <i className="cabine__fleche" />
+          </span>
+          <span className="cabine__miroir" />
+          <span className="cabine__barre" />
+          <span className="cabine__sol" />
+          <span className="player cabine__moi">
+            <span className="player__flip">
+              <i className="player__sprite" />
+            </span>
+          </span>
+        </div>
+        <span className="cabine__porte cabine__porte--l" />
+        <span className="cabine__porte cabine__porte--r" />
+      </div>
     </main>
   );
 };

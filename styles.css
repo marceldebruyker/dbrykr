@@ -553,7 +553,7 @@ body {
   position: absolute;
   bottom: 84px;
   left: 50%;
-  transform: translateX(calc(-50% + 18px));
+  transform: translateX(calc(-50% + 75px));
   display: flex;
   align-items: flex-end;
 }
@@ -563,6 +563,13 @@ body {
   flex: 0 0 auto;
   border: 4px solid #0d0b20;
   border-bottom: 0;
+}
+
+/* Lücke in der Häuserzeile, in der das Café steht */
+.trou {
+  flex: 0 0 auto;
+  width: 452px;
+  height: 1px;
 }
 
 .bat--hotel {
@@ -1581,11 +1588,11 @@ body {
   bottom: 0;
   width: 17px;
   height: 32px;
-  border: 3px solid #1e4a38;
+  border: 3px solid #3a3f4c;
   border-bottom: 0;
   background: repeating-linear-gradient(
     90deg,
-    #2a5a40 0 2px,
+    #565c6c 0 2px,
     transparent 2px 6px
   );
 }
@@ -1598,74 +1605,79 @@ body {
   right: 0;
 }
 
-.metro__stem {
+/* Lille: weißer Würfel mit rotem M auf grauem Mast */
+
+.metro__mat {
   position: absolute;
-  bottom: 30px;
-  width: 5px;
-  height: 66px;
-  background: #2a5a40;
-}
-
-.metro__stem--l {
-  left: 8px;
-}
-
-.metro__stem--r {
-  right: 8px;
-}
-
-.metro__stem::before {
-  content: '';
-  position: absolute;
-  top: -5px;
-  width: 10px;
-  height: 5px;
-  background: #2a5a40;
-}
-
-.metro__stem--l::before {
-  left: 0;
-}
-
-.metro__stem--r::before {
-  right: 0;
-}
-
-.metro__stem::after {
-  content: '';
-  position: absolute;
-  top: -16px;
-  width: 11px;
-  height: 11px;
-  background: #ffb054;
-  border: 2px solid #0d0b20;
-  border-radius: 50%;
-  box-shadow: 0 0 14px rgba(255, 176, 84, 0.65);
-}
-
-.metro__stem--l::after {
-  left: 3px;
-}
-
-.metro__stem--r::after {
-  right: 3px;
-}
-
-.metro__sign {
-  position: absolute;
-  top: -34px;
   left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
-  color: #e8c95a;
-  background: #17351f;
-  border: 3px solid #0f2a18;
-  border-radius: 12px 12px 4px 4px;
-  padding: 6px 6px 5px;
-  white-space: nowrap;
-  text-shadow: 0 0 5px rgba(232, 201, 90, 0.55);
+  bottom: 26px;
+  width: 12px;
+  height: 96px;
+  margin-left: -6px;
+  background: linear-gradient(90deg, #7d8394, #b8bdc9 45%, #6a707f);
+  border: 3px solid #23262f;
+}
+
+.metro__cube {
+  position: absolute;
+  left: 50%;
+  bottom: 112px;
+  width: 52px;
+  height: 52px;
+  margin-left: -26px;
+  background: #f4f6f8;
+  border: 4px solid #23262f;
+  box-shadow:
+    inset 0 -6px 0 -2px #d2d7de,
+    0 0 18px 4px rgba(255, 255, 255, 0.22);
+}
+
+/* Angeschnittene Seitenfläche des Würfels */
+
+.metro__cube-cote {
+  position: absolute;
+  right: -19px;
+  top: -4px;
+  width: 19px;
+  height: 52px;
+  background: #cfd4dc;
+  border: 4px solid #23262f;
+  border-left: 0;
+  clip-path: polygon(0 0, 100% 12%, 100% 100%, 0 92%);
+  overflow: hidden;
+}
+
+/* Das M von Transpole/Ilévia */
+
+.metro__m {
+  position: absolute;
+  left: 8px;
+  top: 9px;
+  width: 28px;
+  height: 26px;
+  background: #d8202a;
+  clip-path: polygon(
+    0% 100%,
+    0% 16%,
+    17% 0%,
+    50% 46%,
+    83% 0%,
+    100% 16%,
+    100% 100%,
+    72% 100%,
+    72% 52%,
+    50% 82%,
+    28% 52%,
+    28% 100%
+  );
+}
+
+.metro__m--cote {
+  left: 3px;
+  top: 12px;
+  width: 12px;
+  height: 22px;
+  transform: skewY(6deg);
 }
 
 /* Passanten, Hund, Katzen */
@@ -1675,6 +1687,8 @@ body {
   bottom: 86px;
   width: 3px;
   height: 3px;
+  transform: scale(1.4);
+  transform-origin: 9px 33px;
   --hair: #2b1c12;
   --skin: #e9b788;
   --shirt: #33415e;
@@ -1789,6 +1803,11 @@ body {
   width: 21px;
   height: 33px;
   transform-origin: 50% 100%;
+  transform: scale(1.4);
+}
+
+.player.is-flip .player__flip {
+  transform: scale(1.4) scaleX(-1);
 }
 
 .player.is-flip .player__flip {
@@ -1959,6 +1978,8 @@ body {
   left: -302px;
   bottom: 76px;
   width: 520px;
+  transform: scale(0.9);
+  transform-origin: bottom center;
   display: flex;
   flex-direction: column;
   border: 5px solid #0d0b20;
@@ -2586,6 +2607,8 @@ body {
   bottom: 50px;
   width: 3px;
   height: 3px;
+  transform: scale(1.4);
+  transform-origin: 9px 21px;
   --hair: #2b1c12;
   --skin: #e9b788;
   --shirt: #a05438;
@@ -2934,6 +2957,525 @@ body {
   left: 396px;
 }
 
+/* ============ Café: Raum in Hausproportionen ============ */
+
+.salle--cafe {
+  background: #0a0a16;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.piece {
+  position: relative;
+  width: 900px;
+  height: 452px;
+  flex: 0 0 auto;
+  transform-origin: bottom center;
+  background: linear-gradient(#6b4434, #5a3a2b);
+  border: 7px solid #17100c;
+  border-bottom: 0;
+  overflow: hidden;
+}
+
+/* Decke */
+
+.pc-plafond {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 46px;
+  background: #3f2a1e;
+  border-bottom: 5px solid #24140c;
+}
+
+.pc-poutre {
+  position: absolute;
+  top: 0;
+  width: 22px;
+  height: 46px;
+  background: #4f3423;
+  box-shadow: inset 3px 0 0 #66452e, inset -3px 0 0 #2e1d13;
+}
+
+.pc-lustre {
+  position: absolute;
+  top: 46px;
+  width: 3px;
+  height: 34px;
+  background: #24140c;
+}
+
+.pc-lustre::after {
+  content: '';
+  position: absolute;
+  left: -15px;
+  top: 34px;
+  width: 33px;
+  height: 17px;
+  background: #6b4a20;
+  border: 3px solid #24140c;
+  box-shadow:
+    inset 0 -6px 0 -1px #ffcf6e,
+    0 16px 40px 10px rgba(255, 214, 130, 0.3);
+}
+
+.pc-guirl {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 54px;
+  height: 5px;
+  background: radial-gradient(
+    circle at 3px 2px,
+    #ffd98a 1.6px,
+    rgba(255, 217, 138, 0) 2.4px
+  );
+  background-size: 17px 5px;
+  background-repeat: repeat-x;
+  filter: drop-shadow(0 0 4px rgba(255, 217, 138, 0.55));
+}
+
+/* Rückwand */
+
+.pc-mur {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 46px;
+  bottom: 78px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.06) 0 3px,
+      transparent 3px 88px
+    ),
+    linear-gradient(#6b4434, #5d3a2b);
+}
+
+.pc-mur::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 26px;
+  background: #4a2c1c;
+  border-top: 4px solid #24140c;
+}
+
+/* Boden */
+
+.pc-sol {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 78px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.17) 0 2px,
+      transparent 2px 58px
+    ),
+    repeating-linear-gradient(0deg, #8a5a38 0 11px, #7a4c2e 11px 22px);
+  border-top: 5px solid #24140c;
+}
+
+/* Seitenwände */
+
+.pc-cote {
+  position: absolute;
+  top: 46px;
+  bottom: 78px;
+  width: 84px;
+  background: linear-gradient(90deg, #4a2f22, #5d3a2b);
+}
+
+.pc-cote--l {
+  left: 0;
+  box-shadow: inset -5px 0 0 -1px rgba(0, 0, 0, 0.35);
+}
+
+.pc-cote--r {
+  right: 0;
+  background: linear-gradient(90deg, #5d3a2b, #4a2f22);
+  box-shadow: inset 5px 0 0 -1px rgba(0, 0, 0, 0.35);
+}
+
+/* Bar an der linken Seitenwand */
+
+.pc-cote__bar {
+  position: absolute;
+  left: 8px;
+  right: -34px;
+  bottom: 0;
+  height: 54px;
+  background: linear-gradient(#3a2418 0 8px, #6b2a34 8px);
+  border: 4px solid #17100c;
+  border-bottom: 0;
+}
+
+.pc-bar__machine {
+  position: absolute;
+  right: 12px;
+  top: -26px;
+  width: 30px;
+  height: 24px;
+  background: linear-gradient(#8a8f9e 0 8px, #565c6e 8px);
+  border: 3px solid #17100c;
+}
+
+.pc-bar__machine::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 4px;
+  height: 4px;
+  background: #cc3333;
+}
+
+.pc-bar__cake {
+  position: absolute;
+  left: 12px;
+  top: -20px;
+  width: 24px;
+  height: 17px;
+  background: rgba(220, 235, 255, 0.28);
+  border: 2px solid #17100c;
+  border-radius: 11px 11px 0 0;
+}
+
+.pc-bar__cake::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  bottom: 0;
+  width: 13px;
+  height: 8px;
+  background: #d886a0;
+}
+
+.pc-bar__cups {
+  position: absolute;
+  left: 48px;
+  top: -9px;
+  width: 8px;
+  height: 7px;
+  background: #f4efe2;
+  border: 2px solid #17100c;
+  box-shadow: 11px 0 0 -1px #f4efe2, 11px 0 0 1px #17100c;
+}
+
+.pc-barista {
+  position: absolute;
+  left: 30px;
+  bottom: 54px;
+  width: 3px;
+  height: 3px;
+  transform: scale(1.7);
+  transform-origin: 9px 21px;
+  --hair: #4a3220;
+  --skin: #e9b788;
+  box-shadow:
+    6px 0 var(--hair),
+    9px 0 var(--hair),
+    3px 3px var(--hair),
+    6px 3px var(--hair),
+    9px 3px var(--hair),
+    12px 3px var(--hair),
+    6px 6px var(--skin),
+    9px 6px var(--skin),
+    3px 9px #e8e4da,
+    6px 9px #e8e4da,
+    9px 9px #e8e4da,
+    12px 9px #e8e4da,
+    0 12px #6b2a34,
+    3px 12px #e8e4da,
+    6px 12px #e8e4da,
+    9px 12px #e8e4da,
+    12px 12px #e8e4da,
+    15px 12px #6b2a34;
+}
+
+.pc-carte {
+  position: absolute;
+  left: 6px;
+  top: 22px;
+  width: 66px;
+  padding: 8px 0 9px;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #ffd98a;
+  background: #1e2a26;
+  border: 4px solid #4a3020;
+}
+
+/* Wandregale zwischen den Öffnungen */
+
+.etag {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  padding: 0 4px 4px;
+  background: #4a2c1c;
+  border: 3px solid #24140c;
+  border-top: 0;
+  box-shadow: 0 4px 0 -1px rgba(0, 0, 0, 0.3);
+}
+
+.etag .bx {
+  border-width: 2px;
+}
+
+/* Ecke links */
+.etag--coinl {
+  left: 92px;
+  top: 40px;
+}
+
+.etag--coinl2 {
+  left: 92px;
+  top: 118px;
+}
+
+/* Pfeiler zwischen Fenster und Tür */
+.etag--pilierg {
+  left: 296px;
+  top: 34px;
+}
+
+.etag--pilierg2 {
+  left: 296px;
+  top: 92px;
+}
+
+.etag--pilierg3 {
+  left: 296px;
+  top: 142px;
+}
+
+/* Pfeiler zwischen Tür und Fenster */
+.etag--pilierd {
+  right: 296px;
+  top: 34px;
+}
+
+.etag--pilierd2 {
+  right: 300px;
+  top: 92px;
+}
+
+.etag--pilierd3 {
+  right: 296px;
+  top: 142px;
+}
+
+/* Ecke rechts */
+.etag--coind {
+  right: 92px;
+  top: 40px;
+}
+
+.etag--coind2 {
+  right: 96px;
+  top: 122px;
+}
+
+/* Fenster in der Rückwand */
+
+.pc-mur .vitro {
+  position: absolute;
+  top: 44px;
+  width: 160px;
+  height: 176px;
+  background: #0b1024;
+  border: 6px solid #2a1016;
+  box-shadow: inset 0 0 0 3px #6b4128;
+  overflow: hidden;
+}
+
+.pc-mur .vitro--g {
+  left: 128px;
+}
+
+.pc-mur .vitro--d {
+  right: 128px;
+}
+
+.vitro__tablette {
+  position: absolute;
+  top: 220px;
+  width: 196px;
+  height: 12px;
+  background: #6b4128;
+  border: 3px solid #24140c;
+}
+
+/* Tür in der Mitte */
+
+.pc-mur .s-door {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  width: 116px;
+  height: 200px;
+  margin-left: -58px;
+  background: #3a1e12;
+  border: 6px solid #24140c;
+  box-shadow: inset 0 0 0 4px #6b4128;
+}
+
+.pc-mur .s-mat {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  width: 140px;
+  height: 12px;
+  margin-left: -70px;
+  background: #7a2a35;
+  border: 3px solid #24140c;
+}
+
+/* Tafel, Plakat, Uhr */
+
+.pc-ardoise {
+  position: absolute;
+  left: 130px;
+  top: 246px;
+  width: 156px;
+  padding: 7px 4px 9px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.3;
+  color: #e8e4d2;
+  background: #1e2a26;
+  border: 4px solid #4a3020;
+}
+
+.pc-affiche {
+  position: absolute;
+  right: 134px;
+  top: 246px;
+  width: 130px;
+  padding: 6px 4px 8px;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  line-height: 1.8;
+  color: #38281c;
+  background: #e8dcc0;
+  border: 3px solid #24140c;
+  transform: rotate(-1.5deg);
+}
+
+.pc-affiche small {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.pc-horloge {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 30px;
+  height: 30px;
+  margin-left: -15px;
+  background: #f2e6cc;
+  border: 3px solid #24140c;
+  border-radius: 50%;
+}
+
+.pc-horloge::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 11px;
+  width: 8px;
+  height: 2px;
+  background: #24140c;
+}
+
+.pc-horloge::after {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 5px;
+  width: 2px;
+  height: 8px;
+  background: #24140c;
+}
+
+/* Aufzug an der rechten Seitenwand */
+
+.pc-cote--r .asc {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 92px;
+  height: 176px;
+  margin-left: -46px;
+}
+
+/* Figur & Möbel im Raum */
+
+.piece .player {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  z-index: 3;
+}
+
+.piece .player__flip {
+  transform: scale(1.8);
+}
+
+.piece .player.is-flip .player__flip {
+  transform: scale(1.8) scaleX(-1);
+}
+
+.pc-avant {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 100%;
+  z-index: 4;
+}
+
+.pc-avant .s-ftable {
+  bottom: 4px;
+}
+
+.pc-avant .s-ftable--a {
+  left: -330px;
+}
+
+.pc-avant .s-ftable--b {
+  left: 150px;
+}
+
+.pc-avant .s-gstack {
+  left: 306px;
+  bottom: 6px;
+}
+
+.pc-avant .s-catnap {
+  left: -180px;
+  bottom: 8px;
+}
+
+.piece .hint {
+  bottom: auto;
+  top: 92px;
+}
+
 /* ============ Innenräume ============ */
 
 .salle {
@@ -3005,9 +3547,15 @@ body {
   transform: scale(2) scaleX(-1);
 }
 
-.salle .sitter {
-  transform: scale(1.45);
+.salle .sitter,
+.souterrain .sitter {
+  transform: scale(1.7);
   transform-origin: 9px 21px;
+}
+
+.souterrain .walker {
+  transform: scale(1.7);
+  transform-origin: 9px 33px;
 }
 
 /* Vordergrund-Gäste größer: Tiefenwirkung */
@@ -3026,8 +3574,8 @@ body {
 .s-guirl {
   position: absolute;
   top: 24px;
-  left: -390px;
-  width: 720px;
+  left: -540px;
+  width: 1090px;
   height: 5px;
   background: radial-gradient(
     circle at 3px 2px,
@@ -3061,27 +3609,292 @@ body {
     0 14px 30px 6px rgba(255, 214, 130, 0.32);
 }
 
-/* --- Café: Tür & Fenster --- */
+/* --- Café: die Straßenfassade, von innen gesehen --- */
+
+.facade {
+  position: absolute;
+  left: -234px;
+  bottom: 104px;
+  width: 468px;
+  height: 190px;
+}
+
+/* Deckenbalken über der Fassade */
+.facade__poutre {
+  position: absolute;
+  left: -14px;
+  right: -14px;
+  top: -16px;
+  height: 18px;
+  background: #4a2c1c;
+  border: 4px solid #1d0e08;
+  box-shadow: inset 0 5px 0 #6b4128;
+}
+
+/* Schaufenster von innen */
+
+.vitro {
+  position: absolute;
+  bottom: 0;
+  width: 150px;
+  height: 168px;
+  background: #0b1024;
+  border: 6px solid #2a1016;
+  box-shadow: inset 0 0 0 3px #6b4128;
+  overflow: hidden;
+}
+
+.vitro--g {
+  left: 0;
+}
+
+.vitro--d {
+  right: 0;
+}
+
+/* Nachthimmel + Straße draußen */
+
+.vitro__nuit {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(#0a0e2e 0 58%, #1b1c46);
+}
+
+.vitro__nuit::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.3) 0 2px,
+    transparent 2px 22px
+  ),
+  #2a2444;
+  border-top: 3px solid #4a4374;
+}
+
+/* Haus gegenüber */
+
+.vitro__maison {
+  position: absolute;
+  left: 12px;
+  bottom: 30px;
+  width: 58px;
+  height: 84px;
+  background: #3a3560;
+  border: 3px solid #211d3c;
+  border-bottom: 0;
+}
+
+.vitro__maison::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 14px;
+  width: 13px;
+  height: 18px;
+  background: #ffd27e;
+  opacity: 0.85;
+  box-shadow: 22px 0 0 #241c30, 0 32px 0 #241c30, 22px 32px 0 #ffcf6e;
+}
+
+.vitro__maison--b {
+  left: auto;
+  right: 10px;
+  width: 66px;
+  height: 96px;
+  background: #46283a;
+}
+
+/* Straßenlaterne draußen */
+
+.vitro__lampe {
+  position: absolute;
+  right: 24px;
+  bottom: 30px;
+  width: 5px;
+  height: 62px;
+  background: #1c2a24;
+}
+
+.vitro__lampe::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: -14px;
+  width: 15px;
+  height: 18px;
+  background: linear-gradient(#ffe9b8, #ffca6e);
+  border: 3px solid #1c2a24;
+  box-shadow: 0 0 22px 6px rgba(255, 200, 100, 0.45);
+}
+
+.vitro__lampe--b {
+  right: auto;
+  left: 20px;
+}
+
+/* Passant draußen */
+
+.vitro__passant {
+  position: absolute;
+  left: 84px;
+  bottom: 30px;
+  width: 9px;
+  height: 19px;
+  background: #241d33;
+}
+
+.vitro__passant::before {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: -8px;
+  width: 7px;
+  height: 8px;
+  background: #2e2540;
+}
+
+/* Sprossenkreuz und Fensterbank */
+
+.vitro__croix {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0 71px,
+      #2a1016 71px 79px,
+      transparent 79px
+    ),
+    linear-gradient(
+      0deg,
+      transparent 0 78px,
+      #2a1016 78px 86px,
+      transparent 86px
+    );
+}
+
+.vitro__tablette {
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  height: 12px;
+  background: #6b4128;
+  border: 3px solid #1d0e08;
+}
+
+.vitro__plante {
+  position: absolute;
+  left: 10px;
+  bottom: 6px;
+  width: 18px;
+  height: 14px;
+  background: #a33d2a;
+  border: 3px solid #1d0e08;
+}
+
+.vitro__plante::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: -18px;
+  width: 9px;
+  height: 18px;
+  background: #2f8f4a;
+  box-shadow: -7px 6px 0 -2px #37a856, 8px 4px 0 -2px #37a856;
+}
+
+/* Spieleauslage im Fenster (von innen: Rückseite) */
+
+.vitro__jeux {
+  position: absolute;
+  left: 16px;
+  bottom: 6px;
+  width: 26px;
+  height: 20px;
+  background: #c04444;
+  border: 3px solid #1d0e08;
+  box-shadow:
+    32px 2px 0 -2px #3a6bb0,
+    32px 2px 0 1px #1d0e08,
+    62px -1px 0 -4px #d8912f,
+    62px -1px 0 -1px #1d0e08;
+}
+
+/* Eingangstür in der Fassadenmitte */
 
 .s-door {
   position: absolute;
-  bottom: 104px;
-  left: -424px;
-  width: 84px;
-  height: 152px;
+  left: 50%;
+  bottom: 0;
+  width: 106px;
+  height: 190px;
+  margin-left: -53px;
   background: #3a1e12;
-  border: 5px solid #1d0e08;
-  box-shadow:
-    inset 0 0 0 4px #56301c,
-    inset 0 30px 0 -22px #ffcf6e;
+  border: 6px solid #1d0e08;
+  box-shadow: inset 0 0 0 4px #6b4128;
+}
+
+.s-door__vitre {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 16px;
+  height: 92px;
+  background: linear-gradient(#0a0e2e 0 62%, #1b1c46);
+  border: 4px solid #2a1016;
+}
+
+.s-door__vitre::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 14px;
+  height: 20px;
+  background: #ffd27e;
+  opacity: 0.7;
+  box-shadow: 30px 8px 0 -4px rgba(255, 200, 110, 0.5);
+}
+
+.s-door__poignee {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  width: 9px;
+  height: 22px;
+  margin-top: -11px;
+  background: #d8b23a;
+  border: 2px solid #1d0e08;
+}
+
+.s-door__pancarte {
+  position: absolute;
+  left: 50%;
+  bottom: 34px;
+  transform: translateX(-50%);
+  font-style: normal;
+  font-size: 15px;
+  letter-spacing: 1px;
+  color: #6b2430;
+  background: #f4efe2;
+  border: 3px solid #1d0e08;
+  padding: 2px 6px 1px;
+  white-space: nowrap;
 }
 
 .s-mat {
   position: absolute;
-  bottom: 94px;
-  left: -434px;
-  width: 104px;
-  height: 11px;
+  left: 50%;
+  bottom: -12px;
+  width: 132px;
+  height: 12px;
+  margin-left: -66px;
   background: #7a2a35;
   border: 3px solid #1d0e08;
 }
@@ -3089,7 +3902,7 @@ body {
 .s-plant {
   position: absolute;
   bottom: 102px;
-  left: -322px;
+  left: 262px;
   width: 20px;
   height: 16px;
   background: #a33d2a;
@@ -3111,101 +3924,10 @@ body {
     6px -4px 0 -2px #37a856;
 }
 
-.s-fenetre {
-  position: absolute;
-  bottom: 214px;
-  left: -302px;
-  width: 104px;
-  height: 108px;
-  background:
-    linear-gradient(
-      90deg,
-      transparent 0 44px,
-      #1d0e08 44px 48px,
-      transparent 48px
-    ),
-    linear-gradient(
-      0deg,
-      transparent 0 50px,
-      #1d0e08 50px 54px,
-      transparent 54px
-    ),
-    #0d1230;
-  border: 6px solid #1d0e08;
-  box-shadow: inset 0 0 0 3px #56301c;
-}
-
-.s-fenetre::before {
-  content: '';
-  position: absolute;
-  right: 16px;
-  bottom: 12px;
-  width: 5px;
-  height: 26px;
-  background: #c9974a;
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-  box-shadow:
-    -30px -38px 0 -1px #fff,
-    -10px -60px 0 -1px #cfd6ff;
-}
-
-.s-fenetre::after {
-  content: '';
-  position: absolute;
-  left: -12px;
-  top: -10px;
-  width: 14px;
-  height: 118px;
-  background: #6b2a34;
-  border: 3px solid #1d0e08;
-  box-shadow: 112px 0 0 0 #6b2a34, 112px 0 0 3px #1d0e08;
-}
-
-/* Eckfenster: das Café liegt an der Straßenecke */
-
-.s-fenetre--coin {
-  left: 312px;
-  bottom: 274px;
-  width: 118px;
-  height: 116px;
-  background:
-    linear-gradient(
-      90deg,
-      transparent 0 36px,
-      #1d0e08 36px 40px,
-      transparent 40px 74px,
-      #1d0e08 74px 78px,
-      transparent 78px
-    ),
-    linear-gradient(
-      0deg,
-      transparent 0 60px,
-      #1d0e08 60px 64px,
-      transparent 64px
-    ),
-    #0d1230;
-}
-
-.s-fenetre--coin::before {
-  right: 22px;
-  bottom: 16px;
-  box-shadow:
-    -34px -44px 0 -1px #fff,
-    -66px -22px 0 -1px #cfd6ff,
-    -14px -74px 0 -1px #fff;
-}
-
-.s-fenetre--coin::after {
-  left: -13px;
-  top: -12px;
-  height: 128px;
-  box-shadow: 126px 0 0 0 #6b2a34, 126px 0 0 3px #1d0e08;
-}
-
 .s-poster {
   position: absolute;
-  bottom: 344px;
-  left: 178px;
+  bottom: 336px;
+  left: 224px;
   width: 92px;
   padding: 6px 4px;
   text-align: center;
@@ -3233,20 +3955,20 @@ body {
 
 .s-rug--a {
   bottom: 92px;
-  left: -320px;
+  left: -510px;
   width: 170px;
 }
 
 .s-rug--b {
   bottom: 90px;
-  left: 28px;
+  left: -358px;
   width: 130px;
 }
 
 .s-table {
   position: absolute;
   bottom: 100px;
-  left: -290px;
+  left: -486px;
 }
 
 .s-table::before {
@@ -3321,7 +4043,7 @@ body {
 .s-bar {
   position: absolute;
   bottom: 100px;
-  left: -140px;
+  left: -548px;
   width: 178px;
   height: 62px;
   background: linear-gradient(#3a2418 0 9px, #6b2a34 9px);
@@ -3435,7 +4157,7 @@ body {
 .s-chem {
   position: absolute;
   bottom: 100px;
-  left: 34px;
+  left: -352px;
   width: 96px;
   height: 100px;
   background:
@@ -3560,7 +4282,7 @@ body {
 .s-catnap {
   position: absolute;
   bottom: 98px;
-  left: 74px;
+  left: -312px;
   width: 22px;
   height: 10px;
   background: #14101c;
@@ -3601,7 +4323,7 @@ body {
 .s-chair {
   position: absolute;
   bottom: 100px;
-  left: 148px;
+  left: -430px;
   width: 46px;
   height: 30px;
   background: #6b2a34;
@@ -3639,7 +4361,7 @@ body {
 .s-biblio {
   position: absolute;
   bottom: 100px;
-  left: 202px;
+  left: 300px;
   width: 128px;
   height: 156px;
   background: #4a2c1c;
@@ -3689,85 +4411,6 @@ body {
 
 /* --- Café: Treppe --- */
 
-.s-esc {
-  position: absolute;
-  bottom: 100px;
-  left: 320px;
-}
-
-.s-esc::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 30px;
-  height: 15px;
-  background: linear-gradient(#8a6038 0 5px, #6b4a28 5px);
-  border: 3px solid #1d0e08;
-  box-shadow:
-    24px -15px 0 #7a5230,
-    24px -15px 0 3px #1d0e08,
-    48px -30px 0 #7a5230,
-    48px -30px 0 3px #1d0e08,
-    72px -45px 0 #7a5230,
-    72px -45px 0 3px #1d0e08,
-    96px -60px 0 #7a5230,
-    96px -60px 0 3px #1d0e08;
-}
-
-.s-esc__rail {
-  position: absolute;
-  left: 6px;
-  bottom: 30px;
-  width: 118px;
-  height: 4px;
-  background: #1d0e08;
-  transform: rotate(-27deg);
-  transform-origin: left bottom;
-}
-
-.s-esc__rail::before {
-  content: '';
-  position: absolute;
-  left: 2px;
-  top: 4px;
-  width: 4px;
-  height: 26px;
-  background: #1d0e08;
-  box-shadow: 54px 0 0 #1d0e08, 108px 0 0 #1d0e08;
-}
-
-.s-esc__sign {
-  position: absolute;
-  left: 74px;
-  bottom: 112px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  letter-spacing: 1px;
-  color: #ffd98a;
-  background: #1d0e08;
-  padding: 6px 7px 5px;
-}
-
-.s-esc__sign::before {
-  content: '↑ ';
-  color: #4affc2;
-}
-
-.s-esc__glow {
-  position: absolute;
-  left: 78px;
-  bottom: 54px;
-  width: 90px;
-  height: 110px;
-  background: radial-gradient(
-    ellipse at 80% 0%,
-    rgba(255, 214, 130, 0.16),
-    transparent 62%
-  );
-  pointer-events: none;
-}
-
 /* --- Café: Wanddeko --- */
 
 .s-fanions {
@@ -3808,14 +4451,14 @@ body {
 }
 
 .s-fanions--a {
-  left: -368px;
-  bottom: 480px;
+  left: -420px;
+  bottom: 486px;
   transform: rotate(4deg);
 }
 
 .s-fanions--b {
-  left: 52px;
-  bottom: 476px;
+  left: 110px;
+  bottom: 482px;
   transform: rotate(-4deg);
 }
 
@@ -3835,6 +4478,28 @@ body {
 .bx--big {
   width: 44px;
   height: 44px;
+}
+
+/* Formate: große Kartons, flache Schachteln, kleine Kartenspiele */
+
+.bx--xl {
+  width: 48px;
+  height: 42px;
+}
+
+.bx--wide {
+  width: 42px;
+  height: 25px;
+}
+
+.bx--sm {
+  width: 19px;
+  height: 27px;
+}
+
+.bx--tiny {
+  width: 16px;
+  height: 22px;
 }
 
 /* CATAN: Hexfeld */
@@ -4197,8 +4862,8 @@ body {
 
 .s-mur {
   position: absolute;
-  left: -212px;
-  bottom: 296px;
+  left: -180px;
+  bottom: 310px;
   width: 250px;
   padding: 6px 5px 4px;
   display: flex;
@@ -4211,6 +4876,7 @@ body {
 
 .s-mur__etage {
   display: flex;
+  align-items: flex-end;
   gap: 4px;
   padding-bottom: 5px;
   border-bottom: 4px solid #24140c;
@@ -4260,9 +4926,10 @@ body {
 
 .s-vitro {
   position: absolute;
-  left: 62px;
+  left: 96px;
   bottom: 322px;
   display: flex;
+  align-items: flex-end;
   gap: 6px;
   padding: 22px 8px 8px;
   background: rgba(220, 235, 255, 0.13);
@@ -4290,12 +4957,23 @@ body {
   position: absolute;
   left: 7px;
   display: flex;
+  align-items: flex-end;
   gap: 3px;
 }
 
 .s-biblio__row .bx {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
+}
+
+.s-biblio__row .bx--wide {
+  width: 34px;
+  height: 20px;
+}
+
+.s-biblio__row .bx--tiny {
+  width: 15px;
+  height: 21px;
 }
 
 .s-biblio__row {
@@ -4314,8 +4992,8 @@ body {
 }
 
 .s-cadre--meeple {
-  left: -262px;
-  bottom: 428px;
+  left: -286px;
+  bottom: 402px;
   width: 30px;
   height: 34px;
 }
@@ -4342,8 +5020,8 @@ body {
 }
 
 .s-cadre--des {
-  left: -298px;
-  bottom: 384px;
+  left: -354px;
+  bottom: 344px;
   width: 34px;
   height: 28px;
 }
@@ -4364,8 +5042,8 @@ body {
 
 .s-horloge {
   position: absolute;
-  left: -68px;
-  bottom: 434px;
+  left: -26px;
+  bottom: 470px;
   width: 28px;
   height: 28px;
   background: #f2e6cc;
@@ -4395,8 +5073,8 @@ body {
 
 .s-topjeux {
   position: absolute;
-  left: 308px;
-  bottom: 424px;
+  left: 316px;
+  bottom: 386px;
   width: 100px;
   padding: 8px 8px 9px;
   font-size: 15px;
@@ -4408,8 +5086,8 @@ body {
 
 .s-hplant {
   position: absolute;
-  left: 268px;
-  bottom: 458px;
+  left: 292px;
+  bottom: 468px;
   width: 14px;
   height: 11px;
   background: #a33d2a;
@@ -4461,18 +5139,18 @@ body {
 }
 
 .s-sconce2--a {
-  left: -352px;
+  left: -448px;
   bottom: 300px;
 }
 
 .s-sconce2--b {
-  left: 196px;
+  left: 268px;
   bottom: 306px;
 }
 
 .s-barstack {
   position: absolute;
-  left: -132px;
+  left: -540px;
   bottom: 162px;
   width: 22px;
   height: 10px;
@@ -4484,7 +5162,7 @@ body {
 }
 
 .s-guest {
-  left: -80px;
+  left: -484px;
   bottom: 128px;
   --shirt: #8a5a9e;
   --hair: #20140c;
@@ -4539,11 +5217,11 @@ body {
 }
 
 .s-ftable--a {
-  left: -252px;
+  left: -300px;
 }
 
 .s-ftable--b {
-  left: 58px;
+  left: 116px;
 }
 
 .s-ftable .sitter {
@@ -4675,7 +5353,7 @@ body {
 
 .s-gstack {
   position: absolute;
-  left: 178px;
+  left: 250px;
   bottom: 52px;
   width: 30px;
   height: 12px;
@@ -4691,14 +5369,18 @@ body {
 }
 
 .s-gstack--b {
-  left: -338px;
+  left: -300px;
   bottom: 52px;
+  width: 44px;
+  height: 16px;
   background: #c8202c;
   box-shadow:
-    -2px -13px 0 -2px #d8e4d0,
-    -2px -13px 0 1px #10101c,
-    2px -25px 0 -3px #e8a03a,
-    2px -25px 0 0 #10101c;
+    -3px -18px 0 -2px #d8e4d0,
+    -3px -18px 0 1px #10101c,
+    3px -34px 0 -6px #e8a03a,
+    3px -34px 0 -3px #10101c,
+    0 -48px 0 -9px #3a6bb0,
+    0 -48px 0 -6px #10101c;
 }
 
 /* --- Labo: Grundstimmung --- */
@@ -4750,69 +5432,6 @@ body {
 }
 
 /* --- Labo: Treppe runter --- */
-
-.l-esc {
-  position: absolute;
-  bottom: 100px;
-  left: -448px;
-}
-
-.l-esc::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -60px;
-  width: 30px;
-  height: 15px;
-  background: #46586e;
-  border: 3px solid #101a2c;
-  box-shadow:
-    24px 15px 0 #3d4e64,
-    24px 15px 0 3px #101a2c,
-    48px 30px 0 #35455c,
-    48px 30px 0 3px #101a2c,
-    -24px -15px 0 #46586e,
-    -24px -15px 0 3px #101a2c;
-}
-
-.l-esc__rail {
-  position: absolute;
-  left: -34px;
-  bottom: 6px;
-  width: 120px;
-  height: 4px;
-  background: #101a2c;
-  transform: rotate(27deg);
-  transform-origin: left bottom;
-}
-
-.l-esc__rail::before {
-  content: '';
-  position: absolute;
-  left: 4px;
-  top: 4px;
-  width: 4px;
-  height: 30px;
-  background: #101a2c;
-  box-shadow: 56px 0 0 #101a2c, 110px 0 0 #101a2c;
-}
-
-.l-esc__sign {
-  position: absolute;
-  left: 20px;
-  bottom: 116px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  letter-spacing: 1px;
-  color: #ffd98a;
-  background: #101a2c;
-  padding: 6px 7px 5px;
-}
-
-.l-esc__sign::before {
-  content: '↓ ';
-  color: #4affc2;
-}
 
 /* --- Labo: Fenster & Teleskop --- */
 
@@ -5418,11 +6037,6 @@ body {
 
 .souterrain .player.is-flip .player__flip {
   transform: scale(2) scaleX(-1);
-}
-
-.souterrain .sitter {
-  transform: scale(1.45);
-  transform-origin: 9px 21px;
 }
 
 /* Erdreich zwischen Straße und Tunnel */
@@ -6131,6 +6745,347 @@ body {
   }
 }
 
+/* ============ Aufzug: Tür im Raum ============ */
+
+.asc {
+  position: absolute;
+  bottom: 100px;
+  left: 448px;
+  width: 104px;
+  height: 168px;
+}
+
+.asc--labo {
+  left: -428px;
+}
+
+.asc__cadre {
+  position: absolute;
+  inset: 0;
+  background: #2a1812;
+  border: 5px solid #1d0e08;
+  box-shadow: inset 0 0 0 4px #6b4a28;
+}
+
+.asc--labo .asc__cadre {
+  background: #1a2436;
+  border-color: #0a1018;
+  box-shadow: inset 0 0 0 4px #46586e;
+}
+
+.asc__porte {
+  position: absolute;
+  top: 9px;
+  bottom: 9px;
+  width: 42px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.07) 0 3px,
+      transparent 3px 11px
+    ),
+    linear-gradient(90deg, #8a90a4, #6e7488 60%, #565c72);
+  border: 3px solid #1d0e08;
+}
+
+.asc__porte--l {
+  left: 9px;
+}
+
+.asc__porte--r {
+  right: 9px;
+}
+
+.asc__fleche {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -8px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 13px solid #4affc2;
+  filter: drop-shadow(0 0 6px rgba(74, 255, 194, 0.7));
+  animation: blink 1.5s steps(2, start) infinite;
+}
+
+.asc__fleche--down {
+  border-bottom: 0;
+  border-top: 13px solid #ffd23a;
+  filter: drop-shadow(0 0 6px rgba(255, 210, 58, 0.7));
+}
+
+.asc__etages {
+  position: absolute;
+  top: -24px;
+  right: -2px;
+  display: flex;
+  gap: 5px;
+}
+
+.asc__etages i {
+  width: 9px;
+  height: 9px;
+  background: #2a2418;
+  border: 2px solid #1d0e08;
+  border-radius: 50%;
+}
+
+.asc__etages i.is-on {
+  background: #ffd23a;
+  box-shadow: 0 0 7px rgba(255, 210, 58, 0.8);
+}
+
+.asc__plaque {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #ffd98a;
+  background: #1d0e08;
+  padding: 6px 8px 5px;
+  white-space: nowrap;
+}
+
+/* ============ Aufzug: die Fahrt ============ */
+
+.cabine {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s linear;
+}
+
+.cabine.is-close,
+.cabine.is-ride,
+.cabine.is-open {
+  opacity: 1;
+}
+
+/* Schachtwand, die während der Fahrt vorbeizieht */
+
+.cabine__mur {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #181a26 0 46px,
+      #10121c 46px 92px
+    );
+}
+
+.cabine__rail {
+  position: absolute;
+  top: -200%;
+  bottom: -200%;
+  left: 18%;
+  width: 14px;
+  background: repeating-linear-gradient(
+    0deg,
+    #2e3244 0 30px,
+    #454a60 30px 60px
+  );
+}
+
+.cabine__rail--b {
+  left: auto;
+  right: 18%;
+}
+
+.cabine.is-ride .cabine__rail {
+  animation: montee 0.42s linear infinite;
+}
+
+.cabine--down.is-ride .cabine__rail {
+  animation-direction: reverse;
+}
+
+@keyframes montee {
+  to {
+    transform: translateY(60px);
+  }
+}
+
+/* Kabineninneres */
+
+.cabine__int {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: min(560px, 96vw);
+  height: min(420px, 74vh);
+  transform: translateX(-50%);
+  background: linear-gradient(#5a3a28, #3f281c);
+  border: 6px solid #1d0e08;
+  border-bottom: 0;
+  box-shadow: inset 0 0 0 5px #7a5230;
+}
+
+.cabine.is-ride .cabine__int {
+  animation: secousse 0.16s steps(2, end) infinite alternate;
+}
+
+@keyframes secousse {
+  to {
+    transform: translateX(-50%) translateY(2px);
+  }
+}
+
+.cabine__plafond {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 10px;
+  height: 14px;
+  background: #ffeec0;
+  border: 3px solid #1d0e08;
+  box-shadow: 0 14px 40px 8px rgba(255, 230, 180, 0.3);
+}
+
+.cabine__panneau {
+  position: absolute;
+  right: 22px;
+  top: 46px;
+  width: 54px;
+  padding: 8px 0 10px;
+  text-align: center;
+  background: #14161f;
+  border: 4px solid #1d0e08;
+  box-shadow: inset 0 0 0 2px #46586e;
+}
+
+.cabine__num {
+  display: block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 20px;
+  font-style: normal;
+  color: #ffd23a;
+  text-shadow: 0 0 8px rgba(255, 210, 58, 0.8);
+}
+
+.cabine__fleche {
+  display: block;
+  width: 0;
+  height: 0;
+  margin: 8px auto 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 12px solid #4affc2;
+}
+
+.cabine--down .cabine__fleche {
+  border-bottom: 0;
+  border-top: 12px solid #4affc2;
+}
+
+.cabine.is-ride .cabine__fleche {
+  animation: blink 0.5s steps(2, start) infinite;
+}
+
+.cabine__miroir {
+  position: absolute;
+  left: 26px;
+  top: 46px;
+  width: 108px;
+  height: 132px;
+  background: linear-gradient(
+    150deg,
+    rgba(220, 235, 255, 0.16),
+    rgba(220, 235, 255, 0.05) 60%
+  );
+  border: 4px solid #1d0e08;
+  box-shadow: inset 0 0 0 3px #7a5230;
+}
+
+.cabine__barre {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 96px;
+  height: 7px;
+  background: #8a90a4;
+  border: 3px solid #1d0e08;
+}
+
+.cabine__sol {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 74px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.16) 0 3px,
+      transparent 3px 34px
+    ),
+    #2a1812;
+  border-top: 5px solid #1d0e08;
+}
+
+/* Figur in der Kabine */
+
+.cabine__moi {
+  position: absolute;
+  left: 50%;
+  bottom: 62px;
+  margin-left: -22px;
+  z-index: 2;
+}
+
+.cabine__moi .player__flip {
+  transform: scale(2.2);
+  transform-origin: bottom center;
+}
+
+.cabine.is-ride .cabine__moi .player__sprite {
+  animation: playerwalk 0.5s steps(1, end) infinite alternate;
+}
+
+/* Türen: schließen, fahren, öffnen */
+
+.cabine__porte {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 51%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.06) 0 4px,
+      transparent 4px 16px
+    ),
+    linear-gradient(90deg, #9aa1b6, #6e7488 55%, #4e5468);
+  border-top: 6px solid #1d0e08;
+  border-bottom: 6px solid #1d0e08;
+  transition: transform 0.44s cubic-bezier(0.5, 0, 0.4, 1);
+}
+
+.cabine__porte--l {
+  left: 0;
+  transform: translateX(-101%);
+  border-right: 5px solid #1d0e08;
+}
+
+.cabine__porte--r {
+  right: 0;
+  transform: translateX(101%);
+  border-left: 5px solid #1d0e08;
+}
+
+.cabine.is-close .cabine__porte,
+.cabine.is-ride .cabine__porte {
+  transform: translateX(0);
+}
+
 /* ============ Blende ============ */
 
 .noir {
@@ -6145,6 +7100,266 @@ body {
 
 .noir.is-on {
   opacity: 1;
+}
+
+/* ============ Menü, Kontakt, Datenbank ============ */
+
+.burger {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 12;
+  width: 50px;
+  height: 50px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(13, 11, 32, 0.9);
+  border: 3px solid #ffd98a;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 0 14px rgba(255, 217, 138, 0.25);
+}
+
+.burger i {
+  display: block;
+  height: 4px;
+  background: #ffd98a;
+  transition: transform 0.22s, opacity 0.18s;
+}
+
+.burger.is-x i:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.burger.is-x i:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.is-x i:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Immer sichtbare Kontaktmarke */
+
+.mailtag {
+  position: fixed;
+  top: 20px;
+  right: 76px;
+  z-index: 11;
+  font-size: 17px;
+  letter-spacing: 1px;
+  color: #ffd98a;
+  text-decoration: none;
+  background: rgba(13, 11, 32, 0.86);
+  border: 3px solid rgba(255, 217, 138, 0.55);
+  border-radius: 4px;
+  padding: 8px 10px 6px;
+  white-space: nowrap;
+}
+
+.mailtag:hover {
+  border-color: #ffd98a;
+  box-shadow: 0 0 14px rgba(255, 217, 138, 0.3);
+}
+
+@media (max-width: 720px) {
+  .mailtag {
+    top: auto;
+    right: auto;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+    font-size: 16px;
+  }
+
+  .copy {
+    display: none;
+  }
+}
+
+/* Overlay-Fenster im DOS-Look */
+
+.ecran {
+  position: fixed;
+  inset: 0;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(5, 5, 15, 0.82);
+}
+
+.ecran__box {
+  width: min(620px, 100%);
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  background: #b8b8b8;
+  border: 4px solid #05050f;
+  box-shadow:
+    inset 4px 4px 0 #e4e4e4,
+    inset -4px -4px 0 #626262,
+    0 0 34px rgba(0, 0, 0, 0.6);
+  padding: 10px;
+}
+
+.ecran__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 8px 10px 12px;
+  background: #000080;
+  border: 3px solid #05050f;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.ecran__x {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  font-family: 'VT323', monospace;
+  font-size: 24px;
+  line-height: 1;
+  color: #05050f;
+  background: #c8c8c8;
+  border: 3px solid #05050f;
+  box-shadow: inset 2px 2px 0 #f0f0f0, inset -2px -2px 0 #707070;
+  cursor: pointer;
+}
+
+.ecran__body {
+  overflow-y: auto;
+  padding: 16px 12px 8px;
+  font-size: 20px;
+  line-height: 1.45;
+  color: #14141c;
+}
+
+/* Menü-Liste */
+
+.mnu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mnu button,
+.mnu a {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: 'VT323', monospace;
+  font-size: 23px;
+  letter-spacing: 1px;
+  color: #14141c;
+  text-decoration: none;
+  background: #cfcfcf;
+  border: 3px solid #05050f;
+  box-shadow: inset 2px 2px 0 #ededed, inset -2px -2px 0 #7a7a7a;
+  padding: 10px 12px 8px;
+  cursor: pointer;
+}
+
+.mnu button:hover,
+.mnu a:hover {
+  background: #000080;
+  color: #ffd98a;
+}
+
+/* Kontaktkarte */
+
+.fiche__hi {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: #000080;
+  margin: 0 0 14px;
+}
+
+.fiche p {
+  margin: 0 0 12px;
+}
+
+.fiche__k {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #4a4a5a;
+  margin: 16px 0 4px;
+}
+
+.fiche a {
+  color: #0000c8;
+}
+
+/* Datenbank-Tabelle */
+
+.base__intro,
+.base__pied {
+  margin: 0 0 12px;
+  font-size: 18px;
+  color: #3a3a48;
+}
+
+.base__pied {
+  margin: 12px 0 0;
+  font-size: 16px;
+}
+
+.base__scroll {
+  max-height: 52vh;
+  overflow: auto;
+  border: 3px solid #05050f;
+  background: #0a1408;
+}
+
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 19px;
+  color: #4affc2;
+}
+
+.tbl th {
+  position: sticky;
+  top: 0;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-align: left;
+  color: #0a1408;
+  background: #4affc2;
+  padding: 8px 8px 7px;
+}
+
+.tbl td {
+  padding: 4px 8px 3px;
+  border-bottom: 1px solid rgba(74, 255, 194, 0.18);
+  white-space: nowrap;
+}
+
+.tbl tbody tr:nth-child(even) td {
+  background: rgba(74, 255, 194, 0.06);
+}
+
+.tbl tbody tr:hover td {
+  background: rgba(74, 255, 194, 0.16);
+  color: #fff;
+}
+
+.tbl__p {
+  color: #ffd98a;
+}
+
+.tbl__n {
+  text-align: right;
+  color: #9fe8ff;
 }
 
 /* ============ Copy ============ */
@@ -6178,12 +7393,12 @@ body {
 
 @media (max-width: 460px) {
   .fore {
-    --fs: 0.64;
-    left: calc(50% - 20px);
+    --fs: 0.72;
+    left: calc(50% + 44px);
   }
 
   .rue {
-    transform: translateX(calc(-50% + 90px)) scale(0.8);
+    transform: translateX(calc(-50% + 220px)) scale(0.72);
   }
 
   .faraway,
