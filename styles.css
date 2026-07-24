@@ -6638,9 +6638,17 @@ body {
   color: #ffd98a;
   background: #0d0b20;
   border: 3px solid #ffd98a;
-  padding: 6px 7px 5px;
+  padding: 9px 11px 8px;
   white-space: nowrap;
+  cursor: pointer;
   animation: bob 0.7s ease-in-out infinite alternate;
+}
+
+.hint:hover,
+.hint:focus-visible {
+  outline: none;
+  color: #0d0b20;
+  background: #ffd98a;
 }
 
 @keyframes bob {

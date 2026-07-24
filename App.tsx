@@ -119,8 +119,14 @@ const App = () => {
   const camRef = useRef(0);
   const camLimRef = useRef({ min: 0, max: 0 });
   const scaleRef = useRef(1);
-  const dragRef = useRef<{ startX: number; camStart: number } | null>(null);
+  const dragRef = useRef<{
+    startX: number;
+    camStart: number;
+    moved: boolean;
+  } | null>(null);
   const manualRef = useRef(false);
+  const targetRef = useRef<number | null>(null);
+  const enterRef = useRef<Zone | null>(null);
   const actionRef = useRef<(dir: 'up' | 'down') => void>(() => {});
 
   /* Kameragrenzen & Raum-Zoom je Szene */
@@ -262,6 +268,23 @@ const App = () => {
       if (k.left) dir -= 1;
       if (k.right) dir += 1;
 
+      /* Tasten haben Vorrang und brechen ein angetipptes Ziel ab */
+      if (dir !== 0) {
+        targetRef.current = null;
+        enterRef.current = null;
+      } else if (targetRef.current !== null && !fadeRef.current) {
+        const ecart = targetRef.current - posRef.current[m];
+        if (Math.abs(ecart) < 5) {
+          posRef.current[m] = targetRef.current;
+          targetRef.current = null;
+          const z = enterRef.current;
+          enterRef.current = null;
+          if (z) window.setTimeout(() => actionRef.current(z.dir), 90);
+        } else {
+          dir = ecart > 0 ? 1 : -1;
+        }
+      }
+
       if (dir !== 0 && !fadeRef.current) {
         const [min, max] = BOUNDS[m];
         posRef.current[m] = Math.min(
@@ -322,27 +345,58 @@ const App = () => {
     };
   }, []);
 
-  /* Swipe/Drag: Kamera frei schwenken */
+  /* Swipe = Kamera schwenken, Tippen = hinlaufen (und ggf. eintreten) */
   const onDragStart = (e: React.PointerEvent) => {
-    if ((e.target as HTMLElement).closest('a, button')) return;
-    dragRef.current = { startX: e.clientX, camStart: camRef.current };
+    if ((e.target as HTMLElement).closest('a, button, .ecran')) return;
+    dragRef.current = {
+      startX: e.clientX,
+      camStart: camRef.current,
+      moved: false,
+    };
   };
 
   const onDragMove = (e: React.PointerEvent) => {
     const d = dragRef.current;
     if (!d) return;
+    if (Math.abs(e.clientX - d.startX) > 8) {
+      d.moved = true;
+      manualRef.current = true;
+      targetRef.current = null;
+      enterRef.current = null;
+    }
+    if (!d.moved) return;
     const lim = camLimRef.current;
-    const next = Math.min(
+    camRef.current = Math.min(
       lim.max,
       Math.max(lim.min, d.camStart + (e.clientX - d.startX))
     );
-    if (Math.abs(e.clientX - d.startX) > 4) manualRef.current = true;
-    camRef.current = next;
     applyCam();
   };
 
-  const onDragEnd = () => {
+  const onDragEnd = (e: React.PointerEvent) => {
+    const d = dragRef.current;
     dragRef.current = null;
+    if (!d || d.moved || fadeRef.current) return;
+
+    /* Tippen: Bildschirm-x in Weltkoordinaten umrechnen */
+    const el = playerRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const k = r.width / 21; /* Maßstab aus der Figurbreite */
+    if (!k) return;
+
+    const m = modeRef.current;
+    const [min, max] = BOUNDS[m];
+    const cible = Math.min(
+      max,
+      Math.max(min, posRef.current[m] + (e.clientX - (r.left + r.width / 2)) / k)
+    );
+
+    /* Zielt der Tipp auf eine Tür, wird sie nach der Ankunft genommen */
+    const z = ZONES[m].find((zz) => Math.abs(cible - zz.x) < zz.r) ?? null;
+    targetRef.current = z ? z.x : cible;
+    enterRef.current = z;
+    manualRef.current = false;
   };
 
   const player = (
@@ -362,13 +416,14 @@ const App = () => {
 
   const hint =
     zone && !fade ? (
-      <span
+      <button
+        type="button"
         className="hint"
         style={{ left: zone.x, bottom: zone.b }}
-        aria-hidden="true"
+        onClick={() => actionRef.current(zone.dir)}
       >
         {zone.label}
-      </span>
+      </button>
     ) : null;
 
   return (
