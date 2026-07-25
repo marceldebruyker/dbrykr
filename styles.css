@@ -1875,103 +1875,594 @@ body {
 }
 
 .player.is-walking .player__sprite {
-  animation: playerwalk 0.2s steps(1, end) infinite alternate;
+  animation: playerwalk 0.44s steps(1, end) infinite;
 }
 
+/* Vier Phasen: Schritt – Durchgang – Schritt – Durchgang */
 @keyframes playerwalk {
-  from {
+  0% {
+    margin-top: 2px;
+    box-shadow:
+    6px 0 var(--hair),
+    9px 0 var(--hair),
+    3px 3px var(--hair),
+    6px 3px var(--hair),
+    9px 3px var(--hair),
+    12px 3px var(--hair),
+    3px 6px var(--hair),
+    12px 6px var(--hair),
+    6px 6px var(--skin),
+    9px 6px var(--skin),
+    6px 9px var(--skin),
+    9px 9px var(--skin),
+    3px 12px var(--shirt),
+    6px 12px var(--shirt),
+    9px 12px var(--shirt),
+    12px 12px var(--shirt),
+    15px 12px var(--box),
+    18px 12px var(--boxl),
+    3px 15px var(--shirt),
+    6px 15px var(--shirt),
+    9px 15px var(--shirt),
+    12px 15px var(--shirt),
+    15px 15px var(--box),
+    18px 15px var(--boxl),
+    3px 18px var(--shirt),
+    6px 18px var(--shirt),
+    9px 18px var(--shirt),
+    12px 18px var(--shirt),
+    3px 21px var(--shirt),
+    6px 21px var(--shirt),
+    9px 21px var(--shirt),
+    12px 21px var(--shirt),
+    3px 24px var(--pants),
+    6px 24px var(--pants),
+    9px 24px var(--pants),
+    12px 24px var(--pants),
+    0 15px var(--skin),
+    0 18px var(--shirt),
+    0 27px var(--pants),
+    15px 27px var(--pants),
+    0 30px var(--shoe),
+    15px 30px var(--shoe);
+  }
+  25% {
     margin-top: 0;
     box-shadow:
-      6px 0 var(--hair),
-      9px 0 var(--hair),
-      3px 3px var(--hair),
-      6px 3px var(--hair),
-      9px 3px var(--hair),
-      12px 3px var(--hair),
-      3px 6px var(--hair),
-      12px 6px var(--hair),
-      6px 6px var(--skin),
-      9px 6px var(--skin),
-      6px 9px var(--skin),
-      9px 9px var(--skin),
-      3px 12px var(--shirt),
-      6px 12px var(--shirt),
-      9px 12px var(--shirt),
-      12px 12px var(--shirt),
-      15px 12px var(--box),
-      18px 12px var(--boxl),
-      0 15px var(--shirt),
-      3px 15px var(--shirt),
-      6px 15px var(--shirt),
-      9px 15px var(--shirt),
-      12px 15px var(--shirt),
-      15px 15px var(--box),
-      18px 15px var(--boxl),
-      3px 18px var(--shirt),
-      6px 18px var(--shirt),
-      9px 18px var(--shirt),
-      12px 18px var(--shirt),
-      0 21px var(--skin),
-      3px 21px var(--shirt),
-      6px 21px var(--shirt),
-      9px 21px var(--shirt),
-      12px 21px var(--shirt),
-      3px 24px var(--pants),
-      6px 24px var(--pants),
-      9px 24px var(--pants),
-      12px 24px var(--pants),
-      3px 27px var(--pants),
-      12px 27px var(--pants),
-      3px 30px var(--shoe),
-      12px 30px var(--shoe);
+    6px 0 var(--hair),
+    9px 0 var(--hair),
+    3px 3px var(--hair),
+    6px 3px var(--hair),
+    9px 3px var(--hair),
+    12px 3px var(--hair),
+    3px 6px var(--hair),
+    12px 6px var(--hair),
+    6px 6px var(--skin),
+    9px 6px var(--skin),
+    6px 9px var(--skin),
+    9px 9px var(--skin),
+    3px 12px var(--shirt),
+    6px 12px var(--shirt),
+    9px 12px var(--shirt),
+    12px 12px var(--shirt),
+    15px 12px var(--box),
+    18px 12px var(--boxl),
+    3px 15px var(--shirt),
+    6px 15px var(--shirt),
+    9px 15px var(--shirt),
+    12px 15px var(--shirt),
+    15px 15px var(--box),
+    18px 15px var(--boxl),
+    3px 18px var(--shirt),
+    6px 18px var(--shirt),
+    9px 18px var(--shirt),
+    12px 18px var(--shirt),
+    3px 21px var(--shirt),
+    6px 21px var(--shirt),
+    9px 21px var(--shirt),
+    12px 21px var(--shirt),
+    3px 24px var(--pants),
+    6px 24px var(--pants),
+    9px 24px var(--pants),
+    12px 24px var(--pants),
+    0 18px var(--skin),
+    6px 27px var(--pants),
+    9px 27px var(--pants),
+    6px 30px var(--shoe),
+    9px 30px var(--shoe);
   }
-  to {
-    margin-top: 1px;
+  50% {
+    margin-top: 2px;
     box-shadow:
-      6px 0 var(--hair),
-      9px 0 var(--hair),
-      3px 3px var(--hair),
-      6px 3px var(--hair),
-      9px 3px var(--hair),
-      12px 3px var(--hair),
-      3px 6px var(--hair),
-      12px 6px var(--hair),
-      6px 6px var(--skin),
-      9px 6px var(--skin),
-      6px 9px var(--skin),
-      9px 9px var(--skin),
-      3px 12px var(--shirt),
-      6px 12px var(--shirt),
-      9px 12px var(--shirt),
-      12px 12px var(--shirt),
-      15px 12px var(--box),
-      18px 12px var(--boxl),
-      0 15px var(--shirt),
-      3px 15px var(--shirt),
-      6px 15px var(--shirt),
-      9px 15px var(--shirt),
-      12px 15px var(--shirt),
-      15px 15px var(--box),
-      18px 15px var(--boxl),
-      3px 18px var(--shirt),
-      6px 18px var(--shirt),
-      9px 18px var(--shirt),
-      12px 18px var(--shirt),
-      -3px 15px var(--skin),
-      3px 21px var(--shirt),
-      6px 21px var(--shirt),
-      9px 21px var(--shirt),
-      12px 21px var(--shirt),
-      3px 24px var(--pants),
-      6px 24px var(--pants),
-      9px 24px var(--pants),
-      12px 24px var(--pants),
-      6px 27px var(--pants),
-      9px 27px var(--pants),
-      6px 30px var(--shoe),
-      9px 30px var(--shoe);
+    6px 0 var(--hair),
+    9px 0 var(--hair),
+    3px 3px var(--hair),
+    6px 3px var(--hair),
+    9px 3px var(--hair),
+    12px 3px var(--hair),
+    3px 6px var(--hair),
+    12px 6px var(--hair),
+    6px 6px var(--skin),
+    9px 6px var(--skin),
+    6px 9px var(--skin),
+    9px 9px var(--skin),
+    3px 12px var(--shirt),
+    6px 12px var(--shirt),
+    9px 12px var(--shirt),
+    12px 12px var(--shirt),
+    15px 12px var(--box),
+    18px 12px var(--boxl),
+    3px 15px var(--shirt),
+    6px 15px var(--shirt),
+    9px 15px var(--shirt),
+    12px 15px var(--shirt),
+    15px 15px var(--box),
+    18px 15px var(--boxl),
+    3px 18px var(--shirt),
+    6px 18px var(--shirt),
+    9px 18px var(--shirt),
+    12px 18px var(--shirt),
+    3px 21px var(--shirt),
+    6px 21px var(--shirt),
+    9px 21px var(--shirt),
+    12px 21px var(--shirt),
+    3px 24px var(--pants),
+    6px 24px var(--pants),
+    9px 24px var(--pants),
+    12px 24px var(--pants),
+    0 21px var(--skin),
+    0 18px var(--shirt),
+    3px 27px var(--pants),
+    12px 27px var(--pants),
+    0 30px var(--shoe),
+    15px 30px var(--shoe);
+  }
+  75% {
+    margin-top: 0;
+    box-shadow:
+    6px 0 var(--hair),
+    9px 0 var(--hair),
+    3px 3px var(--hair),
+    6px 3px var(--hair),
+    9px 3px var(--hair),
+    12px 3px var(--hair),
+    3px 6px var(--hair),
+    12px 6px var(--hair),
+    6px 6px var(--skin),
+    9px 6px var(--skin),
+    6px 9px var(--skin),
+    9px 9px var(--skin),
+    3px 12px var(--shirt),
+    6px 12px var(--shirt),
+    9px 12px var(--shirt),
+    12px 12px var(--shirt),
+    15px 12px var(--box),
+    18px 12px var(--boxl),
+    3px 15px var(--shirt),
+    6px 15px var(--shirt),
+    9px 15px var(--shirt),
+    12px 15px var(--shirt),
+    15px 15px var(--box),
+    18px 15px var(--boxl),
+    3px 18px var(--shirt),
+    6px 18px var(--shirt),
+    9px 18px var(--shirt),
+    12px 18px var(--shirt),
+    3px 21px var(--shirt),
+    6px 21px var(--shirt),
+    9px 21px var(--shirt),
+    12px 21px var(--shirt),
+    3px 24px var(--pants),
+    6px 24px var(--pants),
+    9px 24px var(--pants),
+    12px 24px var(--pants),
+    0 18px var(--skin),
+    6px 27px var(--pants),
+    9px 27px var(--pants),
+    6px 30px var(--shoe),
+    9px 30px var(--shoe);
   }
 }
+
+/* ============ Straße ============ */
+
+.monde {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.street {
+  position: absolute;
+  left: -1400px;
+  right: -1400px;
+  bottom: 0;
+  height: 84px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.22) 0 2px,
+      transparent 2px 30px
+    ),
+    repeating-linear-gradient(0deg, #211c38 0 9px, #1d1834 9px 18px);
+}
+
+.street::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 30px;
+  background:
+    linear-gradient(#4a4374 0 4px, transparent 4px),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.25) 0 2px,
+      transparent 2px 26px
+    ),
+    linear-gradient(#2f2a4e, #2f2a4e);
+}
+
+/* ============ Vordergrund ============ */
+
+.fore {
+  position: absolute;
+  left: calc(50% - 140px);
+  bottom: 0;
+  width: 0;
+  height: 0;
+  transform: scale(var(--fs, 1));
+  transform-origin: bottom center;
+  z-index: 2;
+}
+
+/* Lichterketten */
+
+.fils {
+  position: absolute;
+  width: 260px;
+  height: 5px;
+  background: radial-gradient(
+    circle at 3px 2px,
+    #ffd98a 1.6px,
+    rgba(255, 217, 138, 0) 2.4px
+  );
+  background-size: 15px 5px;
+  background-repeat: repeat-x;
+  filter: drop-shadow(0 0 4px rgba(255, 217, 138, 0.55));
+}
+
+.fils--l {
+  left: -572px;
+  bottom: 288px;
+  transform: rotate(-7deg);
+}
+
+.fils--r {
+  left: 222px;
+  bottom: 282px;
+  transform: rotate(7deg);
+}
+
+/* Métro (Guimard) */
+
+.metro {
+  position: absolute;
+  left: -608px;
+  bottom: 56px;
+  width: 132px;
+  height: 56px;
+}
+
+.metro__stairs {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 0;
+  height: 44px;
+  background: repeating-linear-gradient(
+    0deg,
+    #0d0b20 0 6px,
+    #171331 6px 12px
+  );
+  border: 3px solid #0d0b20;
+  border-bottom: 0;
+}
+
+.metro__rail {
+  position: absolute;
+  bottom: 0;
+  width: 17px;
+  height: 32px;
+  border: 3px solid #3a3f4c;
+  border-bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    #565c6c 0 2px,
+    transparent 2px 6px
+  );
+}
+
+.metro__rail--l {
+  left: 0;
+}
+
+.metro__rail--r {
+  right: 0;
+}
+
+/* Lille: weißer Würfel mit rotem M auf grauem Mast */
+
+.metro__mat {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  width: 12px;
+  height: 96px;
+  margin-left: -6px;
+  background: linear-gradient(90deg, #7d8394, #b8bdc9 45%, #6a707f);
+  border: 3px solid #23262f;
+}
+
+.metro__cube {
+  position: absolute;
+  left: 50%;
+  bottom: 112px;
+  width: 52px;
+  height: 52px;
+  margin-left: -26px;
+  background: #f4f6f8;
+  border: 4px solid #23262f;
+  box-shadow:
+    inset 0 -6px 0 -2px #d2d7de,
+    0 0 18px 4px rgba(255, 255, 255, 0.22);
+}
+
+/* Angeschnittene Seitenfläche des Würfels */
+
+.metro__cube-cote {
+  position: absolute;
+  right: -19px;
+  top: -4px;
+  width: 19px;
+  height: 52px;
+  background: #cfd4dc;
+  border: 4px solid #23262f;
+  border-left: 0;
+  clip-path: polygon(0 0, 100% 12%, 100% 100%, 0 92%);
+  overflow: hidden;
+}
+
+/* Das M von Transpole/Ilévia */
+
+.metro__m {
+  position: absolute;
+  left: 8px;
+  top: 9px;
+  width: 28px;
+  height: 26px;
+  background: #d8202a;
+  clip-path: polygon(
+    0% 100%,
+    0% 16%,
+    17% 0%,
+    50% 46%,
+    83% 0%,
+    100% 16%,
+    100% 100%,
+    72% 100%,
+    72% 52%,
+    50% 82%,
+    28% 52%,
+    28% 100%
+  );
+}
+
+.metro__m--cote {
+  left: 3px;
+  top: 12px;
+  width: 12px;
+  height: 22px;
+  transform: skewY(6deg);
+}
+
+/* Passanten, Hund, Katzen */
+
+.walker {
+  position: absolute;
+  bottom: 86px;
+  width: 3px;
+  height: 3px;
+  transform: scale(1.4);
+  transform-origin: 9px 33px;
+  --hair: #2b1c12;
+  --skin: #e9b788;
+  --shirt: #33415e;
+  --pants: #23283d;
+  --shoe: #101014;
+  box-shadow:
+    6px 0 var(--hair),
+    9px 0 var(--hair),
+    3px 3px var(--hair),
+    6px 3px var(--hair),
+    9px 3px var(--hair),
+    12px 3px var(--hair),
+    3px 6px var(--hair),
+    12px 6px var(--hair),
+    6px 6px var(--skin),
+    9px 6px var(--skin),
+    6px 9px var(--skin),
+    9px 9px var(--skin),
+    3px 12px var(--shirt),
+    6px 12px var(--shirt),
+    9px 12px var(--shirt),
+    12px 12px var(--shirt),
+    0 15px var(--shirt),
+    3px 15px var(--shirt),
+    6px 15px var(--shirt),
+    9px 15px var(--shirt),
+    12px 15px var(--shirt),
+    15px 15px var(--shirt),
+    0 18px var(--skin),
+    3px 18px var(--shirt),
+    6px 18px var(--shirt),
+    9px 18px var(--shirt),
+    12px 18px var(--shirt),
+    15px 18px var(--skin),
+    3px 21px var(--shirt),
+    6px 21px var(--shirt),
+    9px 21px var(--shirt),
+    12px 21px var(--shirt),
+    3px 24px var(--pants),
+    6px 24px var(--pants),
+    9px 24px var(--pants),
+    12px 24px var(--pants),
+    3px 27px var(--pants),
+    12px 27px var(--pants),
+    3px 30px var(--shoe),
+    12px 30px var(--shoe);
+}
+
+.walker--a {
+  left: 470px;
+}
+
+.walker--b {
+  left: 496px;
+  --shirt: #7a4438;
+  --hair: #4a3220;
+}
+
+.walker--c {
+  left: -408px;
+  --shirt: #5e5030;
+  --hair: #8a2430;
+}
+
+.dog {
+  position: absolute;
+  left: 530px;
+  bottom: 58px;
+  width: 18px;
+  height: 7px;
+  background: #3a2c20;
+}
+
+.dog::before {
+  content: '';
+  position: absolute;
+  right: -7px;
+  top: -5px;
+  width: 8px;
+  height: 7px;
+  background: #3a2c20;
+  box-shadow: 2px -3px 0 -2px #3a2c20;
+}
+
+.dog::after {
+  content: '';
+  position: absolute;
+  left: 1px;
+  bottom: -5px;
+  width: 15px;
+  height: 5px;
+  background: repeating-linear-gradient(
+    90deg,
+    #3a2c20 0 3px,
+    transparent 3px 9px
+  );
+}
+
+/* Spielfigur (Pfeiltasten) */
+
+.player {
+  position: absolute;
+  left: 0;
+  bottom: 56px;
+  width: 21px;
+  height: 33px;
+  z-index: 4;
+}
+
+.player__flip {
+  display: block;
+  width: 21px;
+  height: 33px;
+  transform-origin: 50% 100%;
+  transform: scale(1.4);
+}
+
+.player.is-flip .player__flip {
+  transform: scale(1.4) scaleX(-1);
+}
+
+.player.is-flip .player__flip {
+  transform: scaleX(-1);
+}
+
+.player__sprite {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 3px;
+  --hair: #3a2a18;
+  --skin: #e9b788;
+  --shirt: #7a4a9a;
+  --pants: #2c3350;
+  --shoe: #101014;
+  --box: #cc4444;
+  --boxl: #f4efe2;
+  box-shadow:
+    6px 0 var(--hair),
+    9px 0 var(--hair),
+    3px 3px var(--hair),
+    6px 3px var(--hair),
+    9px 3px var(--hair),
+    12px 3px var(--hair),
+    3px 6px var(--hair),
+    12px 6px var(--hair),
+    6px 6px var(--skin),
+    9px 6px var(--skin),
+    6px 9px var(--skin),
+    9px 9px var(--skin),
+    3px 12px var(--shirt),
+    6px 12px var(--shirt),
+    9px 12px var(--shirt),
+    12px 12px var(--shirt),
+    15px 12px var(--box),
+    18px 12px var(--boxl),
+    0 15px var(--shirt),
+    3px 15px var(--shirt),
+    6px 15px var(--shirt),
+    9px 15px var(--shirt),
+    12px 15px var(--shirt),
+    15px 15px var(--box),
+    18px 15px var(--boxl),
+    3px 18px var(--shirt),
+    6px 18px var(--shirt),
+    9px 18px var(--shirt),
+    12px 18px var(--shirt),
+    0 18px var(--skin),
+    3px 21px var(--shirt),
+    6px 21px var(--shirt),
+    9px 21px var(--shirt),
+    12px 21px var(--shirt),
+    3px 24px var(--pants),
+    6px 24px var(--pants),
+    9px 24px var(--pants),
+    12px 24px var(--pants),
+    3px 27px var(--pants),
+    12px 27px var(--pants),
+    3px 30px var(--shoe),
+    12px 30px var(--shoe);
+}
+
+.player.is-walking .player__sprite {
+  animation: playerwalk 0.44s steps(1, end) infinite;
+}
+
 
 /* --- Café --- */
 
@@ -2905,76 +3396,164 @@ body {
   left: 396px;
 }
 
-/* ============ Café: Raum in Hausproportionen ============ */
+/* ============ Café: echter 3D-Raum ============ */
 
 .salle--cafe {
-  background: #0a0a16;
+  background: #16100c;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
+  overflow: hidden;
+  perspective: 760px;
+  perspective-origin: 50% 46%;
 }
 
+/* Raumquader: 900 breit, 452 hoch, 300 tief */
 .piece {
   position: relative;
   width: 900px;
   height: 452px;
   flex: 0 0 auto;
-  transform-origin: bottom center;
-  background: linear-gradient(#6b4434, #5a3a2b);
-  border: 7px solid #17100c;
-  border-bottom: 0;
-  overflow: hidden;
+  transform-style: preserve-3d;
+  transform-origin: center center;
 }
 
-/* Decke */
+/* Rückwand: steht 300 hinter der Bildebene */
+.pc-mur {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 900px;
+  height: 452px;
+  margin-left: 0;
+  transform: translateZ(-300px);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.06) 0 3px,
+      transparent 3px 88px
+    ),
+    linear-gradient(#7a4d3a, #63402f);
+}
 
-.pc-plafond {
+.pc-mur::after {
+  content: '';
   position: absolute;
   left: 0;
   right: 0;
+  bottom: 0;
+  height: 30px;
+  background: #4a2c1c;
+  border-top: 4px solid #24140c;
+}
+
+/* Seitenwände: um 90° weggeklappt */
+.pc-cote {
+  position: absolute;
   top: 0;
-  height: 46px;
-  background: #3f2a1e;
-  border-bottom: 5px solid #24140c;
+  width: 300px;
+  height: 452px;
+  backface-visibility: hidden;
+}
+
+.pc-cote--l {
+  left: 0;
+  transform-origin: left center;
+  transform: rotateY(90deg);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.08) 0 3px,
+      transparent 3px 60px
+    ),
+    linear-gradient(90deg, #7a4d3a, #55362a);
+}
+
+.pc-cote--r {
+  right: 0;
+  transform-origin: right center;
+  transform: rotateY(-90deg);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.08) 0 3px,
+      transparent 3px 60px
+    ),
+    linear-gradient(90deg, #55362a, #7a4d3a);
+}
+
+/* Boden: nach hinten geklappt */
+.pc-sol {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 900px;
+  height: 300px;
+  transform-origin: center bottom;
+  transform: rotateX(90deg);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.12) 0 3px,
+      transparent 3px 64px
+    ),
+    repeating-linear-gradient(0deg, #8a5a38 0 22px, #7a4c2e 22px 44px);
+  box-shadow: inset 0 0 90px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Decke */
+.pc-plafond {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 900px;
+  height: 300px;
+  transform-origin: center top;
+  transform: rotateX(-90deg);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #4f3423 0 18px,
+      #3a2618 18px 128px
+    );
+  box-shadow: inset 0 0 90px 30px rgba(0, 0, 0, 0.45);
 }
 
 .pc-poutre {
-  position: absolute;
-  top: 0;
-  width: 22px;
-  height: 46px;
-  background: #4f3423;
-  box-shadow: inset 3px 0 0 #66452e, inset -3px 0 0 #2e1d13;
+  display: none;
 }
 
+/* Hängelampen: stehen senkrecht im Raum */
 .pc-lustre {
   position: absolute;
-  top: 46px;
+  top: 0;
   width: 3px;
-  height: 34px;
+  height: 74px;
   background: #24140c;
+  transform: translateZ(-150px);
 }
 
 .pc-lustre::after {
   content: '';
   position: absolute;
-  left: -15px;
-  top: 34px;
-  width: 33px;
-  height: 17px;
+  left: -16px;
+  top: 74px;
+  width: 35px;
+  height: 18px;
   background: #6b4a20;
   border: 3px solid #24140c;
   box-shadow:
     inset 0 -6px 0 -1px #ffcf6e,
-    0 16px 40px 10px rgba(255, 214, 130, 0.3);
+    0 18px 60px 16px rgba(255, 214, 130, 0.34);
 }
 
 .pc-guirl {
   position: absolute;
-  left: 10px;
-  right: 10px;
-  top: 54px;
+  left: 60px;
+  right: 60px;
+  top: 40px;
   height: 5px;
+  transform: translateZ(-240px);
   background: radial-gradient(
     circle at 3px 2px,
     #ffd98a 1.6px,
@@ -2985,93 +3564,48 @@ body {
   filter: drop-shadow(0 0 4px rgba(255, 217, 138, 0.55));
 }
 
-/* Rückwand */
-
-.pc-mur {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 46px;
-  bottom: 78px;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.06) 0 3px,
-      transparent 3px 88px
-    ),
-    linear-gradient(#6b4434, #5d3a2b);
-}
-
-.pc-mur::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 26px;
-  background: #4a2c1c;
-  border-top: 4px solid #24140c;
-}
-
-/* Boden */
-
-.pc-sol {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 78px;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.17) 0 2px,
-      transparent 2px 58px
-    ),
-    repeating-linear-gradient(0deg, #8a5a38 0 11px, #7a4c2e 11px 22px);
-  border-top: 5px solid #24140c;
-}
-
-/* Seitenwände */
-
-.pc-cote {
-  position: absolute;
-  top: 46px;
-  bottom: 78px;
-  width: 84px;
-  background: linear-gradient(90deg, #4a2f22, #5d3a2b);
-}
-
-.pc-cote--l {
-  left: 0;
-  box-shadow: inset -5px 0 0 -1px rgba(0, 0, 0, 0.35);
-}
-
-.pc-cote--r {
-  right: 0;
-  background: linear-gradient(90deg, #5d3a2b, #4a2f22);
-  box-shadow: inset 5px 0 0 -1px rgba(0, 0, 0, 0.35);
-}
-
-/* Bar an der linken Seitenwand */
-
+/* Bar: liegt flach auf der linken Wandebene */
 .pc-cote__bar {
   position: absolute;
-  left: 8px;
-  right: -34px;
-  bottom: 0;
-  height: 54px;
-  background: linear-gradient(#3a2418 0 8px, #6b2a34 8px);
+  left: 24px;
+  right: 30px;
+  bottom: 96px;
+  height: 66px;
+  background: linear-gradient(#8a5a42 0 16px, #6b2a34 16px);
+  border: 4px solid #17100c;
+  box-shadow: inset 0 -16px 0 -12px rgba(0, 0, 0, 0.35);
+  transform: none;
+}
+
+.pc-cote__bar::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  top: -12px;
+  height: 12px;
+  background: #96654a;
   border: 4px solid #17100c;
   border-bottom: 0;
 }
 
+.pc-cote__bar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -12px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.32);
+}
+
 .pc-bar__machine {
   position: absolute;
-  right: 12px;
-  top: -26px;
+  right: 20px;
+  top: -40px;
   width: 30px;
-  height: 24px;
-  background: linear-gradient(#8a8f9e 0 8px, #565c6e 8px);
+  height: 26px;
+  background: linear-gradient(#8a8f9e 0 9px, #565c6e 9px);
   border: 3px solid #17100c;
 }
 
@@ -3087,40 +3621,40 @@ body {
 
 .pc-bar__cake {
   position: absolute;
-  left: 12px;
-  top: -20px;
-  width: 24px;
-  height: 17px;
+  left: 20px;
+  top: -34px;
+  width: 26px;
+  height: 20px;
   background: rgba(220, 235, 255, 0.28);
   border: 2px solid #17100c;
-  border-radius: 11px 11px 0 0;
+  border-radius: 12px 12px 0 0;
 }
 
 .pc-bar__cake::after {
   content: '';
   position: absolute;
-  left: 4px;
+  left: 5px;
   bottom: 0;
-  width: 13px;
-  height: 8px;
+  width: 14px;
+  height: 9px;
   background: #d886a0;
 }
 
 .pc-bar__cups {
   position: absolute;
-  left: 48px;
-  top: -9px;
-  width: 8px;
-  height: 7px;
+  left: 62px;
+  top: -24px;
+  width: 9px;
+  height: 8px;
   background: #f4efe2;
   border: 2px solid #17100c;
-  box-shadow: 11px 0 0 -1px #f4efe2, 11px 0 0 1px #17100c;
+  box-shadow: 12px 1px 0 -1px #f4efe2, 12px 1px 0 1px #17100c;
 }
 
 .pc-barista {
   position: absolute;
-  left: 30px;
-  bottom: 54px;
+  left: 74px;
+  bottom: 168px;
   width: 3px;
   height: 3px;
   transform: scale(1.7);
@@ -3150,10 +3684,10 @@ body {
 
 .pc-carte {
   position: absolute;
-  left: 6px;
-  top: 22px;
-  width: 66px;
-  padding: 8px 0 9px;
+  left: 34px;
+  top: 96px;
+  width: 84px;
+  padding: 9px 0 10px;
   text-align: center;
   font-family: 'Press Start 2P', monospace;
   font-size: 8px;
@@ -3161,6 +3695,101 @@ body {
   color: #ffd98a;
   background: #1e2a26;
   border: 4px solid #4a3020;
+  transform: none;
+}
+
+/* Aufzug: Nische in der rechten Wandebene */
+.pc-cote--r .asc {
+  position: absolute;
+  left: 74px;
+  width: 150px;
+  bottom: 96px;
+  height: 250px;
+  right: auto;
+  transform: none;
+}
+
+.pc-cote--r .asc__cadre {
+  background: #0d0b14;
+  border: 6px solid #17100c;
+  box-shadow: inset 0 0 0 5px #6b4a28;
+}
+
+.pc-cote--r .asc__porte {
+  top: 16px;
+  bottom: 16px;
+  width: 40%;
+}
+
+.pc-cote--r .asc__porte--l {
+  left: 16px;
+}
+
+.pc-cote--r .asc__porte--r {
+  right: 16px;
+}
+
+.pc-cote--r .asc__plaque {
+  bottom: -32px;
+  font-size: 8px;
+}
+
+/* Figur & Möbel stehen im Raum */
+
+.piece .player {
+  position: absolute;
+  left: 50%;
+  bottom: 46px;
+  z-index: 5;
+  transform-style: flat;
+}
+
+.piece .player__flip {
+  transform: scale(1.9);
+}
+
+.piece .player.is-flip .player__flip {
+  transform: scale(1.9) scaleX(-1);
+}
+
+.pc-avant {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 100%;
+  z-index: 6;
+}
+
+.pc-avant .s-ftable {
+  bottom: 10px;
+}
+
+.pc-avant .s-ftable--a {
+  left: -330px;
+}
+
+.pc-avant .s-ftable--b {
+  left: 150px;
+}
+
+.pc-avant .s-gstack {
+  left: 306px;
+  bottom: 12px;
+}
+
+.pc-avant .s-catnap {
+  left: -180px;
+  bottom: 14px;
+}
+
+.piece .hint {
+  bottom: auto;
+  top: 150px;
+  margin-left: 450px;
+  font-size: 8px;
+  padding: 7px 9px 6px;
+  transform: translateX(-50%) translateZ(-290px);
 }
 
 /* Wandregale zwischen den Öffnungen */
@@ -3362,13 +3991,44 @@ body {
 
 /* Aufzug an der rechten Seitenwand */
 
+/* Aufzug: als Nische in die Seitenwand gesetzt */
 .pc-cote--r .asc {
   position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 92px;
-  height: 176px;
-  margin-left: -46px;
+  left: 14px;
+  right: -14px;
+  bottom: 108px;
+  width: auto;
+  height: 178px;
+  transform: skewY(-16deg);
+  transform-origin: left bottom;
+}
+
+.pc-cote--r .asc__cadre {
+  background: #0d0b14;
+  border: 5px solid #17100c;
+  box-shadow:
+    inset 0 0 0 4px #6b4a28,
+    inset 9px 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+.pc-cote--r .asc__porte {
+  top: 12px;
+  bottom: 12px;
+  width: 38%;
+}
+
+.pc-cote--r .asc__porte--l {
+  left: 12px;
+}
+
+.pc-cote--r .asc__porte--r {
+  right: 12px;
+}
+
+.pc-cote--r .asc__plaque {
+  bottom: auto;
+  top: -26px;
+  font-size: 7px;
 }
 
 /* Figur & Möbel im Raum */
@@ -3376,8 +4036,8 @@ body {
 .piece .player {
   position: absolute;
   left: 50%;
-  bottom: 26px;
-  z-index: 3;
+  bottom: 34px;
+  z-index: 5;
 }
 
 .piece .player__flip {
@@ -3398,7 +4058,7 @@ body {
 }
 
 .pc-avant .s-ftable {
-  bottom: 4px;
+  bottom: 2px;
 }
 
 .pc-avant .s-ftable--a {
@@ -3421,7 +4081,10 @@ body {
 
 .piece .hint {
   bottom: auto;
-  top: 92px;
+  top: 128px;
+  margin-left: 450px; /* Zonen-x zählt ab Raummitte */
+  font-size: 8px;
+  padding: 7px 9px 6px;
 }
 
 /* ============ Innenräume ============ */
@@ -5132,10 +5795,11 @@ body {
 .s-ftable::before {
   content: '';
   position: absolute;
-  left: 0;
-  bottom: 30px;
-  width: 82px;
-  height: 18px;
+  left: -7px;
+  bottom: 34px;
+  width: 96px;
+  height: 22px;
+  border-radius: 40% 40% 8% 8% / 60% 60% 12% 12%;
   background:
     repeating-linear-gradient(
       90deg,
@@ -7935,4 +8599,699 @@ body {
   .e-spark--b {
     opacity: 1;
   }
+}
+
+/* ============ Labo: 3D-Raum ============ */
+
+.salle--labo {
+  background: #0c1220;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  perspective: 760px;
+  perspective-origin: 50% 46%;
+}
+
+.piece--labo .pc-mur,
+.lb-mur {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.08) 0 3px,
+      transparent 3px 90px
+    ),
+    linear-gradient(#3d4c6b, #2c3850);
+}
+
+.lb-mur::after {
+  background: #223048 !important;
+  border-top-color: #101a2c !important;
+}
+
+.lb-cote {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.1) 0 3px,
+      transparent 3px 60px
+    ),
+    linear-gradient(90deg, #3d4c6b, #26314a) !important;
+}
+
+.pc-cote--r.lb-cote {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.1) 0 3px,
+      transparent 3px 60px
+    ),
+    linear-gradient(90deg, #26314a, #3d4c6b) !important;
+}
+
+.lb-sol {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.16) 0 3px,
+      transparent 3px 46px
+    ),
+    repeating-linear-gradient(0deg, #3a4a66 0 24px, #33435c 24px 48px) !important;
+  box-shadow: inset 0 0 90px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+.lb-plafond {
+  background: repeating-linear-gradient(
+    90deg,
+    #1a2233 0 16px,
+    #131a28 16px 150px
+  ) !important;
+}
+
+.lb-neon {
+  position: absolute;
+  top: 40px;
+  width: 96px;
+  height: 9px;
+  background: #cfeeff;
+  box-shadow: 0 8px 44px 10px rgba(150, 210, 255, 0.4);
+}
+
+/* Rückwand-Elemente */
+
+.lb-monitor {
+  position: absolute;
+  left: 50%;
+  bottom: 168px;
+  width: 250px;
+  height: 190px;
+  margin-left: -125px;
+  transform: translateZ(-296px);
+  z-index: 2;
+}
+
+.lb-cork {
+  position: absolute;
+  left: 96px;
+  bottom: 250px;
+  width: 130px;
+  height: 100px;
+  background: #8a6a42;
+  border: 5px solid #46310f;
+  box-shadow: inset 0 0 0 2px #77592f;
+}
+
+.lb-cork::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 22px;
+  height: 17px;
+  background: #f4efe2;
+  box-shadow:
+    40px 5px 0 #ffe9a8,
+    78px -2px 0 #f4efe2,
+    12px 40px 0 #cfe6ff,
+    56px 36px 0 #f4efe2;
+}
+
+.lb-cork__f {
+  position: absolute;
+  height: 2px;
+  background: #e33;
+  transform-origin: left center;
+}
+
+.lb-cork__f--a {
+  left: 22px;
+  top: 22px;
+  width: 52px;
+  transform: rotate(14deg);
+}
+
+.lb-cork__f--b {
+  left: 62px;
+  top: 26px;
+  width: 46px;
+  transform: rotate(-18deg);
+}
+
+.lb-cork__f--c {
+  left: 26px;
+  top: 54px;
+  width: 60px;
+  transform: rotate(9deg);
+}
+
+.lb-charts {
+  position: absolute;
+  right: 92px;
+  bottom: 246px;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 28px 10px 10px;
+  background: #17233a;
+  border: 4px solid #0a1018;
+  box-shadow: inset 0 0 0 2px #2c3c58;
+}
+
+.lb-charts__t {
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: #7ad7ff;
+}
+
+.lb-cb {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 48px;
+  padding: 0 5px 13px;
+  background: #0a1622;
+  border: 2px solid #0a1018;
+}
+
+.lb-cb b {
+  display: block;
+  width: 7px;
+  background: #4affc2;
+}
+
+.lb-cb--b b {
+  background: #ffd23a;
+}
+
+.lb-cb--c b {
+  background: #ff8ab4;
+}
+
+.lb-cb i {
+  position: absolute;
+  left: 5px;
+  bottom: 3px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  font-style: normal;
+  color: #6a7a94;
+}
+
+.lb-marche {
+  position: absolute;
+  left: 50%;
+  bottom: 372px;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #9fd7ff;
+  background: #101a2c;
+  padding: 8px 10px 7px;
+  white-space: nowrap;
+}
+
+.lb-marche b {
+  color: #4affc2;
+}
+
+.lb-fen {
+  position: absolute;
+  left: 50%;
+  bottom: 372px;
+  width: 0;
+  height: 0;
+}
+
+/* Linke Wand */
+
+.pc-cote--l .asc--labo {
+  position: absolute;
+  left: 66px;
+  width: 150px;
+  bottom: 96px;
+  height: 250px;
+  transform: none;
+}
+
+.pc-cote--l .asc--labo .asc__cadre {
+  background: #0a1018;
+  border: 6px solid #101a2c;
+  box-shadow: inset 0 0 0 5px #46586e;
+}
+
+.pc-cote--l .asc--labo .asc__porte {
+  top: 16px;
+  bottom: 16px;
+  width: 40%;
+}
+
+.pc-cote--l .asc--labo .asc__porte--l {
+  left: 16px;
+}
+
+.pc-cote--l .asc--labo .asc__porte--r {
+  right: 16px;
+}
+
+.lb-presse {
+  position: absolute;
+  left: 30px;
+  top: 96px;
+  width: 92px;
+  height: 68px;
+  background: #e8e2d2;
+  border: 3px solid #0a1018;
+  transform: rotate(-2deg);
+}
+
+.lb-presse__t {
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  top: 5px;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px;
+  font-style: normal;
+  color: #1a1a24;
+  border-bottom: 2px solid #1a1a24;
+  padding-bottom: 4px;
+}
+
+.lb-presse__l {
+  position: absolute;
+  left: 6px;
+  width: 46px;
+  height: 2px;
+  background: #6a6a7a;
+}
+
+.lb-presse__l:nth-of-type(2) {
+  top: 26px;
+}
+
+.lb-presse__l:nth-of-type(3) {
+  top: 33px;
+  width: 38px;
+}
+
+.lb-presse__ph {
+  position: absolute;
+  right: 6px;
+  top: 24px;
+  width: 28px;
+  height: 26px;
+  background: #4a7ac2;
+  border: 2px solid #1a1a24;
+}
+
+.lb-revues {
+  position: absolute;
+  left: 34px;
+  bottom: 100px;
+  width: 34px;
+  height: 44px;
+  background: linear-gradient(#e85a5a 0 13px, #f2e6cc 13px);
+  border: 3px solid #0a1018;
+  box-shadow:
+    40px 0 0 0 #f2e6cc,
+    40px 0 0 3px #0a1018,
+    40px -13px 0 -1px #4affc2;
+}
+
+/* Rechte Wand */
+
+.lb-etudes {
+  position: absolute;
+  left: 40px;
+  bottom: 210px;
+  width: 176px;
+  padding: 26px 10px 12px;
+  background: #33435c;
+  border: 4px solid #101a2c;
+  box-shadow: inset 0 0 0 2px #46586e;
+}
+
+.lb-etudes__t {
+  position: absolute;
+  left: 10px;
+  top: 7px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: #ffd23a;
+}
+
+.lb-cls {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  padding-bottom: 6px;
+  border-bottom: 3px solid #222e42;
+  margin-bottom: 7px;
+}
+
+.lb-cls--b {
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+
+.lb-cls i {
+  display: block;
+  width: 20px;
+  height: 38px;
+  border: 2px solid #0a1018;
+  box-shadow: inset -3px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+.lb-cls i:nth-child(1) {
+  background: #c04444;
+}
+.lb-cls i:nth-child(2) {
+  background: #4a7ac2;
+  height: 34px;
+}
+.lb-cls i:nth-child(3) {
+  background: #d8912f;
+}
+.lb-cls i:nth-child(4) {
+  background: #3a8f6a;
+  height: 35px;
+}
+.lb-cls i:nth-child(5) {
+  background: #7a4a9a;
+}
+.lb-cls i:nth-child(6) {
+  background: #c04477;
+  height: 33px;
+}
+
+.lb-terrain {
+  position: absolute;
+  left: 40px;
+  bottom: 96px;
+  width: 140px;
+  padding: 26px 10px 12px;
+  background: #1c2a40;
+  border: 4px solid #0a1018;
+  box-shadow: inset 0 0 0 2px #2c3c58;
+}
+
+.lb-terrain__t {
+  position: absolute;
+  left: 10px;
+  top: 7px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: #4affc2;
+}
+
+.lb-tr {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: #cfe0f4;
+}
+
+.lb-serv {
+  position: absolute;
+  right: 20px;
+  bottom: 96px;
+  width: 52px;
+  height: 150px;
+  background: #1a2436;
+  border: 4px solid #0a1018;
+  box-shadow:
+    inset 0 34px 0 -30px #0a1018,
+    inset 0 68px 0 -64px #0a1018,
+    inset 0 102px 0 -98px #0a1018;
+}
+
+.lb-serv::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 9px;
+  width: 5px;
+  height: 5px;
+  background: #4affc2;
+  box-shadow:
+    9px 0 0 #ffd23a,
+    0 34px 0 #ffd23a,
+    9px 34px 0 #4affc2,
+    0 68px 0 #4affc2,
+    9px 68px 0 #ff8a4a,
+    0 102px 0 #ff8a4a;
+  animation: blink 1.6s steps(2, start) infinite;
+}
+
+/* Möbel im Raum */
+
+.lb-avant .lb-desk {
+  position: absolute;
+  left: -300px;
+  bottom: 30px;
+  width: 176px;
+  height: 14px;
+  background: #4a5a74;
+  border: 3px solid #101a2c;
+}
+
+.lb-desk::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 14px;
+  width: 8px;
+  height: 38px;
+  background: #101a2c;
+  box-shadow: 142px 0 0 #101a2c;
+}
+
+.lb-desk__term {
+  position: absolute;
+  left: 18px;
+  top: -44px;
+  width: 46px;
+  height: 34px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(74, 255, 194, 0.6) 0 2px,
+      transparent 2px 6px
+    ) 5px 5px / 26px 18px no-repeat,
+    #0a1622;
+  border: 3px solid #101a2c;
+}
+
+.lb-desk__mug {
+  position: absolute;
+  left: 82px;
+  top: -12px;
+  width: 10px;
+  height: 9px;
+  background: #c04444;
+  border: 2px solid #101a2c;
+}
+
+.lb-desk__pap {
+  position: absolute;
+  left: 112px;
+  top: -10px;
+  width: 34px;
+  height: 8px;
+  background: #f2e6cc;
+  border: 2px solid #101a2c;
+  transform: rotate(-3deg);
+}
+
+.lb-chaise {
+  position: absolute;
+  left: 60px;
+  top: 20px;
+  width: 34px;
+  height: 10px;
+  background: #223048;
+  border: 3px solid #101a2c;
+  border-radius: 5px;
+}
+
+.lb-avant .lb-test {
+  position: absolute;
+  left: 120px;
+  bottom: 26px;
+  width: 190px;
+  height: 18px;
+  background: #4a5a74;
+  border: 3px solid #101a2c;
+}
+
+.lb-test::after {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 18px;
+  width: 9px;
+  height: 40px;
+  background: #101a2c;
+  box-shadow: 146px 0 0 #101a2c;
+}
+
+.lb-test__t {
+  position: absolute;
+  left: 50%;
+  top: -108px;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: #ffd23a;
+  background: #101a2c;
+  padding: 6px 8px 5px;
+}
+
+.lb-test__plateau {
+  position: absolute;
+  left: 30px;
+  top: -24px;
+  width: 88px;
+  height: 26px;
+  background:
+    radial-gradient(circle at 16px 12px, #d8a03a 5px, transparent 5.5px),
+    radial-gradient(circle at 36px 7px, #4a8f5e 5px, transparent 5.5px),
+    radial-gradient(circle at 36px 19px, #b8622f 5px, transparent 5.5px),
+    radial-gradient(circle at 56px 12px, #8aa84a 5px, transparent 5.5px),
+    radial-gradient(circle at 72px 7px, #6a8ab8 5px, transparent 5.5px),
+    #5a6a80;
+  border: 2px solid #0a1018;
+}
+
+.lb-test__meep {
+  position: absolute;
+  top: -36px;
+  width: 10px;
+  height: 7px;
+}
+
+.lb-test__meep::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: -6px;
+  width: 5px;
+  height: 5px;
+  background: inherit;
+}
+
+.lb-test__meep::after {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  width: 14px;
+  height: 5px;
+  background: inherit;
+}
+
+.lb-test__meep--a {
+  left: 42px;
+  background: #e85a5a;
+}
+
+.lb-test__meep--b {
+  left: 86px;
+  background: #4affc2;
+}
+
+.lb-test__de {
+  position: absolute;
+  left: 128px;
+  top: -15px;
+  width: 13px;
+  height: 13px;
+  background: #f4efe2;
+  border: 2px solid #0a1018;
+}
+
+.lb-test__bloc {
+  position: absolute;
+  left: 150px;
+  top: -20px;
+  width: 32px;
+  height: 22px;
+  background: #f2e6cc;
+  border: 2px solid #0a1018;
+  transform: rotate(6deg);
+}
+
+.lb-avant .lb-loupe {
+  position: absolute;
+  left: -400px;
+  bottom: 26px;
+  width: 34px;
+  height: 52px;
+  background: #33435c;
+  border: 3px solid #101a2c;
+  box-shadow: inset 0 6px 0 #46586e;
+}
+
+.lb-loupe__meeple {
+  position: absolute;
+  left: 9px;
+  top: -20px;
+  width: 14px;
+  height: 9px;
+  background: #cc4444;
+}
+
+.lb-loupe__meeple::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: -10px;
+  width: 6px;
+  height: 6px;
+  background: inherit;
+}
+
+.lb-loupe__meeple::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: -4px;
+  width: 20px;
+  height: 5px;
+  background: inherit;
+}
+
+.lb-loupe__glass {
+  position: absolute;
+  left: -8px;
+  top: -52px;
+  width: 44px;
+  height: 44px;
+  border: 4px solid #101a2c;
+  border-radius: 50%;
+  background: rgba(160, 220, 255, 0.24);
+  box-shadow: inset 3px 3px 0 rgba(255, 255, 255, 0.35);
+  animation: flotte 2.6s ease-in-out infinite alternate;
+}
+
+.piece--labo .hint {
+  bottom: auto;
+  top: 150px;
+  margin-left: 450px;
+  font-size: 8px;
+  padding: 7px 9px 6px;
+  transform: translateX(-50%) translateZ(-290px);
 }

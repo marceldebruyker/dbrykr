@@ -20,8 +20,8 @@ const SPEED = 150; /* px pro Sekunde */
 
 const BOUNDS: Record<Mode, [number, number]> = {
   street: [-940, 970],
-  cafe: [-408, 408],
-  labo: [-434, 760],
+  cafe: [-424, 424],
+  labo: [-424, 424],
   metro: [-390, 470],
 };
 
@@ -35,7 +35,7 @@ const ZONES: Record<Mode, Zone[]> = {
     { x: 356, r: 60, dir: 'up', to: 'labo', spawn: -376, label: '↑ LABO', b: 250 },
   ],
   labo: [
-    { x: -376, r: 62, dir: 'down', to: 'cafe', spawn: 356, label: '↓ CAFÉ', b: 296 },
+    { x: -350, r: 66, dir: 'down', to: 'cafe', spawn: 356, label: '↓ CAFÉ', b: 150 },
   ],
   metro: [
     { x: -330, r: 62, dir: 'up', to: 'street', spawn: -542, label: '↑ SORTIE', b: 300 },
@@ -45,7 +45,7 @@ const ZONES: Record<Mode, Zone[]> = {
 const START_POS: Record<Mode, number> = {
   street: -560,
   cafe: 0,
-  labo: -384,
+  labo: -300,
   metro: -330,
 };
 
@@ -150,10 +150,17 @@ const App = () => {
       scaleRef.current = 1;
       const half = Math.max(0, 540 - vw / 2);
       camLimRef.current = { min: -half, max: half };
-    } else if (modeRef.current === 'cafe') {
-      /* Raumkasten (900×400) formatfüllend einpassen */
-      scaleRef.current = Math.min(vw / 940, (vh * 0.86) / 452);
-      camLimRef.current = { min: 0, max: 0 };
+    } else if (modeRef.current === 'cafe' || modeRef.current === 'labo') {
+      /* Raum (900×452) bildschirmfüllend: breit = cover, schmal = ganz zeigen */
+      /* Immer formatfüllend — auch auf dem Handy zeigt sich ein Ausschnitt */
+      const k =
+        vw >= 760
+          ? Math.max(vw / 900, vh / 452)
+          : Math.max(vw / 900, (vh * 0.52) / 452);
+      scaleRef.current = k;
+      /* Kamera folgt bis an beide Seitenwände */
+      const half = Math.max(0, 450 * k - vw / 2);
+      camLimRef.current = { min: -half, max: half };
     } else {
       const s = vw >= 1100 && vh >= 640 ? 1.3 : vw >= 760 ? 1.15 : 1;
       scaleRef.current = s;
@@ -324,7 +331,7 @@ const App = () => {
             const lim = camLimRef.current;
             camRef.current = Math.min(
               lim.max,
-              Math.max(lim.min, camRef.current + delta * 0.3)
+              Math.max(lim.min, camRef.current + delta * 0.55)
             );
             applyCam();
           }
@@ -349,6 +356,7 @@ const App = () => {
   /* Swipe = Kamera schwenken, Tippen = hinlaufen (und ggf. eintreten) */
   const onDragStart = (e: React.PointerEvent) => {
     if ((e.target as HTMLElement).closest('a, button, .ecran')) return;
+    movedRef.current = false;
     dragRef.current = {
       startX: e.clientX,
       camStart: camRef.current,
@@ -1011,13 +1019,58 @@ const App = () => {
       {/* Labo-Innenraum */}
       {mode === 'labo' && (
         <div className="salle salle--labo">
-          <div className="salle__wall" aria-hidden="true" />
-          <div className="salle__floor" aria-hidden="true" />
-          <div className="salle__scene" ref={sceneRef}>
-            <div className="deco" aria-hidden="true">
-              <span className="l-strip" />
+          <div className="piece piece--labo" ref={sceneRef}>
+            {/* Decke mit Lichtleisten */}
+            <div className="pc-plafond lb-plafond" aria-hidden="true">
+              <span className="lb-neon" style={{ left: 150 }} />
+              <span className="lb-neon" style={{ left: 450 }} />
+              <span className="lb-neon" style={{ left: 750 }} />
+            </div>
 
-              {/* Aufzug zurück ins Café */}
+            {/* Rückwand: Monitorwand & Analyse */}
+            <div className="pc-mur lb-mur" aria-hidden="true">
+              <span className="lb-cork">
+                <i className="lb-cork__f lb-cork__f--a" />
+                <i className="lb-cork__f lb-cork__f--b" />
+                <i className="lb-cork__f lb-cork__f--c" />
+              </span>
+
+              <div className="lb-charts">
+                <span className="lb-charts__t">RANKS · TOP 10</span>
+                <span className="lb-cb">
+                  <i>BGG</i>
+                  <b style={{ height: 30 }} />
+                  <b style={{ height: 40 }} />
+                  <b style={{ height: 24 }} />
+                  <b style={{ height: 46 }} />
+                  <b style={{ height: 34 }} />
+                </span>
+                <span className="lb-cb lb-cb--b">
+                  <i>AMZ</i>
+                  <b style={{ height: 42 }} />
+                  <b style={{ height: 27 }} />
+                  <b style={{ height: 36 }} />
+                  <b style={{ height: 20 }} />
+                  <b style={{ height: 32 }} />
+                </span>
+                <span className="lb-cb lb-cb--c">
+                  <i>RET</i>
+                  <b style={{ height: 25 }} />
+                  <b style={{ height: 44 }} />
+                  <b style={{ height: 31 }} />
+                  <b style={{ height: 38 }} />
+                  <b style={{ height: 23 }} />
+                </span>
+              </div>
+
+              <span className="lb-marche">
+                LE MARCHÉ <b>↗</b>
+              </span>
+              <span className="lb-fen" />
+            </div>
+
+            {/* Linke Wand: Aufzug & Presse */}
+            <div className="pc-cote pc-cote--l lb-cote" aria-hidden="true">
               <div className="asc asc--labo">
                 <span className="asc__cadre" />
                 <span className="asc__porte asc__porte--l" />
@@ -1030,134 +1083,61 @@ const App = () => {
                 <span className="asc__plaque">CAFÉ ↓</span>
               </div>
 
-              <span className="l-fenetre" />
-              <span className="l-scope" />
+              <span className="lb-presse">
+                <i className="lb-presse__t">LA GAZETTE</i>
+                <i className="lb-presse__l" />
+                <i className="lb-presse__l" />
+                <i className="lb-presse__ph" />
+              </span>
+              <span className="lb-revues" />
+            </div>
 
-              {/* Bestseller-Charts verschiedener Portale */}
-              <div className="l-charts" title="Ranks & Bestseller.">
-                <span className="l-charts__t">RANKS · TOP 10</span>
-                <span className="l-chartbox">
-                  <i className="l-chartbox__n">BGG</i>
-                  <b style={{ height: 26 }} />
-                  <b style={{ height: 34 }} />
-                  <b style={{ height: 21 }} />
-                  <b style={{ height: 40 }} />
-                  <b style={{ height: 30 }} />
+            {/* Rechte Wand: Studien & Server */}
+            <div className="pc-cote pc-cote--r lb-cote" aria-hidden="true">
+              <div className="lb-etudes">
+                <span className="lb-etudes__t">ÉTUDES</span>
+                <span className="lb-cls">
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
                 </span>
-                <span className="l-chartbox l-chartbox--b">
-                  <i className="l-chartbox__n">AMZ</i>
-                  <b style={{ height: 36 }} />
-                  <b style={{ height: 24 }} />
-                  <b style={{ height: 31 }} />
-                  <b style={{ height: 18 }} />
-                  <b style={{ height: 28 }} />
-                </span>
-                <span className="l-chartbox l-chartbox--c">
-                  <i className="l-chartbox__n">RET</i>
-                  <b style={{ height: 22 }} />
-                  <b style={{ height: 38 }} />
-                  <b style={{ height: 27 }} />
-                  <b style={{ height: 33 }} />
-                  <b style={{ height: 20 }} />
+                <span className="lb-cls lb-cls--b">
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
                 </span>
               </div>
 
-              {/* Presseecke: Zeitungen & Zeitschriften */}
-              <div className="l-presse" title="Was die Presse schreibt.">
-                <span className="l-journal">
-                  <i className="l-journal__tete">LA GAZETTE</i>
-                  <i className="l-journal__l" />
-                  <i className="l-journal__l" />
-                  <i className="l-journal__l" />
-                  <i className="l-journal__photo" />
-                </span>
-                <span className="l-revue l-revue--a" />
-                <span className="l-revue l-revue--b" />
-                <span className="l-revue l-revue--c" />
-                <span className="l-presse__pile" />
-              </div>
-
-              {/* Studienregal mit Ordnern */}
-              <div className="l-etudes" title="Studien & Berichte.">
-                <span className="l-etudes__t">ÉTUDES</span>
-                <span className="l-classeurs">
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                </span>
-                <span className="l-classeurs l-classeurs--b">
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                </span>
-                <span className="l-rapport">
-                  RAPPORT
-                  <br />
-                  2026
-                </span>
-              </div>
-
-              {/* Feldforschung: Händler, Verlage, Cafés */}
-              <div className="l-terrain" title="Händler · Verlage · Cafés.">
-                <span className="l-terrain__t">TERRAIN</span>
-                <span className="l-terrain__row">
+              <div className="lb-terrain">
+                <span className="lb-terrain__t">TERRAIN</span>
+                <span className="lb-tr">
                   <i className="l-pion l-pion--m" />
                   <b>DÉTAIL</b>
                 </span>
-                <span className="l-terrain__row">
+                <span className="lb-tr">
                   <i className="l-pion l-pion--v" />
                   <b>ÉDITEURS</b>
                 </span>
-                <span className="l-terrain__row">
+                <span className="lb-tr">
                   <i className="l-pion l-pion--c" />
                   <b>CAFÉS</b>
                 </span>
-                <span className="l-tel" />
               </div>
 
-              {/* Testtisch: Spiele selbst anspielen */}
-              <div className="l-test" title="Selber spielen hilft.">
-                <span className="l-test__plateau" />
-                <span className="l-test__meep l-test__meep--a" />
-                <span className="l-test__meep l-test__meep--b" />
-                <span className="l-test__de" />
-                <span className="l-test__bloc" />
-                <span className="l-test__chrono" />
-                <span className="l-test__t">TEST</span>
-              </div>
-
-              <div className="l-cork">
-                <i className="l-cork__fil l-cork__fil--a" />
-                <i className="l-cork__fil l-cork__fil--b" />
-                <i className="l-cork__fil l-cork__fil--c" />
-              </div>
-
-              <span className="l-chart">
-                LE MARCHÉ <b>↗</b>
-              </span>
-
-              <div className="l-desk">
-                <span className="l-desk__term" />
-                <span className="l-desk__mug" />
-                <span className="l-desk__chair" />
-                <span className="l-desk__dice" />
-              </div>
-
-              <div className="l-loupe">
-                <span className="l-loupe__meeple" />
-                <span className="l-loupe__glass" />
-              </div>
-
-              <div className="l-serv" />
+              <span className="lb-serv" />
             </div>
 
+            {/* Boden */}
+            <div className="pc-sol lb-sol" aria-hidden="true" />
+
+            {/* Influencer Monitor an der Rückwand */}
             <a
-              className="monitor"
+              className="monitor lb-monitor"
               href={INFLUENCER_URL}
               title="Influencer Monitor — Link folgt"
               aria-label="Influencer Monitor öffnen"
@@ -1179,6 +1159,30 @@ const App = () => {
 
             {hint}
             {player}
+
+            {/* Möbel im Raum */}
+            <div className="pc-avant lb-avant" aria-hidden="true">
+              <div className="lb-desk">
+                <span className="lb-desk__term" />
+                <span className="lb-desk__mug" />
+                <span className="lb-desk__pap" />
+                <span className="lb-chaise" />
+              </div>
+
+              <div className="lb-test">
+                <span className="lb-test__t">TEST</span>
+                <span className="lb-test__plateau" />
+                <span className="lb-test__meep lb-test__meep--a" />
+                <span className="lb-test__meep lb-test__meep--b" />
+                <span className="lb-test__de" />
+                <span className="lb-test__bloc" />
+              </div>
+
+              <div className="lb-loupe">
+                <span className="lb-loupe__meeple" />
+                <span className="lb-loupe__glass" />
+              </div>
+            </div>
           </div>
         </div>
       )}
