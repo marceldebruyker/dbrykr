@@ -2464,6 +2464,166 @@ body {
 }
 
 
+/* --- Straßeninterview --- */
+
+.itv-cam {
+  left: 566px;
+  --shirt: #3a7a8e;
+  --hair: #1a1210;
+}
+
+.itv-gast {
+  left: 706px;
+  --shirt: #c2a040;
+  --hair: #4a3220;
+  transform: scale(1.4) scaleX(-1);
+}
+
+.itv-camera {
+  position: absolute;
+  left: 596px;
+  bottom: 56px;
+  width: 0;
+  height: 0;
+}
+
+.itv-camera__tripod {
+  position: absolute;
+  left: 24px;
+  bottom: 0;
+  width: 5px;
+  height: 42px;
+  background: #10101c;
+}
+
+.itv-camera__tripod::before,
+.itv-camera__tripod::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 5px;
+  height: 46px;
+  background: #10101c;
+  transform-origin: top center;
+}
+
+.itv-camera__tripod::before {
+  transform: rotate(22deg);
+}
+
+.itv-camera__tripod::after {
+  transform: rotate(-22deg);
+}
+
+.itv-camera__body {
+  position: absolute;
+  left: 0;
+  bottom: 40px;
+  width: 56px;
+  height: 30px;
+  background: #23263a;
+  border: 3px solid #0d0b20;
+  box-shadow: inset 0 5px 0 #3a3d52;
+}
+
+.itv-camera__lens {
+  position: absolute;
+  left: 58px;
+  bottom: 46px;
+  width: 18px;
+  height: 16px;
+  background: #2a2d40;
+  border: 3px solid #0d0b20;
+}
+
+.itv-camera__lens::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6ab0ff;
+  box-shadow: 0 0 7px rgba(106, 176, 255, 0.7);
+}
+
+.itv-camera__reel {
+  position: absolute;
+  bottom: 70px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #1a1c2c;
+  border: 3px solid #0d0b20;
+}
+
+.itv-camera__reel::after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 7px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #3a3d52;
+}
+
+.itv-camera__reel--a {
+  left: 3px;
+}
+
+.itv-camera__reel--b {
+  left: 28px;
+}
+
+.itv-camera__eye {
+  position: absolute;
+  left: -9px;
+  bottom: 56px;
+  width: 9px;
+  height: 8px;
+  background: #10101c;
+}
+
+.itv-camera__rec {
+  position: absolute;
+  left: 5px;
+  bottom: 61px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ff4444;
+  box-shadow: 0 0 6px rgba(255, 68, 68, 0.8);
+  animation: blink 1s steps(2, start) infinite;
+}
+
+/* Galgenmikrofon über dem Gast */
+
+.itv-mic {
+  position: absolute;
+  left: 612px;
+  bottom: 128px;
+  width: 100px;
+  height: 4px;
+  background: #10101c;
+  transform: rotate(5deg);
+  transform-origin: left center;
+}
+
+.itv-mic::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 4px;
+  width: 10px;
+  height: 15px;
+  background: #2a2d40;
+  border: 2px solid #0d0b20;
+  border-radius: 5px 5px 3px 3px;
+}
+
 /* --- Café --- */
 
 .cafe {
@@ -3349,7 +3509,7 @@ body {
 }
 
 .borne--5 {
-  left: 620px;
+  left: 760px;
 }
 
 /* --- Laternen --- */
@@ -3564,100 +3724,107 @@ body {
   filter: drop-shadow(0 0 4px rgba(255, 217, 138, 0.55));
 }
 
-/* Bar: liegt flach auf der linken Wandebene */
-.pc-cote__bar {
+/* Theke als echter Körper im Raum: drei sichtbare Flächen */
+
+.bar3d {
   position: absolute;
-  left: 24px;
-  right: 30px;
-  bottom: 96px;
-  height: 66px;
-  background: linear-gradient(#8a5a42 0 16px, #6b2a34 16px);
-  border: 4px solid #17100c;
-  box-shadow: inset 0 -16px 0 -12px rgba(0, 0, 0, 0.35);
-  transform: none;
+  left: 76px;
+  bottom: 0;
+  width: 74px;   /* Tiefe der Theke quer zum Raum */
+  height: 92px;
+  transform-style: preserve-3d;
+  transform: translateZ(-176px);
 }
 
-.pc-cote__bar::before {
-  content: '';
+.bar3d .fc {
   position: absolute;
-  left: -8px;
-  right: -8px;
-  top: -12px;
-  height: 12px;
-  background: #96654a;
   border: 4px solid #17100c;
-  border-bottom: 0;
+  box-sizing: border-box;
 }
 
-.pc-cote__bar::after {
-  content: '';
-  position: absolute;
+/* Flanke: zeigt zur Raummitte, 220 lang in die Tiefe */
+.bar3d .fc--flanc {
+  left: 74px;
+  top: 0;
+  width: 220px;
+  height: 92px;
+  transform-origin: left center;
+  transform: rotateY(-90deg);
+  background: linear-gradient(#7a3038 0 10px, #58222b 10px);
+  box-shadow: inset 0 -18px 0 -13px rgba(0, 0, 0, 0.4);
+}
+
+/* Deckplatte: liegt waagerecht auf */
+.bar3d .fc--dessus {
   left: 0;
-  right: 0;
-  bottom: -12px;
-  height: 10px;
-  background: rgba(0, 0, 0, 0.32);
+  top: 0;
+  width: 74px;
+  height: 220px;
+  transform-origin: top center;
+  transform: rotateX(-90deg);
+  background: linear-gradient(90deg, #96654a, #7a5238);
+  box-shadow: inset 0 0 0 3px #6b4128;
+}
+
+/* Stirnseite zum Betrachter */
+.bar3d .fc--bout {
+  left: 0;
+  top: 0;
+  width: 74px;
+  height: 92px;
+  transform: translateZ(110px);
+  background: linear-gradient(#7a3038 0 10px, #4e1e26 10px);
+}
+
+/* Geräte stehen auf der Deckplatte */
+.bar3d .fc--dessus b {
+  position: absolute;
+  display: block;
 }
 
 .pc-bar__machine {
-  position: absolute;
-  right: 20px;
-  top: -40px;
-  width: 30px;
-  height: 26px;
-  background: linear-gradient(#8a8f9e 0 9px, #565c6e 9px);
+  left: 12px;
+  top: 30px;
+  width: 44px;
+  height: 30px;
+  background: linear-gradient(#8a8f9e 0 10px, #565c6e 10px);
   border: 3px solid #17100c;
-}
-
-.pc-bar__machine::after {
-  content: '';
-  position: absolute;
-  left: 4px;
-  top: 4px;
-  width: 4px;
-  height: 4px;
-  background: #cc3333;
+  border-radius: 3px;
 }
 
 .pc-bar__cake {
-  position: absolute;
-  left: 20px;
-  top: -34px;
-  width: 26px;
-  height: 20px;
-  background: rgba(220, 235, 255, 0.28);
-  border: 2px solid #17100c;
-  border-radius: 12px 12px 0 0;
-}
-
-.pc-bar__cake::after {
-  content: '';
-  position: absolute;
-  left: 5px;
-  bottom: 0;
-  width: 14px;
-  height: 9px;
-  background: #d886a0;
+  left: 16px;
+  top: 96px;
+  width: 40px;
+  height: 26px;
+  background: rgba(220, 235, 255, 0.35);
+  border: 3px solid #17100c;
+  border-radius: 14px 14px 4px 4px;
 }
 
 .pc-bar__cups {
-  position: absolute;
-  left: 62px;
-  top: -24px;
-  width: 9px;
-  height: 8px;
+  left: 22px;
+  top: 152px;
+  width: 12px;
+  height: 12px;
   background: #f4efe2;
   border: 2px solid #17100c;
-  box-shadow: 12px 1px 0 -1px #f4efe2, 12px 1px 0 1px #17100c;
+  border-radius: 3px;
+  box-shadow:
+    17px 6px 0 -1px #f4efe2,
+    17px 6px 0 1px #17100c,
+    4px 26px 0 -2px #f4efe2,
+    4px 26px 0 0 #17100c;
 }
 
+/* Barista steht hinter der Theke */
 .pc-barista {
   position: absolute;
-  left: 74px;
-  bottom: 168px;
+  left: -34px;
+  bottom: 18px;
   width: 3px;
   height: 3px;
-  transform: scale(1.7);
+  transform: scale(1.7) translateZ(60px);
   transform-origin: 9px 21px;
   --hair: #4a3220;
   --skin: #e9b788;

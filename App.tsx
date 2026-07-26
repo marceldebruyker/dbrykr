@@ -92,7 +92,7 @@ const Smoke = () => (
 );
 
 const App = () => {
-  const [mode, setMode] = useState<Mode>('street');
+  const [mode, setMode] = useState<Mode>('cafe') /* TEMP */;
   const [walking, setWalking] = useState(false);
   const [facing, setFacing] = useState(1);
   const [zone, setZone] = useState<Zone | null>(null);
@@ -693,6 +693,20 @@ const App = () => {
           <span className="dog" aria-hidden="true" title="Wuff." />
           <span className="walker walker--c" aria-hidden="true" />
 
+          {/* Straßeninterview: Kamera, Reporter, Gast */}
+          <span className="walker itv-cam" aria-hidden="true" />
+          <div className="itv-camera" aria-hidden="true" title="Vox populi.">
+            <i className="itv-camera__tripod" />
+            <i className="itv-camera__body" />
+            <i className="itv-camera__lens" />
+            <i className="itv-camera__reel itv-camera__reel--a" />
+            <i className="itv-camera__reel itv-camera__reel--b" />
+            <i className="itv-camera__eye" />
+            <i className="itv-camera__rec" />
+          </div>
+          <span className="itv-mic" aria-hidden="true" />
+          <span className="walker itv-gast" aria-hidden="true" />
+
           <div
             className="cafe"
             aria-hidden="true"
@@ -966,13 +980,19 @@ const App = () => {
 
             {/* Seitenwände */}
             <div className="pc-cote pc-cote--l" aria-hidden="true">
-              <span className="pc-cote__bar">
-                <i className="pc-bar__machine" />
-                <i className="pc-bar__cake" />
-                <i className="pc-bar__cups" />
-              </span>
-              <span className="pc-barista" />
               <span className="pc-carte">MENU</span>
+            </div>
+
+            {/* Theke: eigener Körper, ragt in den Raum */}
+            <div className="bar3d" aria-hidden="true">
+              <i className="fc fc--flanc" />
+              <i className="fc fc--dessus">
+                <b className="pc-bar__machine" />
+                <b className="pc-bar__cake" />
+                <b className="pc-bar__cups" />
+              </i>
+              <i className="fc fc--bout" />
+              <span className="pc-barista" />
             </div>
 
             <div className="pc-cote pc-cote--r" aria-hidden="true">
