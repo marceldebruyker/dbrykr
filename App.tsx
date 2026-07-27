@@ -19,10 +19,10 @@ interface Zone {
 const SPEED = 150; /* px pro Sekunde */
 
 const BOUNDS: Record<Mode, [number, number]> = {
-  street: [-1180, 970],
+  street: [-1180, 1420],
   cafe: [-424, 424],
   labo: [-424, 424],
-  metro: [-1180, 970],
+  metro: [-1180, 1420],
 };
 
 const ZONES: Record<Mode, Zone[]> = {
@@ -145,6 +145,7 @@ const App = () => {
   const cielRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
   const rueRef = useRef<HTMLDivElement>(null);
+  const marketRef = useRef<HTMLDivElement>(null);
   const modeRef = useRef<Mode>('street');
   const zoneRef = useRef<Zone | null>(null);
   const fadeRef = useRef(false);
@@ -176,9 +177,10 @@ const App = () => {
       const rue = rueRef.current;
       if (!rue) return;
       const rect = rue.getBoundingClientRect();
+      const marketRect = marketRef.current?.getBoundingClientRect();
       const cam = camRef.current;
-      const baseL = rect.left - cam;
-      const baseR = rect.right - cam;
+      const baseL = Math.min(rect.left, marketRect?.left ?? rect.left) - cam;
+      const baseR = Math.max(rect.right, marketRect?.right ?? rect.right) - cam;
       camLimRef.current = {
         max: Math.max(0, 44 - baseL),
         min: Math.min(0, vw - 44 - baseR),
@@ -189,10 +191,13 @@ const App = () => {
       const rue = rueRef.current;
       if (rue) {
         const rect = rue.getBoundingClientRect();
+        const marketRect = marketRef.current?.getBoundingClientRect();
         const cam = camRef.current;
+        const baseL = Math.min(rect.left, marketRect?.left ?? rect.left) - cam;
+        const baseR = Math.max(rect.right, marketRect?.right ?? rect.right) - cam;
         camLimRef.current = {
-          max: Math.max(0, 44 - (rect.left - cam)),
-          min: Math.min(0, vw - 44 - (rect.right - cam)),
+          max: Math.max(0, 44 - baseL),
+          min: Math.min(0, vw - 44 - baseR),
         };
       }
     } else if (modeRef.current === 'cafe' || modeRef.current === 'labo') {
@@ -811,6 +816,42 @@ const App = () => {
             <div className="wins">
               <Windows n={4} />
             </div>
+          </div>
+
+          {/* Ganz im Osten: kleiner Wochenmarkt */}
+          <div
+            className="marche"
+            ref={marketRef}
+            title="Marché du dimanche."
+          >
+            <span className="marche__enseigne">MARCHÉ DU DIMANCHE</span>
+            <span className="marche__fanions" />
+
+            <div className="marche__stand marche__stand--fleurs">
+              <span className="marche__nom">FLEURS</span>
+              <span className="marche__store" />
+              <span className="marche__etal" />
+              <span className="marche__produits" />
+            </div>
+
+            <div className="marche__stand marche__stand--fromage">
+              <span className="marche__nom">FROMAGES</span>
+              <span className="marche__store" />
+              <span className="marche__etal" />
+              <span className="marche__produits" />
+            </div>
+
+            <div className="marche__stand marche__stand--primeur">
+              <span className="marche__nom">PRIMEURS</span>
+              <span className="marche__store" />
+              <span className="marche__etal" />
+              <span className="marche__produits" />
+            </div>
+
+            <span className="walker marche__vendeur marche__vendeur--a" />
+            <span className="walker marche__vendeur marche__vendeur--b" />
+            <span className="walker marche__client" />
+            <span className="marche__panier" />
           </div>
         </div>
 
