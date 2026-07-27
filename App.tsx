@@ -1019,13 +1019,6 @@ const App = () => {
             <span className="mt-poubelle" />
             <span className="mt-colonne mt-colonne--a" />
             <span className="mt-colonne mt-colonne--b" />
-
-            <div className="mt-esc">
-              <span className="mt-esc__cage" />
-              <span className="mt-esc__marches" />
-              <span className="mt-esc__rampe" />
-              <span className="mt-esc__jour" />
-            </div>
           </div>
           {mode === 'metro' && hint}
           {mode === 'metro' && player}
