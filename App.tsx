@@ -991,7 +991,9 @@ const App = () => {
             <span className="mt-nom">RIHOUR</span>
             <span className="mt-nom mt-nom--b">RIHOUR</span>
             <span className="mt-ligne">
-              <b>1</b> 4 CANTONS ↦
+              <b>1</b>
+              <span className="mt-ligne__txt">4 CANTONS</span>
+              <i aria-hidden="true">↦</i>
             </span>
             <span className="mt-plan">
               <i />

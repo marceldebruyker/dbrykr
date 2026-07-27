@@ -7682,46 +7682,66 @@ body {
   position: absolute;
   bottom: 244px;
   left: -300px;
-  padding: 9px 16px 8px;
+  z-index: 2;
+  padding: 11px 18px 10px;
   font-family: 'Press Start 2P', monospace;
-  font-size: 14px;
-  letter-spacing: 3px;
-  color: #f4f6ff;
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: #fff;
   background: #1d3f8f;
   border: 4px solid #e8ecf8;
   box-shadow: 0 0 0 4px #14161f;
+  text-shadow: 3px 3px 0 #142860;
+  white-space: nowrap;
 }
 
 .mt-nom--b {
-  left: 246px;
+  left: 260px;
 }
 
 .mt-ligne {
   position: absolute;
-  bottom: 300px;
-  left: -46px;
+  bottom: 318px;
+  left: -88px;
+  z-index: 3;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 12px 6px;
-  font-size: 19px;
-  letter-spacing: 1px;
+  gap: 11px;
+  padding: 11px 15px 10px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 2px;
   color: #14161f;
   background: #f2c832;
   border: 4px solid #14161f;
+  box-shadow: 4px 4px 0 rgba(10, 12, 20, 0.55);
+  white-space: nowrap;
 }
 
 .mt-ligne b {
-  display: inline-block;
-  width: 22px;
-  height: 22px;
-  line-height: 22px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
   text-align: center;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 13px;
   color: #f2c832;
   background: #14161f;
   border-radius: 50%;
+}
+
+.mt-ligne__txt {
+  display: block;
+}
+
+.mt-ligne i {
+  display: block;
+  font-family: 'VT323', monospace;
+  font-size: 28px;
+  font-style: normal;
+  line-height: 0.7;
 }
 
 /* Liniennetzplan */
@@ -7769,24 +7789,31 @@ body {
 .mt-pub {
   position: absolute;
   bottom: 190px;
-  left: 322px;
-  width: 104px;
-  padding: 12px 6px 14px;
+  left: 500px;
+  z-index: 2;
+  width: 142px;
+  padding: 16px 10px 15px;
   text-align: center;
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
-  line-height: 1.7;
-  color: #e8c05a;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #ffd66e;
   background: #58252e;
   border: 5px solid #c8ccd8;
   box-shadow: 0 0 0 4px #14161f;
+  text-shadow: 2px 2px 0 #321018;
 }
 
 .mt-pub small {
+  display: block;
+  margin-top: 8px;
   font-family: 'VT323', monospace;
-  font-size: 17px;
-  letter-spacing: 1px;
-  color: #d8a8b0;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 2px;
+  color: #f3cbd2;
+  text-shadow: none;
+  white-space: nowrap;
 }
 
 /* Abfahrtsanzeige */
@@ -7978,7 +8005,8 @@ body {
   bottom: 9px;
   z-index: 7;
   font-size: 15px;
-  color: rgba(230, 232, 255, 0.45);
+  color: rgba(242, 244, 255, 0.78);
+  text-shadow: 1px 1px 0 #070718;
 }
 
 .pad {
@@ -8639,7 +8667,8 @@ body {
   bottom: 9px;
   z-index: 4;
   font-size: 15px;
-  color: rgba(230, 232, 255, 0.4);
+  color: rgba(242, 244, 255, 0.76);
+  text-shadow: 1px 1px 0 #070718;
 }
 
 /* ============ Responsive ============ */
@@ -9723,10 +9752,14 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 3px;
-  width: 168px !important;
-  height: 44px !important;
-  padding: 0 8px;
+  left: 12px;
+  bottom: 246px;
+  z-index: 3;
+  gap: 5px;
+  width: 188px !important;
+  height: 58px !important;
+  padding: 0 10px;
+  box-shadow: 4px 4px 0 rgba(10, 12, 20, 0.5);
 }
 
 .mt-ecran::before,
@@ -9736,18 +9769,20 @@ body {
 
 .mt-ecran__l1 {
   font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
+  font-size: 7px;
   font-style: normal;
   letter-spacing: 1px;
-  color: #f2c832;
+  color: #ffdc48;
   white-space: nowrap;
 }
 
 .mt-ecran__l2 {
   font-style: normal;
-  font-size: 17px;
+  font-size: 21px;
+  line-height: 1;
   letter-spacing: 1px;
-  color: #7ad7ff;
+  color: #9be6ff;
+  white-space: nowrap;
 }
 
 .mt-ecran__l2 b {
