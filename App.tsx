@@ -812,7 +812,6 @@ const App = () => {
               <Windows n={4} />
             </div>
           </div>
-
         </div>
 
         <div className="fore">
