@@ -19,16 +19,15 @@ interface Zone {
 const SPEED = 150; /* px pro Sekunde */
 
 const BOUNDS: Record<Mode, [number, number]> = {
-  street: [-940, 970],
+  street: [-1180, 970],
   cafe: [-424, 424],
   labo: [-424, 424],
-  metro: [-390, 470],
+  metro: [-1180, 970],
 };
 
 const ZONES: Record<Mode, Zone[]> = {
   street: [
     { x: -42, r: 38, dir: 'up', to: 'cafe', spawn: 0, label: '↑ ENTRER', b: 252 },
-    { x: -542, r: 54, dir: 'down', to: 'metro', spawn: -330, label: '↓ MÉTRO', b: 216 },
   ],
   cafe: [
     { x: 0, r: 54, dir: 'down', to: 'street', spawn: -42, label: '↓ SORTIR', b: 244 },
@@ -38,7 +37,7 @@ const ZONES: Record<Mode, Zone[]> = {
     { x: -350, r: 66, dir: 'down', to: 'cafe', spawn: 356, label: '↓ CAFÉ', b: 150 },
   ],
   metro: [
-    { x: -330, r: 62, dir: 'up', to: 'street', spawn: -542, label: '↑ SORTIE', b: 300 },
+    { x: -460, r: 78, dir: 'up', to: 'street', spawn: -460, label: '↑ SORTIE', b: 300 },
   ],
 };
 
@@ -92,7 +91,7 @@ const Smoke = () => (
 );
 
 const App = () => {
-  const [mode, setMode] = useState<Mode>('cafe') /* TEMP */;
+  const [mode, setMode] = useState<Mode>('street');
   const [walking, setWalking] = useState(false);
   const [facing, setFacing] = useState(1);
   const [zone, setZone] = useState<Zone | null>(null);
@@ -101,6 +100,39 @@ const App = () => {
   const [liftDir, setLiftDir] = useState<'up' | 'down'>('up');
 
   const [page, setPage] = useState<'' | 'menu' | 'contact' | 'base'>('');
+  const [heure, setHeure] = useState(() => new Date());
+  const [chatSuit, setChatSuit] = useState(false);
+
+  /* Uhrzeit: Zeiger und Tag/Nacht */
+  const h = heure.getHours();
+  const min = heure.getMinutes();
+  const jour = h >= 7 && h < 20;
+  const angleH = ((h % 12) + min / 60) * 30;
+  const angleM = min * 6;
+
+  /* Zugtakt: 48 s Umlauf, Zähler läuft ehrlich mit */
+  const TAKT = 48;
+  const [tick, setTick] = useState(0);
+  const reste = TAKT - (tick % TAKT);
+  const resteTxt =
+    reste > 60
+      ? `${Math.floor(reste / 60)} min ${String(reste % 60).padStart(2, '0')}`
+      : reste <= 4
+        ? 'À QUAI'
+        : `${reste} s`;
+
+  /* Besucherzähler im Odometer-Stil */
+  const [visites] = useState(() => {
+    if (typeof window === 'undefined') return 1247021;
+    const n = Number(window.localStorage.getItem('dbrykr.visites') || 0);
+    const next = (n > 0 ? n : 1247021) + 1;
+    try {
+      window.localStorage.setItem('dbrykr.visites', String(next));
+    } catch {
+      /* Privater Modus: dann eben nur diese Sitzung */
+    }
+    return next;
+  });
 
   const keysRef = useRef({ left: false, right: false });
   const posRef = useRef<Record<Mode, number>>({
@@ -128,7 +160,12 @@ const App = () => {
   const movedRef = useRef(false);
   const targetRef = useRef<number | null>(null);
   const enterRef = useRef<Zone | null>(null);
+  const basRef = useRef({ n: 0, t: 0 });
   const actionRef = useRef<(dir: 'up' | 'down') => void>(() => {});
+  const chatRef = useRef<HTMLSpanElement>(null);
+  const chatXRef = useRef(250);
+  const chatSuitRef = useRef(false);
+  const chatDirRef = useRef(1);
 
   /* Kameragrenzen & Raum-Zoom je Szene */
   const measureLimits = () => {
@@ -148,8 +185,16 @@ const App = () => {
       };
     } else if (modeRef.current === 'metro') {
       scaleRef.current = 1;
-      const half = Math.max(0, 540 - vw / 2);
-      camLimRef.current = { min: -half, max: half };
+      /* Deckungsgleich mit der Straße darüber */
+      const rue = rueRef.current;
+      if (rue) {
+        const rect = rue.getBoundingClientRect();
+        const cam = camRef.current;
+        camLimRef.current = {
+          max: Math.max(0, 44 - (rect.left - cam)),
+          min: Math.min(0, vw - 44 - (rect.right - cam)),
+        };
+      }
     } else if (modeRef.current === 'cafe' || modeRef.current === 'labo') {
       /* Raum (900×452) bildschirmfüllend: breit = cover, schmal = ganz zeigen */
       /* Immer formatfüllend — auch auf dem Handy zeigt sich ein Ausschnitt */
@@ -183,9 +228,41 @@ const App = () => {
         cielRef.current.style.transform = `translateX(${c * 0.16}px)`;
       }
     } else if (sceneRef.current) {
-      sceneRef.current.style.transform = `translateX(${camRef.current}px) scale(${scaleRef.current})`;
+      const c = camRef.current;
+      sceneRef.current.style.transform = `translateX(${c}px) scale(${scaleRef.current})`;
+      /* Im Untergrund läuft die Stadt darüber synchron mit */
+      if (modeRef.current === 'metro') {
+        if (mondeRef.current) {
+          mondeRef.current.style.transform = `translateX(${c}px)`;
+        }
+        if (lointainRef.current) {
+          lointainRef.current.style.transform = `translateX(${c * 0.5}px)`;
+        }
+        if (cielRef.current) {
+          cielRef.current.style.transform = `translateX(${c * 0.16}px)`;
+        }
+      }
     }
   };
+
+  /* Uhr im Minutentakt, Zugzähler im Sekundentakt */
+  useEffect(() => {
+    const u = window.setInterval(() => setHeure(new Date()), 20000);
+    const t = window.setInterval(() => setTick((n) => n + 1), 1000);
+    return () => {
+      window.clearInterval(u);
+      window.clearInterval(t);
+    };
+  }, []);
+
+  useEffect(() => {
+    chatSuitRef.current = chatSuit;
+  }, [chatSuit]);
+
+  useEffect(() => {
+    /* Drinnen bleibt die Katze bockig draußen sitzen */
+    if (mode !== 'street') setChatSuit(false);
+  }, [mode]);
 
   useEffect(() => {
     modeRef.current = mode;
@@ -233,6 +310,15 @@ const App = () => {
       }, 240);
     };
 
+    const descendre = () => {
+      fadeRef.current = true;
+      posRef.current.metro = posRef.current.street;
+      setMode('metro');
+      window.setTimeout(() => {
+        fadeRef.current = false;
+      }, 620);
+    };
+
     actionRef.current = (dir) => {
       const z = zoneRef.current;
       if (z && z.dir === dir) swap(z);
@@ -250,7 +336,21 @@ const App = () => {
         actionRef.current('up');
       } else if (e.key === 'ArrowDown') {
         e.preventDefault();
-        actionRef.current('down');
+        if (zoneRef.current?.dir === 'down') {
+          actionRef.current('down');
+          return;
+        }
+        /* Kein Ausgang hier? Dreimal drücken öffnet den Untergrund. */
+        if (modeRef.current === 'street' && !fadeRef.current) {
+          const b = basRef.current;
+          const now = performance.now();
+          b.n = now - b.t < 1400 ? b.n + 1 : 1;
+          b.t = now;
+          if (b.n >= 3) {
+            b.n = 0;
+            descendre();
+          }
+        }
       }
     };
 
@@ -310,6 +410,23 @@ const App = () => {
       if (z !== zoneRef.current) {
         zoneRef.current = z;
         setZone(z);
+      }
+
+      /* Katze trottet hinterher, hält aber Abstand */
+      if (chatRef.current && m === 'street') {
+        const cx = chatXRef.current;
+        if (chatSuitRef.current) {
+          const cible = pos - 46;
+          const d = cible - cx;
+          if (Math.abs(d) > 6) {
+            const chatDir = Math.sign(d);
+            chatDirRef.current = chatDir;
+            chatXRef.current =
+              cx + chatDir * Math.min(96 * dt, Math.abs(d));
+          }
+        }
+        chatRef.current.style.transform =
+          `translateX(${chatXRef.current - 250}px) scaleX(${chatDirRef.current})`;
       }
 
       if (playerRef.current) {
@@ -445,7 +562,7 @@ const App = () => {
 
   return (
     <main
-      className="nuit"
+      className={`nuit${jour ? ' is-jour' : ''}`}
       onPointerDown={onDragStart}
       onPointerMove={onDragMove}
       onPointerUp={onDragEnd}
@@ -483,7 +600,10 @@ const App = () => {
 
         <div className="beffroi" title="Lille.">
           <span className="bf-shaft" />
-          <span className="bf-clock" />
+          <span className="bf-clock">
+          <i className="aig aig--h" style={{ transform: `rotate(${angleH}deg)` }} />
+          <i className="aig aig--m" style={{ transform: `rotate(${angleM}deg)` }} />
+        </span>
           <span className="bf-ledge" />
           <span className="bf-turret bf-turret--l" />
           <span className="bf-turret bf-turret--r" />
@@ -499,6 +619,22 @@ const App = () => {
       <div className={`univers${mode === 'metro' ? ' is-sous' : ''}`}>
       <div className="monde" ref={mondeRef}>
         <div className="rue" aria-hidden="true" ref={rueRef}>
+          {/* Westende: Gare Lille Flandres */}
+          <div className="bat bat--gare" title="Gare Lille Flandres.">
+            <span className="gare__horloge">
+              <i className="aig aig--h" style={{ transform: `rotate(${angleH}deg)` }} />
+              <i className="aig aig--m" style={{ transform: `rotate(${angleM}deg)` }} />
+            </span>
+            <span className="gare__fronton" />
+            <span className="gare__nom">GARE LILLE FLANDRES</span>
+            <span className="gare__arcade">
+              <i />
+              <i />
+              <i />
+            </span>
+            <span className="gare__quai" />
+          </div>
+
           {/* Peripherie links: reine Wohnhäuser */}
           <div className="bat bat--e">
             <div className="toit">
@@ -556,7 +692,14 @@ const App = () => {
                 <i className="baguette" />
                 <i className="baguette" />
                 <i className="baguette" />
-                <i className="ferme">FERMÉ</i>
+                {jour ? (
+                  <>
+                    <i className="vapeur v1" />
+                    <i className="vapeur v2" />
+                  </>
+                ) : (
+                  <i className="ferme">FERMÉ</i>
+                )}
               </span>
             </div>
           </div>
@@ -785,7 +928,15 @@ const App = () => {
             </div>
           </div>
 
-          <span className="chat" aria-hidden="true" title="Miau." />
+          <span
+            className={`chat${chatSuit ? ' is-suit' : ''}`}
+            title={chatSuit ? 'Folgt dir.' : 'Miau.'}
+            ref={chatRef}
+            onClick={(e) => {
+              e.stopPropagation();
+              setChatSuit((v) => !v);
+            }}
+          />
 
           <div className="morris" aria-hidden="true">
             <span className="affiche affiche--a">
@@ -823,7 +974,10 @@ const App = () => {
           <div className="deco">
             <span className="mt-fosse" />
             <span className="mt-tube" />
+            <span className="mt-tube mt-tube--o" />
             <span className="mt-rail" />
+            {/* Westende: hier hört der Bahnsteig auf */}
+            <span className="mt-fin" />
 
             <span className="mt-train">
               <i className="mt-train__nez" />
@@ -851,7 +1005,12 @@ const App = () => {
               <br />
               <small>café · jeux</small>
             </span>
-            <span className="mt-ecran" />
+            <span className="mt-ecran">
+              <i className="mt-ecran__l1">RIHOUR · 4 CANTONS</i>
+              <i className="mt-ecran__l2">
+                prochain <b>{resteTxt}</b>
+              </i>
+            </span>
 
             <span className="mt-banc" />
             <span className="sitter mt-attente mt-attente--a" />
@@ -975,7 +1134,10 @@ const App = () => {
                 <br />
                 <small>jeudi 20h</small>
               </span>
-              <span className="pc-horloge" />
+              <span className="pc-horloge">
+                <i className="aig aig--h" style={{ transform: `rotate(${angleH}deg)` }} />
+                <i className="aig aig--m" style={{ transform: `rotate(${angleM}deg)` }} />
+              </span>
             </div>
 
             {/* Seitenwände */}
@@ -1207,7 +1369,17 @@ const App = () => {
         </div>
       )}
 
-      <span className="copy">© 2026 Marcel Debruyker</span>
+      <span className="copy">
+        © 2026 Marcel Debruyker
+        <span className="compteur" title="Besucher seit 1997">
+          {String(visites)
+            .padStart(7, '0')
+            .split('')
+            .map((c, i) => (
+              <i key={i}>{c}</i>
+            ))}
+        </span>
+      </span>
 
       {/* Retro-Menü */}
       <button
@@ -1256,6 +1428,22 @@ const App = () => {
                     ▸ CAFÉS EN EUROPE
                   </button>
                   <a href={`mailto:${MAIL}`}>▸ ÉCRIRE UN MAIL</a>
+                  <a
+                    className="mnu__ext"
+                    href="https://www.linkedin.com/in/marcel-murschel-bb7b1b145/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <b className="badge badge--li">in</b> LINKEDIN
+                  </a>
+                  <a
+                    className="mnu__ext"
+                    href="https://boardgamegeek.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <b className="badge badge--bgg">BGG</b> BOARDGAMEGEEK
+                  </a>
                   <button type="button" onClick={() => setPage('')}>
                     ▸ RETOUR À LA VILLE
                   </button>

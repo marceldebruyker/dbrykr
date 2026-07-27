@@ -366,6 +366,30 @@ body {
   box-shadow: 15px 0 0 #241c30, 7px 56px 0 #241c30;
 }
 
+.bf-shaft::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  right: -3px;
+  top: calc(100% - 3px);
+  height: 246px;
+  background:
+    linear-gradient(#241c30, #241c30) 17px 34px / 9px 20px no-repeat,
+    linear-gradient(#241c30, #241c30) 38px 34px / 9px 20px no-repeat,
+    linear-gradient(#241c30, #241c30) 27px 98px / 9px 20px no-repeat,
+    linear-gradient(#241c30, #241c30) 17px 162px / 9px 20px no-repeat,
+    linear-gradient(#241c30, #241c30) 38px 162px / 9px 20px no-repeat,
+    linear-gradient(
+      90deg,
+      #c9b490 0 7px,
+      transparent 7px calc(100% - 7px),
+      #c9b490 calc(100% - 7px)
+    ),
+    repeating-linear-gradient(0deg, #5a3230 0 6px, #533028 6px 12px);
+  border: 3px solid #0d0b20;
+  border-top: 0;
+}
+
 .bf-clock {
   bottom: 152px;
   width: 64px;
@@ -389,17 +413,6 @@ body {
   box-shadow: 0 0 14px 3px rgba(232, 192, 90, 0.65);
 }
 
-.bf-clock::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 2px;
-  height: 8px;
-  margin: -7px 0 0 -1px;
-  background: #0d0b20;
-  box-shadow: 1px 6px 0 -0px #0d0b20;
-}
 
 .bf-ledge {
   bottom: 188px;
@@ -567,11 +580,62 @@ body {
   border-bottom: 0;
 }
 
-/* Lücke in der Häuserzeile, in der das Café steht */
+/* Dichte Hinterhaus-Fassade hinter dem freistehenden Café */
 .trou {
+  position: relative;
   flex: 0 0 auto;
   width: 452px;
-  height: 1px;
+  height: 250px;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(13, 11, 32, 0.11) 0 2px,
+      transparent 2px 23px
+    ),
+    #443b63;
+  border: 4px solid #0d0b20;
+  border-bottom: 0;
+  box-shadow:
+    inset 0 36px 0 #303556,
+    inset 0 40px 0 #0d0b20;
+}
+
+.trou::before {
+  content: '';
+  position: absolute;
+  left: 218px;
+  top: 62px;
+  width: 30px;
+  height: 42px;
+  background: linear-gradient(#fff0b0, #e7b76a);
+  border: 4px solid #17132e;
+  box-shadow:
+    72px 0 0 -4px #665f8c,
+    72px 0 0 0 #17132e,
+    144px 0 0 -4px #fff0b0,
+    144px 0 0 0 #17132e,
+    0 82px 0 -4px #665f8c,
+    0 82px 0 0 #17132e,
+    72px 82px 0 -4px #fff0b0,
+    72px 82px 0 0 #17132e,
+    144px 82px 0 -4px #665f8c,
+    144px 82px 0 0 #17132e;
+}
+
+.trou::after {
+  content: '';
+  position: absolute;
+  left: 194px;
+  right: 16px;
+  bottom: 0;
+  height: 12px;
+  background: repeating-linear-gradient(
+    90deg,
+    #26213f 0 18px,
+    #5a507a 18px 22px
+  );
+  border-top: 4px solid #0d0b20;
 }
 
 .bat--hotel {
@@ -4136,25 +4200,7 @@ body {
   border-radius: 50%;
 }
 
-.pc-horloge::before {
-  content: '';
-  position: absolute;
-  left: 11px;
-  top: 11px;
-  width: 8px;
-  height: 2px;
-  background: #24140c;
-}
 
-.pc-horloge::after {
-  content: '';
-  position: absolute;
-  left: 11px;
-  top: 5px;
-  width: 2px;
-  height: 8px;
-  background: #24140c;
-}
 
 /* Aufzug an der rechten Seitenwand */
 
@@ -7490,7 +7536,7 @@ body {
   background: linear-gradient(#f4f4f6 0 62%, #e2e2e8);
   border: 4px solid #14161f;
   border-radius: 8px 30px 6px 6px;
-  animation: valpasse 17s cubic-bezier(0.3, 0, 0.2, 1) infinite;
+  animation: valpasse 48s cubic-bezier(0.32, 0, 0.2, 1) infinite;
 }
 
 /* Rote Front (fahrerlos: durchgehende Panoramascheibe) */
@@ -7586,19 +7632,17 @@ body {
   border-bottom: 5px solid #d92c2c;
 }
 
+/* An den Zähler gekoppelt: Einfahrt bei 0, 14 s Halt, dann weiter */
 @keyframes valpasse {
-  0% {
-    transform: translateX(760px);
+  0%,
+  86% {
+    transform: translateX(880px);
   }
-  16% {
+  91.7% {
     transform: translateX(0);
   }
-  46% {
-    transform: translateX(0);
-  }
-  70%,
   100% {
-    transform: translateX(-1120px);
+    transform: translateX(0);
   }
 }
 
@@ -7637,7 +7681,7 @@ body {
 .mt-nom {
   position: absolute;
   bottom: 244px;
-  left: -224px;
+  left: -300px;
   padding: 9px 16px 8px;
   font-family: 'Press Start 2P', monospace;
   font-size: 14px;
@@ -7902,7 +7946,7 @@ body {
 .mt-esc {
   position: absolute;
   bottom: 88px;
-  left: -420px;
+  left: -560px;
   width: 190px;
   height: 190px;
 }
@@ -9461,4 +9505,378 @@ body {
   font-size: 8px;
   padding: 7px 9px 6px;
   transform: translateX(-50%) translateZ(-290px);
+}
+
+/* ============ Menü: externe Dienste ============ */
+
+.mnu__ext {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge {
+  display: inline-block;
+  flex: 0 0 auto;
+  min-width: 30px;
+  padding: 4px 5px 3px;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 0;
+  color: #fff;
+  border: 2px solid #05050f;
+}
+
+.badge--li {
+  background: #0a66c2;
+  text-transform: lowercase;
+}
+
+.badge--bgg {
+  background: #ff5100;
+}
+
+/* ============ Gare Lille Flandres ============ */
+
+.bat--gare {
+  --fac: #6b4638;
+  position: relative;
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(#6b4638, #563628);
+}
+
+.gare__fronton {
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  top: -30px;
+  height: 34px;
+  background: #7a5240;
+  border: 4px solid #0d0b20;
+  border-bottom: 0;
+  box-shadow: inset 0 5px 0 #8f6249;
+}
+
+.gare__horloge {
+  position: absolute;
+  left: 50%;
+  top: 34px;
+  z-index: 2;
+  width: 46px;
+  height: 46px;
+  margin-left: -23px;
+  background: #f2e2b0;
+  border: 5px solid #0d0b20;
+  border-radius: 50%;
+  box-shadow: 0 0 20px 5px rgba(242, 226, 176, 0.35);
+}
+
+
+
+.gare__nom {
+  position: absolute;
+  left: 50%;
+  top: 96px;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #ffd98a;
+  background: #2a1a14;
+  border: 3px solid #0d0b20;
+  padding: 7px 9px 6px;
+  white-space: nowrap;
+}
+
+/* Große Rundbogenhalle */
+.gare__arcade {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 0;
+  height: 148px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.gare__arcade i {
+  display: block;
+  width: 78px;
+  height: 148px;
+  background: linear-gradient(#1b1836 0 60%, #2a2450);
+  border: 5px solid #0d0b20;
+  border-bottom: 0;
+  border-radius: 39px 39px 0 0;
+  box-shadow: inset 0 0 0 4px #7a5240;
+}
+
+.gare__arcade i:nth-child(2) {
+  background: linear-gradient(#ffe2a0 0 55%, #f0b45e);
+  box-shadow: inset 0 0 0 4px #7a5240, 0 0 26px 6px rgba(255, 200, 110, 0.3);
+}
+
+.gare__quai {
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  bottom: -4px;
+  height: 10px;
+  background: #3f3a5e;
+  border-top: 4px solid #0d0b20;
+}
+
+/* ============ Métro: Westende & Tunnel ============ */
+
+.mt-tube--o {
+  left: auto !important;
+  right: 660px;
+  width: 130px;
+}
+
+.mt-fin {
+  position: absolute;
+  left: -1300px;
+  bottom: 168px;
+  width: 300px;
+  height: 190px;
+  background: linear-gradient(90deg, #05060c 0 60%, #0d1018);
+  border-right: 6px solid #1c2030;
+  box-shadow: inset -40px 0 60px -20px rgba(0, 0, 0, 0.8);
+}
+
+.mt-fin::before {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: repeating-linear-gradient(
+    0deg,
+    #2e3244 0 24px,
+    #454a60 24px 48px
+  );
+}
+
+.mt-fin::after {
+  content: '';
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  width: 8px;
+  height: 8px;
+  background: #4affc2;
+  border-radius: 50%;
+  box-shadow: 0 0 14px 4px rgba(74, 255, 194, 0.5);
+  animation: blink 2.2s steps(2, start) infinite;
+}
+
+/* ============ Echte Uhrzeit ============ */
+
+.aig {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  background: #0d0b20;
+  transform-origin: 50% 100%;
+  border-radius: 1px;
+}
+
+.aig--h {
+  width: 3px;
+  height: 26%;
+  margin-left: -1.5px;
+}
+
+.aig--m {
+  width: 2px;
+  height: 38%;
+  margin-left: -1px;
+}
+
+.bf-clock .aig {
+  background: #6b4a10;
+}
+
+.bf-clock .aig--h {
+  height: 22%;
+}
+
+.bf-clock .aig--m {
+  height: 32%;
+}
+
+.gare__horloge .aig--h {
+  height: 28%;
+}
+
+.gare__horloge .aig--m {
+  height: 40%;
+}
+
+.pc-horloge .aig {
+  background: #24140c;
+}
+
+/* ============ Tageslicht ============ */
+
+.nuit.is-jour {
+  background: linear-gradient(
+    #6fa8d8 0%,
+    #a8cbe6 42%,
+    #d8dce8 72%,
+    #e8dcc8 100%
+  );
+}
+
+.is-jour .stars,
+.is-jour .shoot,
+.is-jour .moon {
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.is-jour .cloud {
+  background: #f2f4fa;
+  opacity: 0.9;
+  box-shadow: 28px -8px 0 2px #f2f4fa, 56px -3px 0 4px #e6eaf4;
+}
+
+.is-jour .halo {
+  background: linear-gradient(to top, rgba(255, 220, 170, 0.3), transparent);
+}
+
+.is-jour .lointain,
+.is-jour .rue,
+.is-jour .fore {
+  filter: brightness(1.5) saturate(0.92);
+}
+
+.is-jour .lampe::before,
+.is-jour .lampe::after,
+.is-jour .fils,
+.is-jour .cafe__guirl {
+  opacity: 0.25;
+}
+
+.is-jour .neon,
+.is-jour .hneon,
+.is-jour .marquee__bulbs {
+  opacity: 0.5;
+}
+
+/* Dampf über den frischen Baguettes */
+
+.vapeur {
+  position: absolute;
+  bottom: 24px;
+  width: 5px;
+  height: 5px;
+  background: #f4efe2;
+  border-radius: 50%;
+  opacity: 0;
+  animation: vapeur 3s linear infinite;
+}
+
+.vapeur.v1 {
+  left: 14px;
+}
+
+.vapeur.v2 {
+  left: 28px;
+  animation-delay: 1.5s;
+}
+
+@keyframes vapeur {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.6);
+  }
+  25% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(6px, -26px) scale(1.3);
+  }
+}
+
+/* ============ Abfahrtsanzeige ============ */
+
+.mt-ecran {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  width: 168px !important;
+  height: 44px !important;
+  padding: 0 8px;
+}
+
+.mt-ecran::before,
+.mt-ecran::after {
+  display: none;
+}
+
+.mt-ecran__l1 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  font-style: normal;
+  letter-spacing: 1px;
+  color: #f2c832;
+  white-space: nowrap;
+}
+
+.mt-ecran__l2 {
+  font-style: normal;
+  font-size: 17px;
+  letter-spacing: 1px;
+  color: #7ad7ff;
+}
+
+.mt-ecran__l2 b {
+  color: #4affc2;
+}
+
+/* ============ Besucherzähler ============ */
+
+.compteur {
+  display: inline-flex;
+  gap: 2px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.compteur i {
+  display: block;
+  width: 13px;
+  padding: 3px 0 2px;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  font-style: normal;
+  color: #ffd98a;
+  background: #0d0b20;
+  border: 2px solid #3a3550;
+  box-shadow: inset 0 -4px 0 -2px rgba(255, 255, 255, 0.12);
+}
+
+/* ============ Katze ============ */
+
+.chat {
+  cursor: pointer;
+  z-index: 3;
+}
+
+.chat.is-suit::after {
+  animation: queue 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes queue {
+  to {
+    transform: rotate(-16deg);
+  }
 }
