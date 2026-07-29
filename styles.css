@@ -10430,3 +10430,693 @@ body {
 .gare__lanterne--b {
   right: 8px;
 }
+
+/* ============ Café-Interieur, Neuaufbau ============ */
+
+/* Rückwand etwas wärmer */
+.pc-mur {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.05) 0 3px,
+      transparent 3px 88px
+    ),
+    linear-gradient(#82543f, #6b4432);
+}
+
+/* Wimpel über der Rückwand */
+.pc-fanions {
+  position: absolute;
+  height: 14px;
+  background: repeating-linear-gradient(
+    90deg,
+    #c04444 0 26px,
+    #d8912f 26px 52px,
+    #2f8f4a 52px 78px,
+    #3a6bb0 78px 104px,
+    #c04477 104px 130px
+  );
+  clip-path: polygon(
+    0 0, 5% 100%, 10% 0, 15% 100%, 20% 0, 25% 100%, 30% 0,
+    35% 100%, 40% 0, 45% 100%, 50% 0, 55% 100%, 60% 0,
+    65% 100%, 70% 0, 75% 100%, 80% 0, 85% 100%, 90% 0,
+    95% 100%, 100% 0
+  );
+}
+
+.pc-fanions--a {
+  left: 30px;
+  top: 26px;
+  width: 350px;
+  transform: rotate(3deg);
+}
+
+.pc-fanions--b {
+  left: 500px;
+  top: 24px;
+  width: 350px;
+  transform: rotate(-3deg);
+}
+
+/* zweite Lichterkette */
+.pc-guirl--b {
+  top: 66px;
+  transform: rotate(-1.5deg);
+}
+
+/* --- Bar-Ecke --- */
+
+.bar2 {
+  position: absolute;
+  left: 8px;
+  bottom: 30px;
+  width: 184px;
+  height: 210px;
+}
+
+.bar2__etagere {
+  position: absolute;
+  left: 8px;
+  right: 10px;
+  top: 0;
+  height: 44px;
+  background: #4a2f1e;
+  border: 4px solid #24140c;
+  box-shadow: inset 0 -6px 0 -2px #24140c;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 0 8px 6px;
+}
+
+.bout {
+  display: block;
+  width: 9px;
+  height: 24px;
+  border: 2px solid #17100c;
+  border-radius: 3px 3px 0 0;
+}
+
+.bout.b1 { background: #3a7a4a; }
+.bout.b2 { background: #a03030; height: 28px; }
+.bout.b3 { background: #d8a03a; height: 21px; }
+.bout.b4 { background: #4a6b9a; }
+.bout.b5 { background: #7a4a9a; height: 26px; }
+
+/* hängende Tassen */
+.bar2__tasses {
+  position: absolute;
+  left: 22px;
+  top: 52px;
+  width: 10px;
+  height: 9px;
+  background: #f4efe2;
+  border: 2px solid #17100c;
+  border-radius: 0 0 4px 4px;
+  box-shadow:
+    26px 0 0 -1px #f4efe2,
+    26px 0 0 1px #17100c,
+    52px 0 0 -1px #f4efe2,
+    52px 0 0 1px #17100c;
+}
+
+.bar2__machine {
+  position: absolute;
+  right: 18px;
+  bottom: 74px;
+  width: 44px;
+  height: 34px;
+  background: linear-gradient(#8a8f9e 0 11px, #565c6e 11px);
+  border: 3px solid #17100c;
+  border-radius: 3px;
+}
+
+.bar2__machine::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 5px;
+  height: 5px;
+  background: #cc3333;
+}
+
+.bar2__barista {
+  position: absolute;
+  left: 52px;
+  bottom: 96px;
+  width: 3px;
+  height: 3px;
+  transform: scale(1.6);
+  transform-origin: 9px 21px;
+  --hair: #4a3220;
+  --skin: #e9b788;
+  box-shadow:
+    6px 0 var(--hair),
+    9px 0 var(--hair),
+    3px 3px var(--hair),
+    6px 3px var(--hair),
+    9px 3px var(--hair),
+    12px 3px var(--hair),
+    6px 6px var(--skin),
+    9px 6px var(--skin),
+    3px 9px #e8e4da,
+    6px 9px #e8e4da,
+    9px 9px #e8e4da,
+    12px 9px #e8e4da,
+    0 12px #6b2a34,
+    3px 12px #e8e4da,
+    6px 12px #e8e4da,
+    9px 12px #e8e4da,
+    12px 12px #e8e4da,
+    15px 12px #6b2a34;
+}
+
+.bar2__comptoir {
+  position: absolute;
+  left: -2px;
+  right: 0;
+  bottom: 0;
+  height: 74px;
+  background: linear-gradient(#96654a 0 12px, #6b2a34 12px);
+  border: 4px solid #17100c;
+  box-shadow:
+    inset 0 -16px 0 -11px rgba(0, 0, 0, 0.35),
+    inset 0 12px 0 #7a4a35;
+}
+
+.pc-ardoise {
+  left: 24px;
+  top: 84px;
+  width: 152px;
+  z-index: 1;
+}
+
+/* --- Fenster + Vorhänge --- */
+
+.pc-mur .vitro--g {
+  left: 214px;
+}
+
+.pc-mur .vitro--d {
+  right: 176px;
+}
+
+.rideau {
+  position: absolute;
+  top: 40px;
+  width: 20px;
+  height: 186px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.2) 0 4px,
+      transparent 4px 10px
+    ),
+    #7a2a35;
+  border: 3px solid #24140c;
+}
+
+.rideau--a { left: 200px; }
+.rideau--b { left: 366px; }
+.rideau--c { right: 328px; }
+.rideau--d { right: 162px; }
+
+/* Wandlampen auf den Pfeilern */
+
+.pc-appli {
+  position: absolute;
+  top: 130px;
+  width: 12px;
+  height: 15px;
+  background: linear-gradient(#ffe9b8, #ffca6e);
+  border: 3px solid #24140c;
+  box-shadow: 0 0 18px 4px rgba(255, 200, 100, 0.45);
+}
+
+.pc-appli--a { left: 380px; }
+.pc-appli--b { right: 368px; }
+
+.pc-affiche {
+  right: auto;
+  left: 508px;
+  top: 74px;
+  width: 118px;
+}
+
+.pc-horloge {
+  left: 448px;
+  top: 8px;
+  margin-left: 0;
+}
+
+/* --- Ludothèque --- */
+
+.jeuxwall {
+  position: absolute;
+  right: 6px;
+  bottom: 30px;
+  width: 176px;
+  height: 336px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 9px;
+  padding: 34px 9px 10px;
+  background: #4a2f1e;
+  border: 5px solid #24140c;
+  box-shadow: inset 0 0 0 3px #6b4128;
+}
+
+.jeuxwall__t {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #ffd98a;
+  background: #24140c;
+  padding: 5px 7px 4px;
+  white-space: nowrap;
+}
+
+.jw {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  padding-bottom: 5px;
+  border-bottom: 4px solid #24140c;
+}
+
+.jw:last-of-type {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.jw .bx {
+  border-width: 2px;
+}
+
+.jeuxwall__echelle {
+  position: absolute;
+  left: -34px;
+  bottom: -2px;
+  width: 30px;
+  height: 200px;
+  transform: rotate(7deg);
+  transform-origin: bottom right;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 24px,
+      #6b4128 24px 30px
+    ),
+    linear-gradient(
+      90deg,
+      #6b4128 0 6px,
+      transparent 6px 24px,
+      #6b4128 24px
+    );
+}
+
+/* --- Seitenwände --- */
+
+.portemanteau {
+  position: absolute;
+  left: 96px;
+  top: 120px;
+  width: 120px;
+  height: 8px;
+  background: #4a2f1e;
+  border: 3px solid #17100c;
+}
+
+.portemanteau::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 8px;
+  width: 5px;
+  height: 12px;
+  background: #24140c;
+  box-shadow: 34px 0 0 #24140c, 68px 0 0 #24140c;
+}
+
+.portemanteau::after {
+  content: '';
+  position: absolute;
+  left: 44px;
+  top: 16px;
+  width: 14px;
+  height: 42px;
+  background: #a03030;
+  border: 2px solid #17100c;
+}
+
+/* --- Boden-Möblierung --- */
+
+.pc-fond {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 100%;
+  z-index: 4;
+}
+
+.pc-avant {
+  z-index: 6;
+}
+
+.tapis {
+  position: absolute;
+  height: 14px;
+  border: 3px solid rgba(23, 16, 8, 0.7);
+  border-radius: 7px;
+}
+
+.tapis--grand {
+  left: -120px;
+  bottom: 36px;
+  width: 300px;
+  background: repeating-linear-gradient(
+    90deg,
+    #7a2a35 0 22px,
+    #a8552f 22px 44px
+  );
+}
+
+.tapis--poele {
+  left: -372px;
+  bottom: 52px;
+  width: 130px;
+  background: repeating-linear-gradient(
+    90deg,
+    #3e6b58 0 18px,
+    #2f4f42 18px 36px
+  );
+}
+
+/* Kanonenofen */
+
+.poele {
+  position: absolute;
+  left: -340px;
+  bottom: 62px;
+  width: 58px;
+  height: 74px;
+  background: linear-gradient(90deg, #2e2e36 0 12px, #44444e 12px 42px, #26262e 42px);
+  border: 4px solid #101014;
+  border-radius: 12px 12px 4px 4px;
+}
+
+.poele::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  bottom: -8px;
+  width: 8px;
+  height: 8px;
+  background: #101014;
+  box-shadow: 32px 0 0 #101014;
+}
+
+.poele__tuyau {
+  position: absolute;
+  left: 50%;
+  bottom: 74px;
+  width: 14px;
+  height: 320px;
+  margin-left: -7px;
+  background: linear-gradient(90deg, #26262e 0 4px, #3a3a44 4px 10px, #1e1e26 10px);
+  border: 3px solid #101014;
+}
+
+.poele__feu {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  width: 26px;
+  height: 24px;
+  background: #140c08;
+  border: 3px solid #101014;
+  border-radius: 10px 10px 3px 3px;
+  overflow: hidden;
+}
+
+.poele__feu::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  bottom: 0;
+  width: 12px;
+  height: 14px;
+  background: #ff9a3a;
+  clip-path: polygon(50% 0, 100% 55%, 82% 100%, 18% 100%, 0 55%);
+  box-shadow: 0 0 18px 6px rgba(255, 150, 60, 0.6);
+  animation: feu2 0.5s steps(2, start) infinite;
+}
+
+@keyframes feu2 {
+  0% { transform: scaleY(1); }
+  50% { transform: scaleY(0.8) translateX(1px); }
+  100% { transform: scaleY(1.1); }
+}
+
+/* Katze am Ofen */
+
+.pc-fond .s-catnap {
+  left: -302px;
+  bottom: 58px;
+}
+
+/* Pflanzen & Stehlampe */
+
+.plante {
+  position: absolute;
+  width: 24px;
+  height: 20px;
+  background: #a33d2a;
+  border: 3px solid #17100c;
+}
+
+.plante::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: -30px;
+  width: 10px;
+  height: 28px;
+  background: #2f8f4a;
+  box-shadow:
+    -9px 8px 0 -2px #37a856,
+    10px 6px 0 -2px #37a856,
+    -4px -6px 0 -3px #2f8f4a,
+    7px -4px 0 -3px #37a856;
+}
+
+.plante--a { left: -428px; bottom: 40px; }
+.plante--b { left: 402px; bottom: 44px; }
+
+.lampadaire {
+  position: absolute;
+  left: 366px;
+  bottom: 42px;
+  width: 8px;
+  height: 120px;
+  background: #24140c;
+}
+
+.lampadaire::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: -26px;
+  width: 32px;
+  height: 26px;
+  background: linear-gradient(#ffe9b8, #ffca6e);
+  border: 4px solid #24140c;
+  clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+  box-shadow: 0 0 26px 7px rgba(255, 200, 100, 0.4);
+}
+
+.lampadaire::after {
+  content: '';
+  position: absolute;
+  left: -12px;
+  bottom: -4px;
+  width: 32px;
+  height: 6px;
+  background: #24140c;
+}
+
+/* --- Spieltische --- */
+
+.gtable {
+  position: absolute;
+}
+
+.gtable::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 34px;
+  width: 96px;
+  height: 20px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(244, 239, 226, 0.85) 0 6px,
+      transparent 6px 12px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(244, 239, 226, 0.5) 0 6px,
+      transparent 6px 12px
+    ),
+    #b03a3a;
+  border: 3px solid #5e1d20;
+  border-radius: 6px 6px 3px 3px;
+}
+
+.gtable::after {
+  content: '';
+  position: absolute;
+  left: 41px;
+  bottom: 6px;
+  width: 11px;
+  height: 30px;
+  background: #2a1812;
+  box-shadow:
+    -9px 28px 0 -12px #171008,
+    9px 28px 0 -12px #171008;
+}
+
+.gtable--fond {
+  left: 118px;
+  bottom: 104px;
+  transform: scale(0.82);
+  transform-origin: bottom center;
+}
+
+.gtable--mi {
+  left: -252px;
+  bottom: 66px;
+}
+
+.gtable--av {
+  left: -8px;
+  bottom: 6px;
+  transform: scale(1.14);
+  transform-origin: bottom center;
+}
+
+/* Gäste an den Tischen */
+
+.piece .sitter.git {
+  transform: scale(1.6);
+  transform-origin: 9px 21px;
+  bottom: 38px;
+}
+
+.git--a { left: -28px; --shirt: #b0583a; }
+.git--a::after { left: -8px; }
+.git--b { left: 102px; --shirt: #3e6b8e; --hair: #d8b02f; }
+.git--b::after { left: 20px; }
+.git--c { left: -28px; --shirt: #4a7a5e; --hair: #1a1210; }
+.git--c::after { left: -8px; }
+.git--d { left: 102px; --shirt: #8a5a9e; }
+.git--d::after { left: 20px; }
+.git--e { left: -28px; --shirt: #c2a040; --hair: #2b1c12; }
+.git--e::after { left: -8px; }
+.git--f { left: 102px; --shirt: #2f7a5e; --hair: #4a3220; }
+.git--f::after { left: 20px; }
+
+/* Spielmaterial auf den Tischen */
+
+.gjeu {
+  position: absolute;
+  bottom: 56px;
+  border: 2px solid #10101c;
+}
+
+.gjeu--damier {
+  left: 24px;
+  width: 30px;
+  height: 15px;
+  background: conic-gradient(
+      #241a10 25%,
+      #f4e6c8 0 50%,
+      #241a10 0 75%,
+      #f4e6c8 0
+    )
+    0 0 / 10px 10px;
+}
+
+.gjeu--catan {
+  left: 20px;
+  width: 36px;
+  height: 16px;
+  background:
+    radial-gradient(circle at 8px 8px, #d8a03a 4px, transparent 4.5px),
+    radial-gradient(circle at 18px 5px, #4a8f5e 4px, transparent 4.5px),
+    radial-gradient(circle at 28px 9px, #b8622f 4px, transparent 4.5px),
+    #5a6a80;
+}
+
+.gjeu--cartes {
+  left: 26px;
+  width: 15px;
+  height: 11px;
+  background: #f4efe2;
+  box-shadow:
+    8px -3px 0 -1px #f4efe2,
+    8px -3px 0 1px #10101c,
+    16px -1px 0 -1px #e8dcc0,
+    16px -1px 0 1px #10101c;
+}
+
+.gpion {
+  position: absolute;
+  bottom: 58px;
+  width: 9px;
+  height: 6px;
+}
+
+.gpion::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: -5px;
+  width: 4px;
+  height: 4px;
+  background: inherit;
+}
+
+.gpion::after {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: -1px;
+  width: 13px;
+  height: 4px;
+  background: inherit;
+}
+
+.gpion--r { left: 62px; background: #cc4444; }
+.gpion--j { left: 12px; background: #d8b02f; }
+.gpion--v { left: 64px; background: #2f8f4a; }
+
+/* Spielestapel am Boden */
+
+.pile--a {
+  left: 322px;
+  bottom: 44px;
+}
+
+.pile--b {
+  left: -392px;
+  bottom: 8px;
+}

@@ -1118,25 +1118,36 @@ const App = () => {
           <div className="piece" ref={sceneRef}>
             {/* Decke */}
             <div className="pc-plafond" aria-hidden="true">
-              <span className="pc-poutre" style={{ left: 120 }} />
-              <span className="pc-poutre" style={{ left: 400 }} />
-              <span className="pc-poutre" style={{ left: 680 }} />
-              <span className="pc-lustre" style={{ left: 236 }} />
-              <span className="pc-lustre" style={{ left: 560 }} />
+              <span className="pc-lustre" style={{ left: 190 }} />
+              <span className="pc-lustre" style={{ left: 450 }} />
+              <span className="pc-lustre" style={{ left: 710 }} />
               <span className="pc-guirl" />
+              <span className="pc-guirl pc-guirl--b" />
             </div>
 
-            {/* Rückwand = Straßenfassade von innen */}
+            {/* Rückwand: Bar · Fassade · Ludothèque */}
             <div className="pc-mur" aria-hidden="true">
-              {/* Regal in der linken Ecke */}
-              <span className="etag etag--coinl">
-                <i className="bx bx--catan bx--xl" />
-                <i className="bx bx--uno bx--sm" />
-                <i className="bx bx--dixit bx--tiny" />
-              </span>
-              <span className="etag etag--coinl2">
-                <i className="bx bx--azul bx--wide" />
-                <i className="bx bx--scrab bx--sm" />
+              <span className="pc-fanions pc-fanions--a" />
+              <span className="pc-fanions pc-fanions--b" />
+
+              {/* Bar-Ecke links */}
+              <div className="bar2">
+                <span className="bar2__etagere">
+                  <i className="bout b1" />
+                  <i className="bout b2" />
+                  <i className="bout b3" />
+                  <i className="bout b4" />
+                  <i className="bout b5" />
+                </span>
+                <span className="bar2__tasses" />
+                <span className="bar2__machine" />
+                <span className="bar2__barista" />
+                <span className="bar2__comptoir" />
+              </div>
+              <span className="pc-ardoise">
+                CAFÉ 2€ · THÉ 2€
+                <br />
+                JEUX 0€
               </span>
 
               {/* Fenster links */}
@@ -1144,22 +1155,14 @@ const App = () => {
                 <i className="vitro__nuit" />
                 <i className="vitro__maison" />
                 <i className="vitro__lampe" />
-                <i className="vitro__passant" />
                 <i className="vitro__croix" />
               </span>
-              <span className="vitro__tablette" style={{ left: 96 }} />
+              <span className="rideau rideau--a" />
+              <span className="rideau rideau--b" />
 
-              {/* Regal zwischen Fenster und Tür */}
-              <span className="etag etag--pilierg">
-                <i className="bx bx--mono bx--wide" />
-              </span>
-              <span className="etag etag--pilierg2">
-                <i className="bx bx--uno2 bx--tiny" />
-                <i className="bx bx--carc bx--tiny" />
-              </span>
-              <span className="etag etag--pilierg3">
-                <i className="bx bx--risk bx--wide" />
-              </span>
+              {/* Wandlichter auf den Pfeilern */}
+              <span className="pc-appli pc-appli--a" />
+              <span className="pc-appli pc-appli--b" />
 
               {/* Eingangstür */}
               <span className="s-door">
@@ -1168,17 +1171,12 @@ const App = () => {
                 <i className="s-door__pancarte">OUVERT</i>
               </span>
               <span className="s-mat" />
-
-              {/* Regal zwischen Tür und Fenster */}
-              <span className="etag etag--pilierd">
-                <i className="bx bx--ticket bx--wide" />
-              </span>
-              <span className="etag etag--pilierd2">
-                <i className="bx bx--pand bx--tiny" />
-                <i className="bx bx--chess bx--tiny" />
-              </span>
-              <span className="etag etag--pilierd3">
-                <i className="bx bx--catan2 bx--wide" />
+              <span className="pc-affiche">
+                SOIRÉE
+                <br />
+                JEUX
+                <br />
+                <small>jeudi 20h</small>
               </span>
 
               {/* Fenster rechts */}
@@ -1188,75 +1186,58 @@ const App = () => {
                 <i className="vitro__lampe vitro__lampe--b" />
                 <i className="vitro__croix" />
               </span>
-              <span className="vitro__tablette" style={{ right: 96 }} />
+              <span className="rideau rideau--c" />
+              <span className="rideau rideau--d" />
 
-              {/* Regal in der rechten Ecke */}
-              <span className="etag etag--coind">
-                <i className="bx bx--clue bx--sm" />
-                <i className="bx bx--mono2 bx--wide" />
-              </span>
-              <span className="etag etag--coind2">
-                <i className="bx bx--scrab bx--tiny" />
-                <i className="bx bx--dixit bx--sm" />
-              </span>
-
-              {/* Kreidetafel & Deko */}
-              <span className="pc-ardoise">
-                CAFÉ 2€ · THÉ 2€
-                <br />
-                JEUX 0€
-              </span>
-              <span className="pc-affiche">
-                SOIRÉE
-                <br />
-                JEUX
-                <br />
-                <small>jeudi 20h</small>
-              </span>
               <span className="pc-horloge">
-                <i className="aig aig--h" style={{ transform: `rotate(${angleH}deg)` }} />
-                <i className="aig aig--m" style={{ transform: `rotate(${angleM}deg)` }} />
+                <i
+                  className="aig aig--h"
+                  style={{ transform: `rotate(${angleH}deg)` }}
+                />
+                <i
+                  className="aig aig--m"
+                  style={{ transform: `rotate(${angleM}deg)` }}
+                />
               </span>
-            </div>
 
-            {/* Seitenwände */}
-            <div className="pc-cote pc-cote--l" aria-hidden="true">
-              <span className="pc-carte">MENU</span>
-
-              <div className="mur-jeux mur-jeux--l">
-                <span className="mj">
+              {/* Ludothèque: Spielewand bis zur Decke */}
+              <div className="jeuxwall">
+                <span className="jeuxwall__t">LUDOTHÈQUE</span>
+                <span className="jw">
                   <i className="bx bx--catan bx--xl" />
                   <i className="bx bx--uno bx--sm" />
                   <i className="bx bx--mono bx--wide" />
+                  <i className="bx bx--chess bx--tiny" />
                 </span>
-                <span className="mj">
+                <span className="jw">
                   <i className="bx bx--risk bx--geant" />
-                  <i className="bx bx--dixit bx--tiny" />
-                  <i className="bx bx--scrab bx--sm" />
+                  <i className="bx bx--dixit bx--sm" />
+                  <i className="bx bx--scrab bx--wide" />
                 </span>
-                <span className="mj">
+                <span className="jw">
                   <i className="bx bx--carc bx--wide" />
                   <i className="bx bx--clue" />
                   <i className="bx bx--uno2 bx--tiny" />
+                  <i className="bx bx--pand bx--sm" />
                 </span>
-                <span className="mj">
+                <span className="jw">
                   <i className="bx bx--ticket bx--wide" />
                   <i className="bx bx--catan2 bx--sm" />
-                  <i className="bx bx--chess bx--tiny" />
+                  <i className="bx bx--azul bx--xl" />
                 </span>
+                <span className="jw">
+                  <i className="bx bx--mono2 bx--sm" />
+                  <i className="bx bx--dixit bx--tiny" />
+                  <i className="bx bx--clue bx--wide" />
+                  <i className="bx bx--uno bx--tiny" />
+                </span>
+                <span className="jeuxwall__echelle" />
               </div>
             </div>
 
-            {/* Theke: eigener Körper, ragt in den Raum */}
-            <div className="bar3d" aria-hidden="true">
-              <i className="fc fc--flanc" />
-              <i className="fc fc--dessus">
-                <b className="pc-bar__machine" />
-                <b className="pc-bar__cake" />
-                <b className="pc-bar__cups" />
-              </i>
-              <i className="fc fc--bout" />
-              <span className="pc-barista" />
+            {/* Seitenwände: ruhig */}
+            <div className="pc-cote pc-cote--l" aria-hidden="true">
+              <span className="portemanteau" />
             </div>
 
             <div className="pc-cote pc-cote--r" aria-hidden="true">
@@ -1271,51 +1252,61 @@ const App = () => {
                 </span>
                 <span className="asc__plaque">LABO ↑</span>
               </div>
-
-              <div className="mur-jeux mur-jeux--r">
-                <span className="mj">
-                  <i className="bx bx--mono2 bx--wide" />
-                  <i className="bx bx--dixit bx--sm" />
-                </span>
-                <span className="mj">
-                  <i className="bx bx--azul bx--sm" />
-                  <i className="bx bx--uno bx--tiny" />
-                  <i className="bx bx--pand bx--tiny" />
-                </span>
-                <span className="mj">
-                  <i className="bx bx--clue bx--sm" />
-                  <i className="bx bx--chess bx--tiny" />
-                </span>
-              </div>
             </div>
 
             {/* Boden */}
             <div className="pc-sol" aria-hidden="true" />
 
+            {/* Hinter der Figur: Ofen, Teppich, hintere Tische */}
+            <div className="pc-fond" aria-hidden="true">
+              <span className="tapis tapis--grand" />
+              <span className="tapis tapis--poele" />
+
+              <div className="poele">
+                <span className="poele__tuyau" />
+                <span className="poele__feu" />
+              </div>
+              <span className="s-catnap" />
+
+              <span className="plante plante--a" />
+              <span className="plante plante--b" />
+
+              <div className="gtable gtable--fond">
+                <span className="sitter git git--a" />
+                <span className="sitter git git--b" />
+                <span className="gjeu gjeu--damier" />
+              </div>
+
+              <div className="gtable gtable--mi">
+                <span className="sitter git git--c" />
+                <span className="sitter git git--d" />
+                <span className="gjeu gjeu--catan" />
+                <span className="gpion gpion--r" />
+                <span className="gpion gpion--j" />
+              </div>
+
+              <span className="s-gstack pile pile--a" />
+              <span className="lampadaire" />
+
+              <span className="ombre" style={{ left: -252, width: 120 }} />
+              <span className="ombre" style={{ left: 96, width: 104 }} />
+              <span className="ombre" style={{ left: -366, width: 76 }} />
+            </div>
+
             {hint}
             {player}
 
-            {/* Möbel im Raum, vor der Figur */}
+            {/* Vor der Figur: großer Tisch */}
             <div className="pc-avant" aria-hidden="true">
-              <div className="s-ftable s-ftable--a">
-                <span className="sitter sitter--fa" />
-                <span className="sitter sitter--fb" />
-                <span className="s-plateau s-plateau--catan" />
-                <span className="meeple meeple--y" />
+              <div className="gtable gtable--av">
+                <span className="sitter git git--e" />
+                <span className="sitter git git--f" />
+                <span className="gjeu gjeu--cartes" />
+                <span className="gpion gpion--v" />
               </div>
-              <div className="s-ftable s-ftable--b">
-                <span className="sitter sitter--fc" />
-                <span className="s-plateau s-plateau--mono" />
-                <span className="s-unofan" />
-                <span className="cup" />
-              </div>
-              <span className="s-gstack" />
-              <span className="s-gstack s-gstack--c" />
-              <span className="s-catnap" />
-              <span className="ombre" style={{ left: -362, width: 100 }} />
-              <span className="ombre" style={{ left: 118, width: 100 }} />
-              <span className="ombre" style={{ left: 292, width: 48 }} />
-              <span className="ombre" style={{ left: -196, width: 40 }} />
+              <span className="s-gstack pile pile--b" />
+              <span className="ombre" style={{ left: -20, width: 150 }} />
+              <span className="ombre" style={{ left: -382, width: 54 }} />
             </div>
           </div>
         </div>
