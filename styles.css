@@ -7632,17 +7632,25 @@ body {
   border-bottom: 5px solid #d92c2c;
 }
 
-/* An den Zähler gekoppelt: Einfahrt bei 0, 14 s Halt, dann weiter */
+/* Vollständige Durchfahrt: von rechts herein, Halt, nach links hinaus */
 @keyframes valpasse {
-  0%,
-  86% {
-    transform: translateX(880px);
+  0% {
+    transform: translateX(1150px);
   }
-  91.7% {
+  6% {
     transform: translateX(0);
+  }
+  15% {
+    transform: translateX(0);
+  }
+  27% {
+    transform: translateX(-1500px);
+  }
+  99.9% {
+    transform: translateX(-1500px);
   }
   100% {
-    transform: translateX(0);
+    transform: translateX(1150px);
   }
 }
 
@@ -9827,4 +9835,374 @@ body {
   to {
     transform: rotate(-16deg);
   }
+}
+
+
+/* ============ Estaminet ============ */
+
+.estam {
+  position: absolute;
+  left: 1078px;
+  bottom: 56px;
+  width: 300px;
+  height: 250px;
+}
+
+.estam__toit {
+  position: absolute;
+  left: -12px;
+  right: -12px;
+  top: 0;
+  height: 38px;
+  background: #2b2038;
+  border: 4px solid #0d0b20;
+  box-shadow: inset 0 5px 0 #3b2d4c;
+  display: flex;
+  justify-content: center;
+}
+
+.estam__dorm {
+  position: relative;
+  top: 8px;
+  width: 20px;
+  height: 26px;
+  background: #1d1a30;
+  border: 3px solid #0d0b20;
+}
+
+.estam__dorm::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: #ffd27e;
+  opacity: 0.8;
+}
+
+.estam__fac {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 38px;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.13) 0 3px,
+      transparent 3px 15px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      #6b3b32 0 22px,
+      #5e332c 22px 44px
+    );
+  border: 4px solid #0d0b20;
+  border-top: 0;
+}
+
+/* Hängeschild am Ausleger */
+
+.estam__potence {
+  position: absolute;
+  left: -8px;
+  top: 52px;
+  width: 60px;
+  height: 5px;
+  background: #1c1526;
+}
+
+.estam__potence::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -14px;
+  width: 5px;
+  height: 14px;
+  background: #1c1526;
+}
+
+.estam__enseigne {
+  position: absolute;
+  left: 22px;
+  top: 57px;
+  width: 96px;
+  padding: 8px 4px 9px;
+  text-align: center;
+  background: #17351f;
+  border: 4px solid #0d0b20;
+  box-shadow: 0 0 16px rgba(90, 200, 140, 0.2);
+}
+
+.estam__enseigne b {
+  display: block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #e8c95a;
+  text-shadow: 0 0 6px rgba(232, 201, 90, 0.5);
+}
+
+.estam__enseigne i {
+  display: block;
+  margin-top: 5px;
+  font-style: normal;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: #9fc9a8;
+}
+
+/* Gestreifte Markise */
+
+.estam__auvent {
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  bottom: 88px;
+  height: 22px;
+  border: 4px solid #0d0b20;
+  background: repeating-linear-gradient(
+    90deg,
+    #7a2a35 0 20px,
+    #e8d8b8 20px 40px
+  );
+}
+
+.estam__auvent::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  height: 6px;
+  background: radial-gradient(
+      circle at 8px 0,
+      #5e1d26 5px,
+      transparent 5.5px
+    )
+    0 0 / 16px 6px repeat-x;
+}
+
+/* Fenster mit warmem Licht */
+
+.estam__vitre {
+  position: absolute;
+  bottom: 0;
+  width: 88px;
+  height: 82px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0 41px,
+      #2a1016 41px 47px,
+      transparent 47px
+    ),
+    linear-gradient(#ffe2a0 0 40%, #f0b45e);
+  border: 5px solid #2a1016;
+  border-bottom: 0;
+}
+
+.estam__vitre--g {
+  left: 8px;
+}
+
+.estam__vitre--d {
+  right: 8px;
+}
+
+/* Gäste als Silhouetten im Fenster */
+
+.estam__vitre::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  bottom: 0;
+  width: 20px;
+  height: 26px;
+  background: #4a2a1c;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 44px 4px 0 -2px #4a2a1c;
+}
+
+.estam__porte {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 62px;
+  height: 96px;
+  margin-left: -31px;
+  background: #3a1e12;
+  border: 5px solid #2a1016;
+  border-bottom: 0;
+  box-shadow: inset 0 16px 0 -10px #ffcf6e;
+}
+
+.estam__porte::after {
+  content: '';
+  position: absolute;
+  left: 9px;
+  bottom: 34px;
+  width: 8px;
+  height: 8px;
+  background: #d8b23a;
+  border-radius: 50%;
+}
+
+/* Speisekarte */
+
+.estam__carte {
+  position: absolute;
+  right: -30px;
+  bottom: 100px;
+  width: 108px;
+  padding: 8px 5px 9px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.35;
+  color: #e8e4d2;
+  background: #1e2a26;
+  border: 4px solid #4a3020;
+  transform: rotate(-2deg);
+}
+
+.estam__carte b {
+  color: #ffd98a;
+}
+
+/* Hopfenranke über der Tür */
+
+.estam__houblon {
+  position: absolute;
+  left: 50%;
+  bottom: 96px;
+  width: 78px;
+  height: 12px;
+  margin-left: -39px;
+  background: repeating-linear-gradient(
+    90deg,
+    #2f8f4a 0 5px,
+    transparent 5px 13px
+  );
+}
+
+.estam__houblon::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  width: 7px;
+  height: 9px;
+  background: #8fc46a;
+  border-radius: 3px;
+  box-shadow: 20px 3px 0 -1px #8fc46a, 42px -1px 0 0 #8fc46a, 62px 4px 0 -1px #8fc46a;
+}
+
+/* Terrasse davor */
+
+.estam__terrasse {
+  position: absolute;
+  left: 26px;
+  bottom: -56px;
+}
+
+.estam__tbl {
+  position: absolute;
+  left: 0;
+  bottom: 26px;
+  width: 62px;
+  height: 16px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(244, 239, 226, 0.85) 0 5px,
+      transparent 5px 10px
+    ),
+    #7a2a35;
+  border: 3px solid #3a1218;
+}
+
+.estam__tbl::after {
+  content: '';
+  position: absolute;
+  left: 26px;
+  top: 16px;
+  width: 9px;
+  height: 26px;
+  background: #171008;
+  box-shadow: 0 24px 0 -13px #171008;
+}
+
+.estam__hote {
+  bottom: 44px;
+}
+
+.estam__hote--a {
+  left: -26px;
+  --shirt: #b0583a;
+}
+
+.estam__hote--a::after {
+  left: -8px;
+}
+
+.estam__hote--b {
+  left: 66px;
+  --shirt: #3e6b8e;
+  --hair: #4a3220;
+}
+
+.estam__hote--b::after {
+  left: 18px;
+}
+
+/* Bier und Fritten auf dem Tisch */
+
+.estam__biere {
+  position: absolute;
+  bottom: 42px;
+  width: 10px;
+  height: 15px;
+  background: linear-gradient(#f4efe2 0 4px, #e0a83a 4px);
+  border: 2px solid #171008;
+}
+
+.estam__biere--a {
+  left: 8px;
+}
+
+.estam__biere--b {
+  left: 44px;
+}
+
+.estam__frites {
+  position: absolute;
+  left: 24px;
+  bottom: 42px;
+  width: 14px;
+  height: 12px;
+  background: #d84a4a;
+  border: 2px solid #171008;
+}
+
+.estam__frites::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: -7px;
+  width: 3px;
+  height: 8px;
+  background: #f2c832;
+  box-shadow: 4px -2px 0 #f2c832, 8px 1px 0 #f2c832;
+}
+
+/* Fass neben der Tür */
+
+.estam__tonneau {
+  position: absolute;
+  right: 8px;
+  bottom: -34px;
+  width: 26px;
+  height: 32px;
+  background: linear-gradient(90deg, #7a4a28, #96603a 45%, #6b3f22);
+  border: 3px solid #2a1810;
+  border-radius: 5px;
+  box-shadow: inset 0 7px 0 -4px #2a1810, inset 0 -7px 0 -4px #2a1810;
 }

@@ -19,10 +19,10 @@ interface Zone {
 const SPEED = 150; /* px pro Sekunde */
 
 const BOUNDS: Record<Mode, [number, number]> = {
-  street: [-1180, 970],
+  street: [-1180, 1440],
   cafe: [-424, 424],
   labo: [-424, 424],
-  metro: [-1180, 970],
+  metro: [-1180, 1440],
 };
 
 const ZONES: Record<Mode, Zone[]> = {
@@ -106,19 +106,20 @@ const App = () => {
   /* Uhrzeit: Zeiger und Tag/Nacht */
   const h = heure.getHours();
   const min = heure.getMinutes();
-  const jour = h >= 7 && h < 20;
+  const jour = false; /* Die Stadt bleibt bei Nacht */
   const angleH = ((h % 12) + min / 60) * 30;
   const angleM = min * 6;
 
   /* Zugtakt: 48 s Umlauf, Zähler läuft ehrlich mit */
   const TAKT = 48;
   const [tick, setTick] = useState(0);
-  const reste = TAKT - (tick % TAKT);
+  const phase = tick % TAKT;
+  const reste = phase < 8 ? 0 : TAKT - phase;
   const resteTxt =
-    reste > 60
-      ? `${Math.floor(reste / 60)} min ${String(reste % 60).padStart(2, '0')}`
-      : reste <= 4
-        ? 'À QUAI'
+    reste === 0
+      ? 'À QUAI'
+      : reste > 60
+        ? `${Math.floor(reste / 60)} min ${String(reste % 60).padStart(2, '0')}`
         : `${reste} s`;
 
   /* Besucherzähler im Odometer-Stil */
@@ -812,6 +813,18 @@ const App = () => {
               <Windows n={4} />
             </div>
           </div>
+
+          {/* Lücke: hier steht das Estaminet im Vordergrund */}
+          <div className="trou trou--est" aria-hidden="true" />
+
+          <div className="bat bat--f2">
+            <div className="toit">
+              <span className="pots" />
+            </div>
+            <div className="wins">
+              <Windows n={4} />
+            </div>
+          </div>
         </div>
 
         <div className="fore">
@@ -957,6 +970,42 @@ const App = () => {
 
           <span className="lampe lampe--l" aria-hidden="true" />
           <span className="lampe lampe--r" aria-hidden="true" />
+
+          {/* Estaminet: nordfranzösisches Gasthaus */}
+          <div className="estam" aria-hidden="true" title="Estaminet.">
+            <span className="estam__toit">
+              <i className="estam__dorm" />
+            </span>
+            <span className="estam__enseigne">
+              <b>L'ESTAMINET</b>
+              <i>DU VIEUX LILLE</i>
+            </span>
+            <span className="estam__potence" />
+            <span className="estam__fac" />
+            <span className="estam__vitre estam__vitre--g" />
+            <span className="estam__porte" />
+            <span className="estam__vitre estam__vitre--d" />
+            <span className="estam__carte">
+              CARBONNADE
+              <br />
+              MOULES · WELSH
+              <br />
+              <b>BIÈRE DU NORD</b>
+            </span>
+            <span className="estam__auvent" />
+            <span className="estam__houblon" />
+
+            {/* Terrasse davor */}
+            <div className="estam__terrasse">
+              <span className="estam__tbl" />
+              <span className="sitter estam__hote estam__hote--a" />
+              <span className="sitter estam__hote estam__hote--b" />
+              <span className="estam__biere estam__biere--a" />
+              <span className="estam__biere estam__biere--b" />
+              <span className="estam__frites" />
+            </div>
+            <span className="estam__tonneau" />
+          </div>
 
           {mode === 'street' && hint}
           {mode === 'street' && player}
