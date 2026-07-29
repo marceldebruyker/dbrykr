@@ -7393,8 +7393,8 @@ body {
 
 .mt-terre {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: -1700px;
+  width: 3600px;
   top: 0;
   height: 26px;
   background:
@@ -7409,10 +7409,10 @@ body {
 
 /* Deckengewölbe */
 
-.mt-voute {
+.mt-mur {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: -880px;
+  width: 1760px;
   top: 26px;
   bottom: 168px;
   background:
@@ -7424,7 +7424,7 @@ body {
     linear-gradient(#1c2030 0 40%, #262b3e);
 }
 
-.mt-voute::before {
+.mt-mur::before {
   content: '';
   position: absolute;
   left: 0;
@@ -7435,28 +7435,23 @@ body {
   border-bottom: 4px solid #0a0c14;
 }
 
-/* Deckenleuchten */
-.mt-voute::after {
-  content: '';
+/* Deckenleuchten: feste Positionen in der Station */
+.mt-lampe {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 30px;
+  top: 56px;
+  width: 46px;
   height: 7px;
-  background: repeating-linear-gradient(
-    90deg,
-    #ffeec0 0 96px,
-    transparent 96px 168px
-  );
-  box-shadow: 0 6px 34px 4px rgba(255, 230, 180, 0.18);
+  background: #ffeec0;
+  border: 2px solid #0a0c14;
+  box-shadow: 0 8px 36px 5px rgba(255, 230, 180, 0.22);
 }
 
 /* Bahnsteig */
 
 .mt-quai {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: -880px;
+  width: 1760px;
   bottom: 0;
   height: 168px;
   background:
@@ -7467,6 +7462,9 @@ body {
     ),
     linear-gradient(#4a4e60 0 8px, #3a3e50 8px);
   border-top: 5px solid #0a0c14;
+  box-shadow:
+    inset 10px 0 0 -5px #0a0c14,
+    inset -10px 0 0 -5px #0a0c14;
 }
 
 /* Taktiler Sicherheitsstreifen */
@@ -7492,10 +7490,9 @@ body {
 
 .mt-fosse {
   position: absolute;
-  left: -900px;
-  right: -900px;
+  left: -1700px;
   bottom: 168px;
-  width: 1800px;
+  width: 3600px;
   height: 120px;
   background: linear-gradient(#0a0c14, #141826);
 }
@@ -7517,8 +7514,8 @@ body {
 
 .mt-rail {
   position: absolute;
-  left: -900px;
-  width: 1800px;
+  left: -1700px;
+  width: 3600px;
   bottom: 172px;
   height: 5px;
   background: #565c72;
@@ -9501,12 +9498,45 @@ body {
   position: absolute;
   left: -8px;
   right: -8px;
-  top: -30px;
-  height: 34px;
-  background: #7a5240;
+  top: -52px;
+  height: 56px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.1) 0 4px,
+      transparent 4px 14px
+    ),
+    #7a5240;
   border: 4px solid #0d0b20;
   border-bottom: 0;
+  clip-path: polygon(
+    0 100%,
+    0 46%,
+    12% 46%,
+    12% 22%,
+    30% 22%,
+    30% 0,
+    70% 0,
+    70% 22%,
+    88% 22%,
+    88% 46%,
+    100% 46%,
+    100% 100%
+  );
   box-shadow: inset 0 5px 0 #8f6249;
+}
+
+/* Fahnenmast auf dem Giebel */
+.gare__fronton::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -18px;
+  width: 3px;
+  height: 18px;
+  margin-left: -1px;
+  background: #0d0b20;
+  box-shadow: 3px 2px 0 -0px #c8202c, 9px 2px 0 -0px #c8202c;
 }
 
 .gare__horloge {
@@ -9586,43 +9616,6 @@ body {
   width: 130px;
 }
 
-.mt-fin {
-  position: absolute;
-  left: -1300px;
-  bottom: 168px;
-  width: 300px;
-  height: 190px;
-  background: linear-gradient(90deg, #05060c 0 60%, #0d1018);
-  border-right: 6px solid #1c2030;
-  box-shadow: inset -40px 0 60px -20px rgba(0, 0, 0, 0.8);
-}
-
-.mt-fin::before {
-  content: '';
-  position: absolute;
-  right: -6px;
-  top: 0;
-  bottom: 0;
-  width: 6px;
-  background: repeating-linear-gradient(
-    0deg,
-    #2e3244 0 24px,
-    #454a60 24px 48px
-  );
-}
-
-.mt-fin::after {
-  content: '';
-  position: absolute;
-  right: 30px;
-  bottom: 30px;
-  width: 8px;
-  height: 8px;
-  background: #4affc2;
-  border-radius: 50%;
-  box-shadow: 0 0 14px 4px rgba(74, 255, 194, 0.5);
-  animation: blink 2.2s steps(2, start) infinite;
-}
 
 /* ============ Echte Uhrzeit ============ */
 
@@ -9841,11 +9834,10 @@ body {
 /* ============ Estaminet ============ */
 
 .estam {
-  position: absolute;
-  left: 1078px;
-  bottom: 56px;
-  width: 300px;
-  height: 250px;
+  position: relative;
+  flex: 0 0 auto;
+  width: 320px;
+  height: 262px;
 }
 
 .estam__toit {
@@ -10205,4 +10197,236 @@ body {
   border: 3px solid #2a1810;
   border-radius: 5px;
   box-shadow: inset 0 7px 0 -4px #2a1810, inset 0 -7px 0 -4px #2a1810;
+}
+
+/* ============ Tunnelportale ============ */
+
+.mt-portail {
+  position: absolute;
+  bottom: 160px;
+  width: 58px;
+  height: 220px;
+  background: #262c44;
+  border: 5px solid #0a0c14;
+  border-radius: 30px 30px 0 0;
+  box-shadow: inset 0 0 0 7px #343c5c;
+}
+
+.mt-portail--w {
+  left: -910px;
+}
+
+.mt-portail--e {
+  left: 852px;
+}
+
+/* Dunkelheit jenseits der Portale: der Zug taucht hinein */
+
+.mt-noir {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1600px;
+  pointer-events: none;
+}
+
+.mt-noir--w {
+  left: -2500px;
+  background: linear-gradient(
+    90deg,
+    #05060c 0 86%,
+    rgba(5, 6, 12, 0)
+  );
+}
+
+.mt-noir--e {
+  left: 900px;
+  background: linear-gradient(
+    270deg,
+    #05060c 0 86%,
+    rgba(5, 6, 12, 0)
+  );
+}
+
+/* ============ Ausgang: Treppe zur Straße ============ */
+
+.mt-esc {
+  position: absolute;
+  left: -608px;
+  bottom: 168px;
+  width: 128px;
+  height: 214px;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.05) 0 8px,
+      transparent 8px 22px
+    ),
+    linear-gradient(105deg, #262b3e 0 55%, #171b2a 90%);
+  border: 5px solid #0a0c14;
+  border-bottom: 0;
+  overflow: hidden;
+}
+
+/* Stufen */
+.mt-esc::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  bottom: 0;
+  width: 26px;
+  height: 16px;
+  background: #3a4054;
+  border: 3px solid #0a0c14;
+  box-shadow:
+    24px -16px 0 #343a4e,
+    24px -16px 0 3px #0a0c14,
+    48px -32px 0 #2e3448,
+    48px -32px 0 3px #0a0c14,
+    72px -48px 0 #282e42,
+    72px -48px 0 3px #0a0c14;
+}
+
+/* Licht von oben */
+.mt-esc::after {
+  content: '';
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  width: 110px;
+  height: 130px;
+  background: radial-gradient(
+    ellipse at 80% 0%,
+    rgba(255, 220, 160, 0.22),
+    transparent 62%
+  );
+}
+
+/* ============ Café: Spieleregale auf den Seitenwänden ============ */
+
+.mur-jeux {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 8px;
+  background: #3f2a1e;
+  border: 5px solid #17100c;
+  box-shadow: inset 0 0 0 3px #6b4128;
+}
+
+.mur-jeux--l {
+  left: 152px;
+  top: 62px;
+  width: 134px;
+}
+
+.mur-jeux--r {
+  left: 8px;
+  top: 74px;
+  width: 60px;
+}
+
+.mj {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  padding-bottom: 5px;
+  border-bottom: 4px solid #24140c;
+}
+
+.mj:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.mj .bx {
+  border-width: 2px;
+}
+
+.bx--geant {
+  width: 54px;
+  height: 46px;
+}
+
+/* Zusätzlicher Bodenstapel */
+
+.s-gstack--c {
+  left: -206px;
+  bottom: 10px;
+  background: #7a4a9a;
+  box-shadow:
+    3px -15px 0 -2px #d8912f,
+    3px -15px 0 1px #10101c,
+    -2px -29px 0 -4px #c04444,
+    -2px -29px 0 -1px #10101c;
+}
+
+/* Bodenschatten unter den Möbeln */
+
+.ombre {
+  position: absolute;
+  bottom: 5px;
+  height: 13px;
+  background: radial-gradient(
+    ellipse closest-side,
+    rgba(0, 0, 0, 0.42),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* Türen sind antippbar */
+
+.metro,
+.porte,
+.s-door,
+.asc,
+.mt-esc {
+  cursor: pointer;
+}
+
+/* Gare: Glasvordach und Laternen */
+
+.gare__marquise {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 152px;
+  height: 15px;
+  background: linear-gradient(
+    rgba(170, 205, 255, 0.28),
+    rgba(140, 175, 230, 0.14)
+  );
+  border: 3px solid #0d0b20;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.28);
+}
+
+.gare__marquise::before {
+  content: '';
+  position: absolute;
+  left: 26px;
+  top: 15px;
+  width: 4px;
+  height: 10px;
+  background: #0d0b20;
+  box-shadow: 110px 0 0 #0d0b20, 220px 0 0 #0d0b20;
+}
+
+.gare__lanterne {
+  position: absolute;
+  bottom: 186px;
+  width: 11px;
+  height: 14px;
+  background: linear-gradient(#ffe9b8, #ffca6e);
+  border: 3px solid #0d0b20;
+  box-shadow: 0 0 16px 3px rgba(255, 200, 100, 0.45);
+}
+
+.gare__lanterne--a {
+  left: 8px;
+}
+
+.gare__lanterne--b {
+  right: 8px;
 }

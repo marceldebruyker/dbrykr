@@ -22,12 +22,13 @@ const BOUNDS: Record<Mode, [number, number]> = {
   street: [-1180, 1440],
   cafe: [-424, 424],
   labo: [-424, 424],
-  metro: [-1180, 1440],
+  metro: [-760, 760],
 };
 
 const ZONES: Record<Mode, Zone[]> = {
   street: [
     { x: -42, r: 38, dir: 'up', to: 'cafe', spawn: 0, label: '↑ ENTRER', b: 252 },
+    { x: -542, r: 54, dir: 'down', to: 'metro', spawn: -542, label: '↓ MÉTRO', b: 216 },
   ],
   cafe: [
     { x: 0, r: 54, dir: 'down', to: 'street', spawn: -42, label: '↓ SORTIR', b: 244 },
@@ -37,7 +38,7 @@ const ZONES: Record<Mode, Zone[]> = {
     { x: -350, r: 66, dir: 'down', to: 'cafe', spawn: 356, label: '↓ CAFÉ', b: 150 },
   ],
   metro: [
-    { x: -460, r: 78, dir: 'up', to: 'street', spawn: -460, label: '↑ SORTIE', b: 300 },
+    { x: -542, r: 70, dir: 'up', to: 'street', spawn: -542, label: '↑ SORTIE', b: 300 },
   ],
 };
 
@@ -313,7 +314,6 @@ const App = () => {
 
     const descendre = () => {
       fadeRef.current = true;
-      posRef.current.metro = posRef.current.street;
       setMode('metro');
       window.setTimeout(() => {
         fadeRef.current = false;
@@ -512,7 +512,29 @@ const App = () => {
       movedRef.current = false;
       return;
     }
-    if ((e.target as HTMLElement).closest('a, button, .ecran')) return;
+    const t = e.target as HTMLElement;
+    if (t.closest('a, button, .ecran')) return;
+
+    /* Direkt auf eine Tür getippt? Dann hinlaufen und eintreten */
+    const portes: Array<[string, Mode, 'up' | 'down']> = [
+      ['.metro', 'street', 'down'],
+      ['.porte', 'street', 'up'],
+      ['.s-door', 'cafe', 'down'],
+      ['.asc--labo', 'labo', 'down'],
+      ['.asc', 'cafe', 'up'],
+      ['.mt-esc', 'metro', 'up'],
+    ];
+    for (const [sel, m2, dir] of portes) {
+      if (modeRef.current === m2 && t.closest(sel)) {
+        const z = ZONES[m2].find((zz) => zz.dir === dir);
+        if (z) {
+          targetRef.current = z.x;
+          enterRef.current = z;
+          manualRef.current = false;
+          return;
+        }
+      }
+    }
 
     const el = playerRef.current;
     if (!el) return;
@@ -628,11 +650,14 @@ const App = () => {
             </span>
             <span className="gare__fronton" />
             <span className="gare__nom">GARE LILLE FLANDRES</span>
+            <span className="gare__marquise" />
             <span className="gare__arcade">
               <i />
               <i />
               <i />
             </span>
+            <span className="gare__lanterne gare__lanterne--a" />
+            <span className="gare__lanterne gare__lanterne--b" />
             <span className="gare__quai" />
           </div>
 
@@ -814,8 +839,41 @@ const App = () => {
             </div>
           </div>
 
-          {/* Lücke: hier steht das Estaminet im Vordergrund */}
-          <div className="trou trou--est" aria-hidden="true" />
+          {/* Estaminet: nordfranzösisches Gasthaus */}
+          <div className="estam" aria-hidden="true" title="Estaminet.">
+            <span className="estam__toit">
+              <i className="estam__dorm" />
+            </span>
+            <span className="estam__enseigne">
+              <b>L'ESTAMINET</b>
+              <i>DU VIEUX LILLE</i>
+            </span>
+            <span className="estam__potence" />
+            <span className="estam__fac" />
+            <span className="estam__vitre estam__vitre--g" />
+            <span className="estam__porte" />
+            <span className="estam__vitre estam__vitre--d" />
+            <span className="estam__carte">
+              CARBONNADE
+              <br />
+              MOULES · WELSH
+              <br />
+              <b>BIÈRE DU NORD</b>
+            </span>
+            <span className="estam__auvent" />
+            <span className="estam__houblon" />
+
+            {/* Terrasse davor */}
+            <div className="estam__terrasse">
+              <span className="estam__tbl" />
+              <span className="sitter estam__hote estam__hote--a" />
+              <span className="sitter estam__hote estam__hote--b" />
+              <span className="estam__biere estam__biere--a" />
+              <span className="estam__biere estam__biere--b" />
+              <span className="estam__frites" />
+            </div>
+            <span className="estam__tonneau" />
+          </div>
 
           <div className="bat bat--f2">
             <div className="toit">
@@ -971,42 +1029,6 @@ const App = () => {
           <span className="lampe lampe--l" aria-hidden="true" />
           <span className="lampe lampe--r" aria-hidden="true" />
 
-          {/* Estaminet: nordfranzösisches Gasthaus */}
-          <div className="estam" aria-hidden="true" title="Estaminet.">
-            <span className="estam__toit">
-              <i className="estam__dorm" />
-            </span>
-            <span className="estam__enseigne">
-              <b>L'ESTAMINET</b>
-              <i>DU VIEUX LILLE</i>
-            </span>
-            <span className="estam__potence" />
-            <span className="estam__fac" />
-            <span className="estam__vitre estam__vitre--g" />
-            <span className="estam__porte" />
-            <span className="estam__vitre estam__vitre--d" />
-            <span className="estam__carte">
-              CARBONNADE
-              <br />
-              MOULES · WELSH
-              <br />
-              <b>BIÈRE DU NORD</b>
-            </span>
-            <span className="estam__auvent" />
-            <span className="estam__houblon" />
-
-            {/* Terrasse davor */}
-            <div className="estam__terrasse">
-              <span className="estam__tbl" />
-              <span className="sitter estam__hote estam__hote--a" />
-              <span className="sitter estam__hote estam__hote--b" />
-              <span className="estam__biere estam__biere--a" />
-              <span className="estam__biere estam__biere--b" />
-              <span className="estam__frites" />
-            </div>
-            <span className="estam__tonneau" />
-          </div>
-
           {mode === 'street' && hint}
           {mode === 'street' && player}
         </div>
@@ -1016,17 +1038,23 @@ const App = () => {
 
       {/* Métro Rihour: liegt direkt unter der Straße */}
       <div className="souterrain" aria-hidden={mode !== 'metro'}>
-        <div className="mt-terre" />
-        <div className="mt-voute" />
-        <div className="mt-quai" />
         <div className="salle__scene" ref={mode === 'metro' ? sceneRef : null}>
           <div className="deco">
+            <span className="mt-terre" />
+            <span className="mt-mur" />
+            <span className="mt-lampe" style={{ left: -712 }} />
+            <span className="mt-lampe" style={{ left: -512 }} />
+            <span className="mt-lampe" style={{ left: -312 }} />
+            <span className="mt-lampe" style={{ left: -112 }} />
+            <span className="mt-lampe" style={{ left: 88 }} />
+            <span className="mt-lampe" style={{ left: 288 }} />
+            <span className="mt-lampe" style={{ left: 488 }} />
+            <span className="mt-lampe" style={{ left: 668 }} />
             <span className="mt-fosse" />
             <span className="mt-tube" />
             <span className="mt-tube mt-tube--o" />
             <span className="mt-rail" />
-            {/* Westende: hier hört der Bahnsteig auf */}
-            <span className="mt-fin" />
+            <span className="mt-quai" />
 
             <span className="mt-train">
               <i className="mt-train__nez" />
@@ -1070,6 +1098,13 @@ const App = () => {
             <span className="mt-poubelle" />
             <span className="mt-colonne mt-colonne--a" />
             <span className="mt-colonne mt-colonne--b" />
+            <span className="mt-esc" />
+
+            {/* Tunnelportale an beiden Bahnsteigenden */}
+            <span className="mt-portail mt-portail--w" />
+            <span className="mt-portail mt-portail--e" />
+            <span className="mt-noir mt-noir--w" />
+            <span className="mt-noir mt-noir--e" />
           </div>
           {mode === 'metro' && hint}
           {mode === 'metro' && player}
@@ -1187,6 +1222,29 @@ const App = () => {
             {/* Seitenwände */}
             <div className="pc-cote pc-cote--l" aria-hidden="true">
               <span className="pc-carte">MENU</span>
+
+              <div className="mur-jeux mur-jeux--l">
+                <span className="mj">
+                  <i className="bx bx--catan bx--xl" />
+                  <i className="bx bx--uno bx--sm" />
+                  <i className="bx bx--mono bx--wide" />
+                </span>
+                <span className="mj">
+                  <i className="bx bx--risk bx--geant" />
+                  <i className="bx bx--dixit bx--tiny" />
+                  <i className="bx bx--scrab bx--sm" />
+                </span>
+                <span className="mj">
+                  <i className="bx bx--carc bx--wide" />
+                  <i className="bx bx--clue" />
+                  <i className="bx bx--uno2 bx--tiny" />
+                </span>
+                <span className="mj">
+                  <i className="bx bx--ticket bx--wide" />
+                  <i className="bx bx--catan2 bx--sm" />
+                  <i className="bx bx--chess bx--tiny" />
+                </span>
+              </div>
             </div>
 
             {/* Theke: eigener Körper, ragt in den Raum */}
@@ -1213,6 +1271,22 @@ const App = () => {
                 </span>
                 <span className="asc__plaque">LABO ↑</span>
               </div>
+
+              <div className="mur-jeux mur-jeux--r">
+                <span className="mj">
+                  <i className="bx bx--mono2 bx--wide" />
+                  <i className="bx bx--dixit bx--sm" />
+                </span>
+                <span className="mj">
+                  <i className="bx bx--azul bx--sm" />
+                  <i className="bx bx--uno bx--tiny" />
+                  <i className="bx bx--pand bx--tiny" />
+                </span>
+                <span className="mj">
+                  <i className="bx bx--clue bx--sm" />
+                  <i className="bx bx--chess bx--tiny" />
+                </span>
+              </div>
             </div>
 
             {/* Boden */}
@@ -1236,7 +1310,12 @@ const App = () => {
                 <span className="cup" />
               </div>
               <span className="s-gstack" />
+              <span className="s-gstack s-gstack--c" />
               <span className="s-catnap" />
+              <span className="ombre" style={{ left: -362, width: 100 }} />
+              <span className="ombre" style={{ left: 118, width: 100 }} />
+              <span className="ombre" style={{ left: 292, width: 48 }} />
+              <span className="ombre" style={{ left: -196, width: 40 }} />
             </div>
           </div>
         </div>
