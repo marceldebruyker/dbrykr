@@ -20,8 +20,8 @@ const SPEED = 150; /* px pro Sekunde */
 
 const BOUNDS: Record<Mode, [number, number]> = {
   street: [-1180, 1440],
-  cafe: [-424, 424],
-  labo: [-424, 424],
+  cafe: [-430, 430],
+  labo: [-430, 430],
   metro: [-760, 760],
 };
 
@@ -200,10 +200,11 @@ const App = () => {
     } else if (modeRef.current === 'cafe' || modeRef.current === 'labo') {
       /* Raum (900×452) bildschirmfüllend: breit = cover, schmal = ganz zeigen */
       /* Immer formatfüllend — auch auf dem Handy zeigt sich ein Ausschnitt */
+      const hh = modeRef.current === 'cafe' ? 380 : 452;
       const k =
         vw >= 760
-          ? Math.max(vw / 900, vh / 452)
-          : Math.max(vw / 900, (vh * 0.52) / 452);
+          ? Math.max(vw / 900, vh / hh)
+          : Math.max(vw / 900, (vh * 0.52) / hh);
       scaleRef.current = k;
       /* Kamera folgt bis an beide Seitenwände */
       const half = Math.max(0, 450 * k - vw / 2);
@@ -440,8 +441,8 @@ const App = () => {
           const pr = playerRef.current.getBoundingClientRect();
           const vw = window.innerWidth;
           const c = (pr.left + pr.right) / 2;
-          const lo = vw * 0.35;
-          const hi = vw * 0.65;
+          const lo = vw * 0.42;
+          const hi = vw * 0.58;
           let delta = 0;
           if (c < lo) delta = lo - c;
           else if (c > hi) delta = hi - c;
@@ -1115,56 +1116,91 @@ const App = () => {
       {/* Café-Innenraum */}
       {mode === 'cafe' && (
         <div className="salle salle--cafe">
-          <div className="piece" ref={sceneRef}>
+          <div className="piece piece--cafe" ref={sceneRef}>
             {/* Decke */}
             <div className="pc-plafond" aria-hidden="true">
-              <span className="pc-lustre" style={{ left: 190 }} />
+              <span className="pc-lustre" style={{ left: 200 }} />
               <span className="pc-lustre" style={{ left: 450 }} />
-              <span className="pc-lustre" style={{ left: 710 }} />
+              <span className="pc-lustre" style={{ left: 700 }} />
               <span className="pc-guirl" />
               <span className="pc-guirl pc-guirl--b" />
             </div>
 
-            {/* Rückwand: Bar · Fassade · Ludothèque */}
+            {/* Rückwand: Ludothèque · große Fenster · Tür · Bar */}
             <div className="pc-mur" aria-hidden="true">
-              <span className="pc-fanions pc-fanions--a" />
-              <span className="pc-fanions pc-fanions--b" />
-
-              {/* Bar-Ecke links */}
-              <div className="bar2">
-                <span className="bar2__etagere">
-                  <i className="bout b1" />
-                  <i className="bout b2" />
-                  <i className="bout b3" />
-                  <i className="bout b4" />
-                  <i className="bout b5" />
-                </span>
-                <span className="bar2__tasses" />
-                <span className="bar2__machine" />
-                <span className="bar2__barista" />
-                <span className="bar2__comptoir" />
-              </div>
-              <span className="pc-ardoise">
-                CAFÉ 2€ · THÉ 2€
-                <br />
-                JEUX 0€
+              <span className="neon2">JEUX</span>
+              <span className="pc-horloge">
+                <i
+                  className="aig aig--h"
+                  style={{ transform: `rotate(${angleH}deg)` }}
+                />
+                <i
+                  className="aig aig--m"
+                  style={{ transform: `rotate(${angleM}deg)` }}
+                />
               </span>
 
-              {/* Fenster links */}
+              {/* Würfelregal voller Spiele */}
+              <div className="kal">
+                <span className="kal__t">LUDOTHÈQUE</span>
+                <span className="kal__c">
+                  <i className="bx bx--catan bx--sm" />
+                  <i className="bx bx--uno bx--tiny" />
+                </span>
+                <span className="kal__c kal__c--flat">
+                  <i className="fl f1" />
+                  <i className="fl f2" />
+                  <i className="fl f3" />
+                </span>
+                <span className="kal__c">
+                  <i className="bx bx--dixit bx--sm" />
+                  <i className="bx bx--chess bx--tiny" />
+                </span>
+                <span className="kal__c">
+                  <i className="bx bx--carc bx--wide" />
+                </span>
+                <span className="kal__c">
+                  <i className="bx bx--mono bx--sm" />
+                  <i className="bx bx--pand bx--tiny" />
+                </span>
+                <span className="kal__c kal__c--flat">
+                  <i className="fl f4" />
+                  <i className="fl f5" />
+                </span>
+                <span className="kal__c">
+                  <i className="bx bx--risk bx--wide" />
+                </span>
+                <span className="kal__c">
+                  <i className="bx bx--uno2 bx--tiny" />
+                  <i className="bx bx--scrab bx--tiny" />
+                </span>
+                <span className="kal__c kal__c--plante" />
+                <span className="kal__c">
+                  <i className="bx bx--ticket bx--wide" />
+                </span>
+                <span className="kal__c kal__c--flat">
+                  <i className="fl f2" />
+                  <i className="fl f1" />
+                  <i className="fl f5" />
+                </span>
+                <span className="kal__c">
+                  <i className="bx bx--clue bx--sm" />
+                  <i className="bx bx--catan2 bx--tiny" />
+                </span>
+                <span className="s-catnap" />
+              </div>
+
+              {/* Große Schaufenster wie außen */}
               <span className="vitro vitro--g">
                 <i className="vitro__nuit" />
                 <i className="vitro__maison" />
                 <i className="vitro__lampe" />
                 <i className="vitro__croix" />
               </span>
-              <span className="rideau rideau--a" />
-              <span className="rideau rideau--b" />
 
-              {/* Wandlichter auf den Pfeilern */}
               <span className="pc-appli pc-appli--a" />
               <span className="pc-appli pc-appli--b" />
 
-              {/* Eingangstür */}
               <span className="s-door">
                 <i className="s-door__vitre" />
                 <i className="s-door__poignee" />
@@ -1179,63 +1215,33 @@ const App = () => {
                 <small>jeudi 20h</small>
               </span>
 
-              {/* Fenster rechts */}
               <span className="vitro vitro--d">
                 <i className="vitro__nuit" />
                 <i className="vitro__maison vitro__maison--b" />
                 <i className="vitro__lampe vitro__lampe--b" />
                 <i className="vitro__croix" />
               </span>
-              <span className="rideau rideau--c" />
-              <span className="rideau rideau--d" />
 
-              <span className="pc-horloge">
-                <i
-                  className="aig aig--h"
-                  style={{ transform: `rotate(${angleH}deg)` }}
-                />
-                <i
-                  className="aig aig--m"
-                  style={{ transform: `rotate(${angleM}deg)` }}
-                />
-              </span>
-
-              {/* Ludothèque: Spielewand bis zur Decke */}
-              <div className="jeuxwall">
-                <span className="jeuxwall__t">LUDOTHÈQUE</span>
-                <span className="jw">
-                  <i className="bx bx--catan bx--xl" />
-                  <i className="bx bx--uno bx--sm" />
-                  <i className="bx bx--mono bx--wide" />
-                  <i className="bx bx--chess bx--tiny" />
+              {/* Bar-Ecke rechts */}
+              <div className="bar3">
+                <span className="bar3__fond">
+                  <i className="bout b1" />
+                  <i className="bout b2" />
+                  <i className="bout b3" />
+                  <i className="bout b4" />
                 </span>
-                <span className="jw">
-                  <i className="bx bx--risk bx--geant" />
-                  <i className="bx bx--dixit bx--sm" />
-                  <i className="bx bx--scrab bx--wide" />
-                </span>
-                <span className="jw">
-                  <i className="bx bx--carc bx--wide" />
-                  <i className="bx bx--clue" />
-                  <i className="bx bx--uno2 bx--tiny" />
-                  <i className="bx bx--pand bx--sm" />
-                </span>
-                <span className="jw">
-                  <i className="bx bx--ticket bx--wide" />
-                  <i className="bx bx--catan2 bx--sm" />
-                  <i className="bx bx--azul bx--xl" />
-                </span>
-                <span className="jw">
-                  <i className="bx bx--mono2 bx--sm" />
-                  <i className="bx bx--dixit bx--tiny" />
-                  <i className="bx bx--clue bx--wide" />
-                  <i className="bx bx--uno bx--tiny" />
-                </span>
-                <span className="jeuxwall__echelle" />
+                <span className="bar3__machine" />
+                <span className="bar2__barista" />
+                <span className="bar3__comptoir" />
               </div>
+              <span className="pc-ardoise">
+                CAFÉ 2€ · THÉ 2€
+                <br />
+                JEUX 0€
+              </span>
             </div>
 
-            {/* Seitenwände: ruhig */}
+            {/* Seitenwände */}
             <div className="pc-cote pc-cote--l" aria-hidden="true">
               <span className="portemanteau" />
             </div>
@@ -1257,27 +1263,21 @@ const App = () => {
             {/* Boden */}
             <div className="pc-sol" aria-hidden="true" />
 
-            {/* Hinter der Figur: Ofen, Teppich, hintere Tische */}
+            {/* Hinter der Figur */}
             <div className="pc-fond" aria-hidden="true">
               <span className="tapis tapis--grand" />
-              <span className="tapis tapis--poele" />
-
-              <div className="poele">
-                <span className="poele__tuyau" />
-                <span className="poele__feu" />
-              </div>
-              <span className="s-catnap" />
 
               <span className="plante plante--a" />
               <span className="plante plante--b" />
+              <span className="lampadaire" />
 
-              <div className="gtable gtable--fond">
+              <div className="gtable gtable--fond gtable--bois">
                 <span className="sitter git git--a" />
                 <span className="sitter git git--b" />
                 <span className="gjeu gjeu--damier" />
               </div>
 
-              <div className="gtable gtable--mi">
+              <div className="gtable gtable--mi gtable--bois">
                 <span className="sitter git git--c" />
                 <span className="sitter git git--d" />
                 <span className="gjeu gjeu--catan" />
@@ -1285,18 +1285,18 @@ const App = () => {
                 <span className="gpion gpion--j" />
               </div>
 
+              <span className="tabouret tabouret--a" />
+              <span className="tabouret tabouret--b" />
               <span className="s-gstack pile pile--a" />
-              <span className="lampadaire" />
 
               <span className="ombre" style={{ left: -252, width: 120 }} />
               <span className="ombre" style={{ left: 96, width: 104 }} />
-              <span className="ombre" style={{ left: -366, width: 76 }} />
             </div>
 
             {hint}
             {player}
 
-            {/* Vor der Figur: großer Tisch */}
+            {/* Vor der Figur */}
             <div className="pc-avant" aria-hidden="true">
               <div className="gtable gtable--av">
                 <span className="sitter git git--e" />
