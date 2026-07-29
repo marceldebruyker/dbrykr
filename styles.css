@@ -10619,7 +10619,7 @@ body {
 }
 
 .pc-mur .vitro--d {
-  right: 176px;
+  right: 200px;
 }
 
 .rideau {
@@ -10639,8 +10639,8 @@ body {
 
 .rideau--a { left: 200px; }
 .rideau--b { left: 366px; }
-.rideau--c { right: 328px; }
-.rideau--d { right: 162px; }
+.rideau--c { right: 352px; }
+.rideau--d { right: 186px; }
 
 /* Wandlampen auf den Pfeilern */
 
@@ -10659,9 +10659,11 @@ body {
 
 .pc-affiche {
   right: auto;
-  left: 508px;
-  top: 74px;
-  width: 118px;
+  left: 50%;
+  margin-left: -46px;
+  top: 178px;
+  width: 92px;
+  z-index: 1;
 }
 
 .pc-horloge {
@@ -10809,7 +10811,7 @@ body {
 }
 
 .tapis--poele {
-  left: -372px;
+  left: -428px;
   bottom: 52px;
   width: 130px;
   background: repeating-linear-gradient(
@@ -10823,7 +10825,7 @@ body {
 
 .poele {
   position: absolute;
-  left: -340px;
+  left: -396px;
   bottom: 62px;
   width: 58px;
   height: 74px;
@@ -10888,7 +10890,7 @@ body {
 /* Katze am Ofen */
 
 .pc-fond .s-catnap {
-  left: -302px;
+  left: -350px;
   bottom: 58px;
 }
 
@@ -10917,7 +10919,7 @@ body {
     7px -4px 0 -3px #37a856;
 }
 
-.plante--a { left: -428px; bottom: 40px; }
+.plante--a { left: -288px; bottom: 40px; }
 .plante--b { left: 402px; bottom: 44px; }
 
 .lampadaire {
