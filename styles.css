@@ -11759,65 +11759,6 @@ body {
   top: 92px;
 }
 
-/* ============ Aufzug frontal in der Rückwand ============ */
-
-.asc--mur {
-  position: absolute;
-  left: 700px;
-  bottom: 30px;
-  width: 86px;
-  height: 220px;
-  transform: none;
-}
-
-.asc--mur .asc__cadre {
-  position: absolute;
-  inset: 0;
-  background: #0d0b14;
-  border: 5px solid #17100c;
-  box-shadow:
-    inset 0 0 0 4px #6b4128,
-    inset 0 -8px 0 4px rgba(0, 0, 0, 0.4);
-}
-
-.asc--mur .asc__porte {
-  top: 12px;
-  bottom: 12px;
-  width: 39%;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.07) 0 3px,
-      transparent 3px 9px
-    ),
-    linear-gradient(90deg, #9aa1b6, #6e7488 55%, #4e5468);
-  border: 3px solid #17100c;
-}
-
-.asc--mur .asc__porte--l {
-  left: 10px;
-}
-
-.asc--mur .asc__porte--r {
-  right: 10px;
-}
-
-.asc--mur .asc__plaque {
-  bottom: auto;
-  top: -30px;
-  font-size: 7px;
-  padding: 5px 6px 4px;
-}
-
-.asc--mur .asc__fleche {
-  top: -50px;
-}
-
-.asc--mur .asc__etages {
-  top: -48px;
-  right: -4px;
-}
-
 /* Rückwand-Layout: Fenster schmaler, Bar kompakter */
 
 .piece--cafe .pc-mur .vitro--g {

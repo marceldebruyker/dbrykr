@@ -202,17 +202,12 @@ const App = () => {
         };
       }
     } else if (modeRef.current === 'cafe' || modeRef.current === 'labo') {
-      /* Raum (900×452) bildschirmfüllend: breit = cover, schmal = ganz zeigen */
-      /* Immer formatfüllend — auch auf dem Handy zeigt sich ein Ausschnitt */
+      /* Innenräume füllen den Viewport vollständig. Bei abweichendem
+         Seitenverhältnis folgt die Kamera der Figur zum verdeckten Rand. */
       const hh = modeRef.current === 'cafe' ? 380 : 452;
-      /* Desktop: ganzen Raum einpassen (nichts abgeschnitten, keine Kamera).
-         Schmale Schirme: bildfüllender Ausschnitt mit Kamerafahrt. */
-      const k =
-        vw >= 760
-          ? Math.min(vw / 920, (vh * 0.96) / hh)
-          : Math.max(vw / 900, (vh * 0.52) / hh);
+      const k = Math.max(vw / 900, vh / hh);
       scaleRef.current = k;
-      const half = Math.max(0, 452 * k - vw / 2);
+      const half = Math.max(0, (900 * k - vw) / 2);
       camLimRef.current = { min: -half, max: half };
     } else {
       const s = vw >= 1100 && vh >= 640 ? 1.3 : vw >= 760 ? 1.15 : 1;
@@ -549,7 +544,7 @@ const App = () => {
       ['.metro', 'street', 'down'],
       ['.porte', 'street', 'up'],
       ['.s-door', 'cafe', 'down'],
-      ['.asc--mur', 'cafe', 'up'],
+      ['.asc--cafe', 'cafe', 'up'],
       ['.asc--labo', 'labo', 'down'],
       ['.mt-esc', 'metro', 'up'],
     ];
@@ -1258,19 +1253,6 @@ const App = () => {
                 <i className="vitro__croix" />
               </span>
 
-              {/* Aufzug: frontale Nische in der Rückwand */}
-              <div className="asc asc--mur">
-                <span className="asc__cadre" />
-                <span className="asc__porte asc__porte--l" />
-                <span className="asc__porte asc__porte--r" />
-                <span className="asc__fleche" />
-                <span className="asc__etages">
-                  <i />
-                  <i className="is-on" />
-                </span>
-                <span className="asc__plaque">LABO ↑</span>
-              </div>
-
               {/* Bar-Ecke rechts */}
               <div className="bar3">
                 <span className="bar3__fond">
@@ -1305,6 +1287,17 @@ const App = () => {
               <span className="cote__cimaise" />
               <span className="cote__cadre cote__cadre--c" />
               <span className="cote__lampe cote__lampe--r" />
+              <div className="asc asc--cafe">
+                <span className="asc__cadre" />
+                <span className="asc__porte asc__porte--l" />
+                <span className="asc__porte asc__porte--r" />
+                <span className="asc__fleche" />
+                <span className="asc__etages">
+                  <i />
+                  <i className="is-on" />
+                </span>
+                <span className="asc__plaque">LABO ↑</span>
+              </div>
             </div>
 
             {/* Boden mit Teppich und Schatten in der Ebene */}
