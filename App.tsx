@@ -201,13 +201,14 @@ const App = () => {
       /* Raum (900×452) bildschirmfüllend: breit = cover, schmal = ganz zeigen */
       /* Immer formatfüllend — auch auf dem Handy zeigt sich ein Ausschnitt */
       const hh = modeRef.current === 'cafe' ? 380 : 452;
+      /* Desktop: ganzen Raum einpassen (nichts abgeschnitten, keine Kamera).
+         Schmale Schirme: bildfüllender Ausschnitt mit Kamerafahrt. */
       const k =
         vw >= 760
-          ? Math.max(vw / 900, vh / hh)
+          ? Math.min(vw / 920, (vh * 0.96) / hh)
           : Math.max(vw / 900, (vh * 0.52) / hh);
       scaleRef.current = k;
-      /* Kamera folgt bis an beide Seitenwände */
-      const half = Math.max(0, 450 * k - vw / 2);
+      const half = Math.max(0, 452 * k - vw / 2);
       camLimRef.current = { min: -half, max: half };
     } else {
       const s = vw >= 1100 && vh >= 640 ? 1.3 : vw >= 760 ? 1.15 : 1;
@@ -1243,10 +1244,19 @@ const App = () => {
 
             {/* Seitenwände */}
             <div className="pc-cote pc-cote--l" aria-hidden="true">
+              <span className="cote__plinthe" />
+              <span className="cote__cimaise" />
+              <span className="cote__cadre cote__cadre--a" />
+              <span className="cote__cadre cote__cadre--b" />
+              <span className="cote__lampe" />
               <span className="portemanteau" />
             </div>
 
             <div className="pc-cote pc-cote--r" aria-hidden="true">
+              <span className="cote__plinthe" />
+              <span className="cote__cimaise" />
+              <span className="cote__cadre cote__cadre--c" />
+              <span className="cote__lampe cote__lampe--r" />
               <div className="asc">
                 <span className="asc__cadre" />
                 <span className="asc__porte asc__porte--l" />
@@ -1260,15 +1270,17 @@ const App = () => {
               </div>
             </div>
 
-            {/* Boden */}
-            <div className="pc-sol" aria-hidden="true" />
+            {/* Boden mit Teppich und Schatten in der Ebene */}
+            <div className="pc-sol" aria-hidden="true">
+              <span className="sol-tapis" />
+              <span className="sol-ombre" style={{ left: 96, top: 26, width: 132 }} />
+              <span className="sol-ombre" style={{ left: 560, top: 120, width: 150 }} />
+              <span className="sol-ombre" style={{ left: 360, top: 216, width: 170 }} />
+            </div>
 
-            {/* Hinter der Figur */}
+            {/* Hinter der Figur: an der Rückwand */}
             <div className="pc-fond" aria-hidden="true">
-              <span className="tapis tapis--grand" />
-
               <span className="plante plante--a" />
-              <span className="plante plante--b" />
               <span className="lampadaire" />
 
               <div className="gtable gtable--fond gtable--bois">
@@ -1277,6 +1289,16 @@ const App = () => {
                 <span className="gjeu gjeu--damier" />
               </div>
 
+              <span className="tabouret tabouret--a" />
+              <span className="tabouret tabouret--b" />
+              <span className="s-gstack pile pile--a" />
+            </div>
+
+            {hint}
+            {player}
+
+            {/* Vor der Figur: Raummitte und vorn */}
+            <div className="pc-avant" aria-hidden="true">
               <div className="gtable gtable--mi gtable--bois">
                 <span className="sitter git git--c" />
                 <span className="sitter git git--d" />
@@ -1285,28 +1307,15 @@ const App = () => {
                 <span className="gpion gpion--j" />
               </div>
 
-              <span className="tabouret tabouret--a" />
-              <span className="tabouret tabouret--b" />
-              <span className="s-gstack pile pile--a" />
-
-              <span className="ombre" style={{ left: -252, width: 120 }} />
-              <span className="ombre" style={{ left: 96, width: 104 }} />
-            </div>
-
-            {hint}
-            {player}
-
-            {/* Vor der Figur */}
-            <div className="pc-avant" aria-hidden="true">
               <div className="gtable gtable--av">
                 <span className="sitter git git--e" />
                 <span className="sitter git git--f" />
                 <span className="gjeu gjeu--cartes" />
                 <span className="gpion gpion--v" />
               </div>
+
+              <span className="plante plante--b" />
               <span className="s-gstack pile pile--b" />
-              <span className="ombre" style={{ left: -20, width: 150 }} />
-              <span className="ombre" style={{ left: -382, width: 54 }} />
             </div>
           </div>
         </div>

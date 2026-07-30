@@ -4016,7 +4016,7 @@ body {
 
 .piece .hint {
   bottom: auto;
-  top: 108px;
+  top: 80px;
   margin-left: 450px;
   font-size: 8px;
   padding: 7px 9px 6px;
@@ -11539,4 +11539,216 @@ body {
 
 .piece--cafe .portemanteau {
   background: #17100c;
+}
+
+/* ============ Café v5: Bodenkontakt & echte Tiefe ============ */
+
+/* Möbel stehen in der sichtbaren Bodenzone (0–58px) */
+
+.piece--cafe .gtable--fond {
+  left: 96px;
+  bottom: 46px;
+  transform: scale(0.78);
+  transform-origin: bottom center;
+}
+
+.piece--cafe .gtable--mi {
+  left: -262px;
+  bottom: 20px;
+  transform: scale(0.96);
+  transform-origin: bottom center;
+}
+
+.piece--cafe .gtable--av {
+  left: -34px;
+  bottom: 2px;
+  transform: scale(1.12);
+  transform-origin: bottom center;
+}
+
+.piece--cafe .tabouret--a {
+  left: 312px;
+  bottom: 50px;
+  transform: scale(0.82);
+}
+
+.piece--cafe .tabouret--b {
+  left: 366px;
+  bottom: 50px;
+  transform: scale(0.82);
+}
+
+.piece--cafe .plante--a {
+  left: -404px;
+  bottom: 48px;
+  transform: scale(0.85);
+  transform-origin: bottom center;
+}
+
+.piece--cafe .plante--b {
+  left: 322px;
+  bottom: 6px;
+  transform: scale(1.1);
+  transform-origin: bottom center;
+}
+
+.piece--cafe .lampadaire {
+  left: -430px;
+  bottom: 46px;
+  transform: scale(0.85);
+  transform-origin: bottom center;
+}
+
+.piece--cafe .pile--a {
+  left: 214px;
+  bottom: 50px;
+  transform: scale(0.8);
+  transform-origin: bottom center;
+}
+
+.piece--cafe .pile--b {
+  left: -398px;
+  bottom: 6px;
+}
+
+.piece--cafe .player {
+  bottom: 26px;
+}
+
+/* Teppich und Schatten liegen in der Bodenebene */
+
+.sol-tapis {
+  position: absolute;
+  left: 240px;
+  top: 96px;
+  width: 420px;
+  height: 130px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.06) 0 26px,
+      transparent 26px 52px
+    ),
+    #7a2a35;
+  border: 5px solid rgba(23, 16, 8, 0.65);
+  border-radius: 10px;
+}
+
+.sol-ombre {
+  position: absolute;
+  height: 44px;
+  background: radial-gradient(
+    ellipse closest-side,
+    rgba(0, 0, 0, 0.34),
+    transparent
+  );
+}
+
+/* Seitenwände: durchlaufender Sockel, Bilderleiste, Rahmen, Licht */
+
+.cote__plinthe {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30px;
+  background: #2e1c12;
+  border-top: 4px solid #17100c;
+}
+
+.cote__cimaise {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 64px;
+  height: 6px;
+  background: #6b4128;
+  box-shadow: 0 2px 0 rgba(23, 16, 8, 0.5);
+}
+
+.cote__cadre {
+  position: absolute;
+  background: #f2e6cc;
+  border: 5px solid #17100c;
+  box-shadow: inset 0 0 0 3px #6b4128;
+}
+
+.cote__cadre--a {
+  left: 60px;
+  top: 108px;
+  width: 66px;
+  height: 84px;
+}
+
+.cote__cadre--a::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 18px;
+  width: 30px;
+  height: 20px;
+  background: #cc4444;
+  box-shadow:
+    6px 28px 0 -4px #3a6bb0,
+    -4px 30px 0 -6px #2f8f4a;
+}
+
+.cote__cadre--b {
+  left: 168px;
+  top: 96px;
+  width: 84px;
+  height: 106px;
+}
+
+.cote__cadre--b::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 16px;
+  width: 20px;
+  height: 14px;
+  background: #d8912f;
+  box-shadow:
+    26px 6px 0 -2px #7a4a9a,
+    12px 40px 0 0 #3a8f8a,
+    34px 48px 0 -4px #c04477;
+}
+
+.cote__cadre--c {
+  left: 44px;
+  top: 100px;
+  width: 74px;
+  height: 94px;
+}
+
+.cote__cadre--c::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 20px;
+  width: 34px;
+  height: 8px;
+  background: #2f8f4a;
+  box-shadow:
+    0 18px 0 #cc4444,
+    0 36px 0 #3a6bb0;
+}
+
+.cote__lampe {
+  position: absolute;
+  left: 254px;
+  top: 96px;
+  width: 13px;
+  height: 17px;
+  background: linear-gradient(#ffe9b8, #ffca6e);
+  border: 3px solid #17100c;
+  box-shadow: 0 0 22px 6px rgba(255, 200, 100, 0.45);
+}
+
+.cote__lampe--r {
+  left: 236px;
+}
+
+.piece--cafe .portemanteau {
+  top: 92px;
 }
