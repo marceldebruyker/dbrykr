@@ -32,7 +32,7 @@ const ZONES: Record<Mode, Zone[]> = {
   ],
   cafe: [
     { x: 0, r: 54, dir: 'down', to: 'street', spawn: -42, label: '↓ SORTIR', b: 244 },
-    { x: 356, r: 60, dir: 'up', to: 'labo', spawn: -376, label: '↑ LABO', b: 250 },
+    { x: 296, r: 56, dir: 'up', to: 'labo', spawn: -376, label: '↑ LABO', b: 250 },
   ],
   labo: [
     { x: -350, r: 66, dir: 'down', to: 'cafe', spawn: 356, label: '↓ CAFÉ', b: 150 },
@@ -146,6 +146,7 @@ const App = () => {
   const lointainRef = useRef<HTMLDivElement>(null);
   const cielRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
+  const sceneUiRef = useRef<HTMLDivElement>(null);
   const rueRef = useRef<HTMLDivElement>(null);
   const modeRef = useRef<Mode>('street');
   const zoneRef = useRef<Zone | null>(null);
@@ -161,6 +162,9 @@ const App = () => {
   const manualRef = useRef(false);
   const movedRef = useRef(false);
   const targetRef = useRef<number | null>(null);
+  const holdRef = useRef(0);
+  const holdXRef = useRef(0);
+  const holdTimerRef = useRef(0);
   const enterRef = useRef<Zone | null>(null);
   const basRef = useRef({ n: 0, t: 0 });
   const actionRef = useRef<(dir: 'up' | 'down') => void>(() => {});
@@ -233,7 +237,9 @@ const App = () => {
       }
     } else if (sceneRef.current) {
       const c = camRef.current;
-      sceneRef.current.style.transform = `translateX(${c}px) scale(${scaleRef.current})`;
+      const t = `translateX(${c}px) scale(${scaleRef.current})`;
+      sceneRef.current.style.transform = t;
+      if (sceneUiRef.current) sceneUiRef.current.style.transform = t;
       /* Im Untergrund läuft die Stadt darüber synchron mit */
       if (modeRef.current === 'metro') {
         if (mondeRef.current) {
@@ -379,6 +385,16 @@ const App = () => {
       if (k.left) dir -= 1;
       if (k.right) dir += 1;
 
+      /* Gedrückt halten: kontinuierlich Richtung Zeiger laufen */
+      if (dir === 0 && holdRef.current === 1 && playerRef.current) {
+        const pr = playerRef.current.getBoundingClientRect();
+        const cx = (pr.left + pr.right) / 2;
+        const dx = holdXRef.current - cx;
+        if (Math.abs(dx) > 26) dir = dx > 0 ? 1 : -1;
+        targetRef.current = null;
+        enterRef.current = null;
+      }
+
       /* Tasten haben Vorrang und brechen ein angetipptes Ziel ab */
       if (dir !== 0) {
         targetRef.current = null;
@@ -482,16 +498,24 @@ const App = () => {
       camStart: camRef.current,
       moved: false,
     };
+    holdXRef.current = e.clientX;
+    window.clearTimeout(holdTimerRef.current);
+    holdTimerRef.current = window.setTimeout(() => {
+      const d = dragRef.current;
+      if (d && !d.moved && !fadeRef.current) holdRef.current = 1;
+    }, 220);
   };
 
   const onDragMove = (e: React.PointerEvent) => {
     const d = dragRef.current;
     if (!d) return;
-    if (Math.abs(e.clientX - d.startX) > 8) {
+    holdXRef.current = e.clientX;
+    if (Math.abs(e.clientX - d.startX) > 8 && !holdRef.current) {
       d.moved = true;
       manualRef.current = true;
       targetRef.current = null;
       enterRef.current = null;
+      window.clearTimeout(holdTimerRef.current);
     }
     if (!d.moved) return;
     const lim = camLimRef.current;
@@ -505,7 +529,9 @@ const App = () => {
   const onDragEnd = () => {
     const d = dragRef.current;
     dragRef.current = null;
-    movedRef.current = !!d?.moved;
+    window.clearTimeout(holdTimerRef.current);
+    movedRef.current = !!d?.moved || holdRef.current === 1;
+    holdRef.current = 0;
   };
 
   /* Tippen wird über click ausgewertet — auf iOS zuverlässiger als pointerup */
@@ -517,17 +543,27 @@ const App = () => {
     const t = e.target as HTMLElement;
     if (t.closest('a, button, .ecran')) return;
 
-    /* Direkt auf eine Tür getippt? Dann hinlaufen und eintreten */
+    /* Türtreffer über projizierte Rechtecke — 3D-Wände schlucken
+       elementFromPoint, getBoundingClientRect projiziert korrekt */
     const portes: Array<[string, Mode, 'up' | 'down']> = [
       ['.metro', 'street', 'down'],
       ['.porte', 'street', 'up'],
       ['.s-door', 'cafe', 'down'],
+      ['.asc--mur', 'cafe', 'up'],
       ['.asc--labo', 'labo', 'down'],
-      ['.asc', 'cafe', 'up'],
       ['.mt-esc', 'metro', 'up'],
     ];
     for (const [sel, m2, dir] of portes) {
-      if (modeRef.current === m2 && t.closest(sel)) {
+      if (modeRef.current !== m2) continue;
+      const el2 = document.querySelector(sel);
+      if (!el2) continue;
+      const r2 = el2.getBoundingClientRect();
+      if (
+        e.clientX >= r2.left &&
+        e.clientX <= r2.right &&
+        e.clientY >= r2.top &&
+        e.clientY <= r2.bottom
+      ) {
         const z = ZONES[m2].find((zz) => zz.dir === dir);
         if (z) {
           targetRef.current = z.x;
@@ -551,10 +587,9 @@ const App = () => {
       Math.max(min, posRef.current[m] + (e.clientX - (r.left + r.width / 2)) / k)
     );
 
-    /* Großzügige Trefferfläche: Tippen auf eine Tür führt hindurch */
-    const z = ZONES[m].find((zz) => Math.abs(cible - zz.x) < zz.r * 1.8) ?? null;
-    targetRef.current = z ? z.x : cible;
-    enterRef.current = z;
+    /* Boden-Klick: exakt zum Punkt laufen (Türen nur per direktem Klick) */
+    targetRef.current = cible;
+    enterRef.current = null;
     manualRef.current = false;
   };
 
@@ -1223,6 +1258,19 @@ const App = () => {
                 <i className="vitro__croix" />
               </span>
 
+              {/* Aufzug: frontale Nische in der Rückwand */}
+              <div className="asc asc--mur">
+                <span className="asc__cadre" />
+                <span className="asc__porte asc__porte--l" />
+                <span className="asc__porte asc__porte--r" />
+                <span className="asc__fleche" />
+                <span className="asc__etages">
+                  <i />
+                  <i className="is-on" />
+                </span>
+                <span className="asc__plaque">LABO ↑</span>
+              </div>
+
               {/* Bar-Ecke rechts */}
               <div className="bar3">
                 <span className="bar3__fond">
@@ -1257,17 +1305,6 @@ const App = () => {
               <span className="cote__cimaise" />
               <span className="cote__cadre cote__cadre--c" />
               <span className="cote__lampe cote__lampe--r" />
-              <div className="asc">
-                <span className="asc__cadre" />
-                <span className="asc__porte asc__porte--l" />
-                <span className="asc__porte asc__porte--r" />
-                <span className="asc__fleche" />
-                <span className="asc__etages">
-                  <i />
-                  <i className="is-on" />
-                </span>
-                <span className="asc__plaque">LABO ↑</span>
-              </div>
             </div>
 
             {/* Boden mit Teppich und Schatten in der Ebene */}
@@ -1278,6 +1315,10 @@ const App = () => {
               <span className="sol-ombre" style={{ left: 360, top: 216, width: 170 }} />
             </div>
 
+          </div>
+
+          {/* Flacher Zwilling über der 3D-Kulisse: Figuren & Möbel */}
+          <div className="piece piece--cafe piece-ui" ref={sceneUiRef}>
             {/* Hinter der Figur: an der Rückwand */}
             <div className="pc-fond" aria-hidden="true">
               <span className="plante plante--a" />
@@ -1462,6 +1503,9 @@ const App = () => {
               </span>
             </a>
 
+          </div>
+
+          <div className="piece piece--labo piece-ui" ref={sceneUiRef}>
             {hint}
             {player}
 
