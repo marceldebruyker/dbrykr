@@ -1368,6 +1368,11 @@ const App = () => {
 
             {/* Rückwand: Monitorwand & Analyse */}
             <div className="pc-mur lb-mur" aria-hidden="true">
+              <span className="lb-brand">
+                LABORATOIRE DE RECHERCHE
+                <small>BOARD GAME MARKET INTELLIGENCE</small>
+              </span>
+
               <span className="lb-cork">
                 <i className="lb-cork__f lb-cork__f--a" />
                 <i className="lb-cork__f lb-cork__f--b" />
@@ -1375,7 +1380,7 @@ const App = () => {
               </span>
 
               <div className="lb-charts">
-                <span className="lb-charts__t">RANKS · TOP 10</span>
+                <span className="lb-charts__t">TENDANCES · 30 JOURS</span>
                 <span className="lb-cb">
                   <i>BGG</i>
                   <b style={{ height: 30 }} />
@@ -1402,8 +1407,23 @@ const App = () => {
                 </span>
               </div>
 
+              <span className="lb-kpis">
+                <i>
+                  <b>1 240</b>
+                  CAFÉS SUIVIS
+                </i>
+                <i>
+                  <b>86</b>
+                  ÉDITEURS
+                </i>
+                <i>
+                  <b>24/7</b>
+                  VEILLE ACTIVE
+                </i>
+              </span>
+
               <span className="lb-marche">
-                LE MARCHÉ <b>↗</b>
+                DONNÉES EN DIRECT <b>●</b>
               </span>
               <span className="lb-fen" />
             </div>
@@ -1434,7 +1454,7 @@ const App = () => {
             {/* Rechte Wand: Studien & Server */}
             <div className="pc-cote pc-cote--r lb-cote" aria-hidden="true">
               <div className="lb-etudes">
-                <span className="lb-etudes__t">ÉTUDES</span>
+                <span className="lb-etudes__t">ARCHIVES · ÉTUDES</span>
                 <span className="lb-cls">
                   <i />
                   <i />
@@ -1490,9 +1510,9 @@ const App = () => {
                 <i className="ecr ecr--4" />
                 <i className="ecr ecr--5" />
               </span>
-              <span className="monitor__plate">INFLUENCER MONITOR</span>
+              <span className="monitor__plate">INFLUENCER RADAR</span>
               <span className="monitor__go" aria-hidden="true">
-                ▶ VOIR
+                ▶ OUVRIR
               </span>
             </a>
 
@@ -1509,6 +1529,7 @@ const App = () => {
                 <span className="lb-desk__mug" />
                 <span className="lb-desk__pap" />
                 <span className="lb-chaise" />
+                <span className="sitter lb-analyste lb-analyste--a" />
               </div>
 
               <div className="lb-test">
@@ -1518,11 +1539,20 @@ const App = () => {
                 <span className="lb-test__meep lb-test__meep--b" />
                 <span className="lb-test__de" />
                 <span className="lb-test__bloc" />
+                <span className="sitter lb-analyste lb-analyste--b" />
               </div>
 
               <div className="lb-loupe">
                 <span className="lb-loupe__meeple" />
                 <span className="lb-loupe__glass" />
+              </div>
+
+              <div className="lb-echantillons">
+                <span>ÉCHANTILLONS</span>
+                <i />
+                <i />
+                <i />
+                <i />
               </div>
             </div>
           </div>

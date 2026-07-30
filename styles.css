@@ -9445,6 +9445,340 @@ body {
   animation: flotte 2.6s ease-in-out infinite alternate;
 }
 
+/* ============ Labo v2: klare Research-Zentrale ============ */
+
+.piece--labo .lb-mur {
+  background:
+    linear-gradient(rgba(110, 235, 255, 0.04) 1px, transparent 1px)
+      0 0 / 100% 30px,
+    linear-gradient(90deg, rgba(110, 235, 255, 0.04) 1px, transparent 1px)
+      0 0 / 45px 100%,
+    linear-gradient(#263750, #17253b);
+}
+
+.piece--labo .lb-mur::after {
+  height: 42px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #4affc2 0 16px,
+      #1b3146 16px 44px
+    );
+  border-top: 5px solid #07111e !important;
+  opacity: 0.78;
+}
+
+.lb-brand {
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  z-index: 3;
+  transform: translateX(-50%);
+  width: 390px;
+  padding: 10px 12px 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  line-height: 1.5;
+  letter-spacing: 1px;
+  text-align: center;
+  color: #e8f7ff;
+  background: #091522;
+  border: 3px solid #4d6682;
+  box-shadow:
+    inset 0 0 0 2px #162b40,
+    0 0 22px rgba(74, 255, 194, 0.16);
+}
+
+.lb-brand small {
+  display: block;
+  margin-top: 4px;
+  font-size: 6px;
+  color: #4affc2;
+}
+
+.piece--labo .lb-monitor {
+  left: 50%;
+  bottom: 128px;
+  width: 360px;
+  height: 224px;
+  margin-left: -180px;
+  border-width: 6px;
+  background: #07111e;
+  box-shadow:
+    inset 0 0 0 3px #314d68,
+    0 0 34px rgba(100, 216, 255, 0.25);
+}
+
+.piece--labo .lb-monitor .monitor__grid {
+  inset: 16px 16px 48px;
+  gap: 10px;
+}
+
+.piece--labo .lb-monitor .monitor__plate {
+  left: 16px;
+  bottom: 15px;
+  font-size: 8px;
+  color: #9de9ff;
+}
+
+.piece--labo .lb-monitor .monitor__go {
+  right: 16px;
+  bottom: 13px;
+  color: #4affc2;
+}
+
+.piece--labo .lb-cork {
+  left: 34px;
+  bottom: 218px;
+  width: 156px;
+  height: 116px;
+  border-color: #101a2c;
+  box-shadow:
+    inset 0 0 0 3px #9b7b48,
+    0 8px 0 rgba(5, 12, 22, 0.35);
+}
+
+.piece--labo .lb-charts {
+  right: 34px;
+  bottom: 218px;
+  min-width: 172px;
+  padding-top: 30px;
+  box-shadow:
+    inset 0 0 0 2px #405a76,
+    0 8px 0 rgba(5, 12, 22, 0.35);
+}
+
+.piece--labo .lb-charts__t {
+  font-size: 6px;
+}
+
+.lb-kpis {
+  position: absolute;
+  left: 228px;
+  right: 228px;
+  bottom: 54px;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.lb-kpis i {
+  display: block;
+  flex: 1 1 0;
+  padding: 7px 5px 6px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px;
+  line-height: 1.45;
+  font-style: normal;
+  text-align: center;
+  color: #8ca4bd;
+  background: #091522;
+  border: 2px solid #29425c;
+}
+
+.lb-kpis b {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 10px;
+  color: #ffd23a;
+}
+
+.piece--labo .lb-marche {
+  bottom: 370px;
+  z-index: 3;
+  color: #9de9ff;
+  background: #07111e;
+  border: 2px solid #29425c;
+}
+
+.piece--labo .lb-marche b {
+  color: #4affc2;
+  animation: blink 1.2s steps(2, start) infinite;
+}
+
+.piece--labo .lb-plafond {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #0c1422 0 18px,
+      #17263b 18px 148px
+    ) !important;
+}
+
+.piece--labo .lb-neon {
+  height: 7px;
+  background: #dff7ff;
+  border: 2px solid #48657c;
+  box-shadow:
+    0 10px 44px 12px rgba(111, 221, 255, 0.38),
+    0 0 8px #fff;
+}
+
+.piece--labo .lb-sol {
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0 48%,
+      rgba(74, 255, 194, 0.16) 48% 52%,
+      transparent 52%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(8, 17, 30, 0.22) 0 3px,
+      transparent 3px 52px
+    ),
+    repeating-linear-gradient(0deg, #2a3e58 0 24px, #24364e 24px 48px) !important;
+}
+
+.piece--labo.piece-ui::before {
+  content: '';
+  position: absolute;
+  left: 94px;
+  right: 94px;
+  bottom: 18px;
+  height: 116px;
+  border: 3px solid rgba(74, 255, 194, 0.16);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(74, 255, 194, 0.05),
+    transparent
+  );
+}
+
+.lb-avant .lb-desk {
+  left: -358px;
+  bottom: 34px;
+  width: 220px;
+  height: 17px;
+  background: #58708b;
+  box-shadow: inset 0 4px 0 #7890a8;
+}
+
+.lb-desk::after {
+  box-shadow: 184px 0 0 #101a2c;
+}
+
+.lb-desk__term {
+  left: 24px;
+  top: -54px;
+  width: 58px;
+  height: 42px;
+  box-shadow:
+    76px 4px 0 -3px #0a1622,
+    76px 4px 0 0 #101a2c;
+}
+
+.lb-desk__pap {
+  left: 164px;
+}
+
+.lb-avant .lb-test {
+  left: 92px;
+  bottom: 34px;
+  width: 254px;
+  height: 20px;
+  background: #58708b;
+  box-shadow: inset 0 4px 0 #7890a8;
+}
+
+.lb-test::after {
+  box-shadow: 210px 0 0 #101a2c;
+}
+
+.lb-test__plateau {
+  left: 72px;
+  width: 108px;
+}
+
+.lb-test__bloc {
+  left: 196px;
+}
+
+.lb-avant .lb-loupe {
+  left: -62px;
+  bottom: 34px;
+  z-index: 2;
+}
+
+.lb-analyste {
+  bottom: 8px;
+  transform: scale(1.55);
+  z-index: 4;
+}
+
+.lb-analyste--a {
+  left: 104px;
+  --shirt: #3d86a8;
+}
+
+.lb-analyste--b {
+  left: 30px;
+  --shirt: #8b5aa8;
+  --hair: #d0a04a;
+}
+
+.lb-echantillons {
+  position: absolute;
+  left: -38px;
+  bottom: 112px;
+  width: 104px;
+  height: 48px;
+  padding: 18px 8px 7px;
+  background: #132238;
+  border: 3px solid #07111e;
+  box-shadow: inset 0 0 0 2px #38536c;
+}
+
+.lb-echantillons span {
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px;
+  color: #9de9ff;
+}
+
+.lb-echantillons i {
+  display: inline-block;
+  width: 16px;
+  height: 20px;
+  margin-right: 4px;
+  background: #d45555;
+  border: 2px solid #07111e;
+  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.22);
+}
+
+.lb-echantillons i:nth-of-type(2) {
+  background: #e2b344;
+}
+
+.lb-echantillons i:nth-of-type(3) {
+  background: #4d9a70;
+}
+
+.lb-echantillons i:nth-of-type(4) {
+  margin-right: 0;
+  background: #557fc0;
+}
+
+.piece--labo .lb-etudes__t {
+  font-size: 6px;
+}
+
+.piece--labo .lb-serv {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #172941 0 26px,
+      #091522 26px 30px
+    );
+  box-shadow:
+    inset 0 0 0 2px #3b5773,
+    0 0 16px rgba(74, 255, 194, 0.12);
+}
+
 .piece--labo .hint {
   bottom: auto;
   top: 150px;
