@@ -1,23 +1,180 @@
 <!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Chez Marcel – ein Brettspielcafé irgendwo in Frankreich. Jazz nebenan, Impro im Theater, Forschung im Hinterzimmer. Schreib mir: marcel@debruyker.de"
-    />
-    <title>Chez Marcel · Café des Jeux — Marcel Debruyker</title>
-    <meta name="theme-color" content="#070718" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<title>Marcel deBruyker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Marcel deBruyker — 0170 4774 253 — marcel@debruyker.de">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="/icon.png">
+<link rel="apple-touch-icon" href="/icon-apple.png">
+
+<style>
+/* Farben aus der Corporate Identity (Board Game Market Intelligence, v1.0):
+   Weiß trägt die Fläche, Slate den Text, Violet die Links, Pink ist das Signal. */
+:root {
+  color-scheme: light;
+  --white:  #ffffff;
+  --slate:  #475569;
+  --violet: #5f58b1;
+  --pink:   #c64e89;
+
+  /* Kariertes Papier. Das CI erlaubt abgeleitete Flächen nur über Transparenz aus den
+     sechs Farben — das Raster ist also durchscheinendes Violet, kein neuer Grauton. */
+  --kaestchen: 24px;
+  --block:     120px;          /* jede fünfte Linie steht kräftiger */
+  --fein:      rgba(95, 88, 177, .11);
+  --stark:     rgba(95, 88, 177, .20);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  color: var(--slate);
+
+  background-color: var(--white);
+  background-image:
+    repeating-linear-gradient(to right,  var(--stark) 0 1px, transparent 1px var(--block)),
+    repeating-linear-gradient(to bottom, var(--stark) 0 1px, transparent 1px var(--block)),
+    repeating-linear-gradient(to right,  var(--fein)  0 1px, transparent 1px var(--kaestchen)),
+    repeating-linear-gradient(to bottom, var(--fein)  0 1px, transparent 1px var(--kaestchen));
+  font: 1rem/1.6 system-ui, -apple-system, sans-serif;
+
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1.5rem;
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+}
+
+main { width: min(34rem, 100%); }
+
+/* Die Handschrift liegt als Maske über einer Farbfläche, nicht als fertiges Bild.
+   Damit bestimmt CSS die Tintenfarbe — und sie kann wechseln.                    */
+.ink {
+  display: block;
+  background-color: var(--tinte);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;   mask-size: 100% 100%;
+  transition: background-color .25s ease;
+
+  /* geschrieben wird von links nach rechts, in gleichmäßigem Tempo */
+  animation: schreiben var(--dauer) linear var(--warten) both;
+}
+
+@keyframes schreiben {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* Breite, Einzug und Zeilenabstand kommen vom Papier: jede Zeile ist an der
+   längsten gemessen, der E-Mail-Adresse.                                     */
+h1 { margin: 0; --tinte: var(--slate); }
+
+.name {
+  width: 91.61%;
+  aspect-ratio: 1376 / 342;
+  -webkit-mask-image: url(/name.png); mask-image: url(/name.png);
+  --dauer: 1.15s; --warten: .2s;
+}
+
+.contact {
+  width: 100%;
+  margin: 5.19% 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contact a {
+  display: block;
+  --tinte: var(--violet);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Pink ist das Signal: beim Berühren wechselt die Tinte die Farbe. */
+.contact a:hover,
+.contact a:focus-visible { --tinte: var(--pink); }
+
+.tel  { width: 86.82%; }
+.mail { width: 100%; }
+
+.tel .ink {
+  aspect-ratio: 1304 / 160;
+  -webkit-mask-image: url(/phone.png); mask-image: url(/phone.png);
+  --dauer: .6s; --warten: 1.15s;
+}
+
+.mail .ink {
+  aspect-ratio: 1502 / 226;
+  -webkit-mask-image: url(/mail.png); mask-image: url(/mail.png);
+  --dauer: .8s; --warten: 1.6s;
+}
+
+/* Bequeme Daumen: die Trefferfläche wächst in das leere Weiß über der Nummer und
+   unter der Adresse. Der negative Rand hebt das auf, es verschiebt sich nichts —
+   und die beiden Links überlappen einander nie.                                  */
+.tel  a { padding-top: 14px;    margin-top: -14px; }
+.mail a { padding-bottom: 14px; margin-bottom: -14px; }
+
+.contact a:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 8px;
+  border-radius: 2px;
+}
+
+/* Der echte Text steht im Dokument — für Vorlesegeräte, Suche und Kopieren. */
+.nurtext {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 380px) {
+  body { padding-left: 1rem; padding-right: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ink { animation: none; transition: none; }
+}
+
+/* Auf Papier braucht das Papier kein Papier. */
+@media print {
+  body { background-image: none; }
+  .ink { animation: none; }
+}
+</style>
+</head>
+
+<body>
+<main>
+
+  <h1>
+    <span class="nurtext">Marcel deBruyker</span>
+    <span class="ink name" aria-hidden="true"></span>
+  </h1>
+
+  <ul class="contact">
+    <li class="tel">
+      <a href="tel:+491704774253">
+        <span class="nurtext">0170 4774 253</span>
+        <span class="ink" aria-hidden="true"></span>
+      </a>
+    </li>
+    <li class="mail">
+      <a href="mailto:marcel@debruyker.de">
+        <span class="nurtext">marcel@debruyker.de</span>
+        <span class="ink" aria-hidden="true"></span>
+      </a>
+    </li>
+  </ul>
+
+</main>
+</body>
 </html>

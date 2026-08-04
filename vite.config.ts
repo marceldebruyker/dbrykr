@@ -28,6 +28,16 @@ export default defineConfig(async () => {
       host: '0.0.0.0',
     },
     plugins,
+    build: {
+      rollupOptions: {
+        input: {
+          // "/" ist die Handschrift-Kontaktseite: reines HTML, kein Bundle.
+          main: path.resolve(__dirname, 'index.html'),
+          // "/cafe" ist weiterhin Chez Marcel · Café des Jeux.
+          cafe: path.resolve(__dirname, 'cafe/index.html'),
+        },
+      },
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
